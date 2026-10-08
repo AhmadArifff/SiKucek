@@ -24,6 +24,11 @@
 - Seluruh tipe bersama **WAJIB** berada di dalam `packages/shared/src/`.
 - Seluruh berkas tes sementara **WAJIB** disimpan di `.gemini/antigravity-ide/brain/.../scratch/` dan **DILARANG** ditinggalkan di direktori kerja git (*Zero-Residual Scratch Rule*).
 
+### Kebijakan Git Branching Strategy:
+- **Branch `dev` (Aktif)**: Seluruh proses pengembangan fitur, perbaikan bug, dan pengujian harian **WAJIB** berada di branch `dev`.
+- **Branch `main` (Produksi)**: Branch `main` **HANYA** digunakan untuk rilis produksi (*production release*) yang sudah stabil, teruji, dan lulus verifikasi QA Delivery Gate.
+
+
 ---
 
 ## 2. 4-Tier Hirarki Peran (22 Spesialis) & 14 Expert Personas DNA
