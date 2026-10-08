@@ -98,6 +98,13 @@ Setiap agen wajib membaca indeks ini sebelum mengeksekusi tugas:
    - Builder dilarang mereview kodenya sendiri. Setiap artefak wajib melalui verifikasi independen oleh `qa-engineer` atau `tech-critic`.
 6. **Bebas Em Dash (R-02)**:
    - Larangan mutlak penggunaan karakter em dash panjang (`—`). Gunakan tanda minus biasa (`-`) atau titik dua.
+7. **Pre-Push & Pre-Dev Git Pull Mandate (Kolaborasi Tim)**:
+   - Sebelum mulai mengembangkan fitur dan sebelum melakukan `git push` ke GitHub, agen dan developer **WAJIB** menjalankan `git pull --rebase origin dev` untuk mencegah konflik kode dengan anggota tim lain.
+8. **Protected Benchmark Reference File (`active-session.json`)**:
+   - Berkas `.agents/02-session-state/active-session.json` adalah data referensi benchmark dari sistem saudara (`E-Comerce-BucketFlowers`) yang diadopsi sebagai acuan logika bisnis, arsitektur menu, dan riwayat milestone.
+   - **DILARANG MENGUBAH / MERESET / MENGHAPUS** file `.agents/02-session-state/active-session.json` dalam prompt atau sesi apa pun. Berkas ini berstatus **Strictly Read-Only**.
+9. **Prinsip Adopsi Arsitektur Lintas Sistem (External Context Adoption)**:
+   - Segala referensi di luar konteks laundry pada direktori `.agents/` (seperti resep BOM, custom studio, atau case bank) adalah referensi adopsi pola rekayasa yang sah dari sistem saudara dan dipertahankan sebagai panduan solusi bagi tim pengembang SiKucek.
 
 ---
 

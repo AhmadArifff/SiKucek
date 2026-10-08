@@ -56,30 +56,28 @@ Setiap tugas wajib melalui 4 fase berurutan:
 
 ---
 
-## 6. Siklus Pengerjaan & Auto-Push GitHub Khusus Proyek Ini (*Autonomous Delivery Protocol*)
+## 6. Protokol Kolaborasi Tim SiKucek & Auto-Push Branch `dev` (*Team Delivery Protocol*)
 
-> ⚠️ **CATATAN RUANG LINGKUP**: Aturan auto-push ini **HANYA BERLAKU UNTUK PROYEK `E-Comerce-BucketFlowers` INI SAJA**, dan **TIDAK** berlaku untuk proyek-proyek lainnya kecuali jika secara eksplisit diminta oleh pengguna.
+> ⚠️ **PENEGASAN TIM & BRANCH `dev`**: Seluruh pengembangan SiKucek berpusat di branch `dev`. Mengingat pengembangan dilakukan secara tim multi-developer, protokol sinkronisasi git bersifat **WAJIB** untuk mencegah code conflict.
 
-Setiap pengerjaan teknis pada proyek ini wajib mengikuti 5 tahap teratur:
-0. **Tahap 0: Sinkronisasi Awal Lintas Perangkat (Pre-Development Pull-Rebase)**:
-   - Sebelum menganalisis tugas atau menulis rencana, jalankan `git pull --rebase origin main` untuk mengunduh perubahan dari commit rekan tim di perangkat lain.
+Setiap pengerjaan teknis pada proyek ini wajib mengikuti tahapan sinkronisasi teratur:
+0. **Tahap 0: Sinkronisasi Awal Lintas Pengembang (Pre-Development Pull-Rebase)**:
+   - Sebelum menganalisis tugas atau menulis rencana, jalankan `git pull --rebase origin dev` untuk mengunduh pembaruan terbaru dari anggota tim lain.
    - Cek `git log -n 5 --oneline` untuk memverifikasi riwayat commit terkini.
-1. **Tahap 1: Review Pra-Pengembangan (Pre-Implementation Plan)**:
-   - Agen menganalisis kebutuhan tugas, memvalidasi terhadap PRD dan rules, serta menyusun rencana terstruktur (`implementation_plan.md`).
-2. **Tahap 2: Persetujuan Pengguna (User Approval)**:
-   - Agen menyajikan rencana kepada pengguna dan menunggu persetujuan (*approval*). Dilarang menulis kode mutasi besar sebelum disetujui.
-3. **Tahap 3: Eksekusi Pengembangan & Verifikasi Kualitas**:
-   - Builder menulis kode.
-   - Reviewer menguji: wajib 0 error kompilasi TypeScript (`npm run type-check`) dan lolos tes fungsional / HTTP endpoint.
-4. **Tahap 4: Otomatis Commit, Pull-Rebase, Resolusi Konflik & Push ke GitHub**:
-   - **4.1. Commit Lokal**: Stage perubahan (`git add .`) dan buat commit lokal terstruktur (`feat: ...`, `fix: ...`, `docs: ...`).
-   - **4.2. Tarik Remote Terbaru (Pull-Rebase)**: Jalankan `git pull --rebase origin main` untuk menyelaraskan commit lokal di atas commit remote terbaru sebelum melakukan push.
-   - **4.3. Resolusi Konflik Cerdas & Re-Verifikasi**:
-     - Jika terdeteksi konflik merge/rebase: Agen langsung mengidentifikasi file terdampak, membedah marker `<<<<<<< HEAD`, `=======`, `>>>>>>>`, dan menyelesaikannya secara teliti tanpa menghilangkan logika yang sah dari kedua sisi.
+1. **Tahap 1: Perlindungan Berkas Referensi Benchmark (`active-session.json`)**:
+   - Berkas `.agents/02-session-state/active-session.json` adalah data referensi adopsi arsitektur dari sistem saudara (`E-Comerce-BucketFlowers`).
+   - Dilarang keras memodifikasi, menimpa, atau mereset berkas ini. Perlakukan sebagai berkas *strictly read-only*.
+2. **Tahap 2: Rencana & Verifikasi Kualitas**:
+   - Builder menyusun kode sesuai PRD SiKucek.
+   - Reviewer menguji kualitas (0 error kompilasi TypeScript, tidak ada tombol/link mati, kepatuhan anti-slop).
+3. **Tahap 3: Otomatis Commit, Pull-Rebase Sebelum Push, & Push ke Origin `dev`**:
+   - **3.1. Commit Lokal**: Stage perubahan (`git add .`) dan buat commit lokal terstruktur (`feat: ...`, `fix: ...`, `docs: ...`).
+   - **3.2. Tarik Remote Terbaru (Pre-Push Pull-Rebase)**: Jalankan `git pull --rebase origin dev` sebelum melakukan push untuk menyelaraskan commit di atas commit terbaru rekan tim.
+   - **3.3. Resolusi Konflik Cerdas & Re-Verifikasi**:
+     - Jika terdeteksi konflik: Agen/developer mengidentifikasi file terdampak, membedah marker konflik, dan menyelesaikannya dengan cermat tanpa menghilangkan logika sah rekan tim.
      - Lanjutkan rebase (`git add .` dan `git rebase --continue`).
-     - Jalankan ulang `npm run type-check` dan tes fungsional untuk memastikan hasil resolusi konflik 100% bebas dari regresi.
-   - **4.4. Push Bersih ke Origin**: Eksekusi `git push origin main`. Pastikan working tree bersih.
-   - Pengguna tidak perlu lagi meminta push manual secara terpisah.
+     - Jalankan ulang type-check dan tes untuk memastikan tidak ada regresi pasca-resolusi konflik.
+   - **3.4. Push Bersih ke Origin Dev**: Eksekusi `git push origin dev`. Pastikan working tree bersih.
 
 ---
 

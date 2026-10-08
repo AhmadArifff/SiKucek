@@ -44,3 +44,16 @@ Proyek ini mengadopsi monorepo npm workspaces:
 ## 5. Secret & Credential Isolation
 - Kredensial sensitif (`SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL`, `JWT_SECRET`, `MIDTRANS_SERVER_KEY`, `BITESHIP_API_KEY`) hanya boleh dibaca dari file `.env`.
 - Dilarang keras menaruh string kredensial secara *hardcoded* di dalam source code commit git.
+
+---
+
+## 6. Pre-Push & Pre-Dev Git Pull Mandate (Kolaborasi Tim)
+- Setiap awal sesi pengerjaan dan sebelum melakukan `git push` ke GitHub pada branch `dev`, agen dan tim **WAJIB** menjalankan `git pull --rebase origin dev` terlebih dahulu untuk mencegah code conflict antar anggota tim pengembang.
+- Jika terjadi konflik, selesaikan secara hati-hati tanpa membuang logika valid, lakukan verifikasi ulang, baru lanjutkan proses push.
+
+---
+
+## 7. Protected Benchmark Reference File (`active-session.json`) & Adopsi Lintas Sistem
+- Berkas `.agents/02-session-state/active-session.json` adalah data referensi benchmark dari sistem saudara (`E-Comerce-BucketFlowers`) yang diadopsi sebagai tolok ukur fitur, state management, alur logika, dan acuan implementasi sistem SiKucek.
+- **LARANGAN MUTLAK**: Dilarang mengubah, menimpa (*overwrite*), mereset, atau menghapus file `.agents/02-session-state/active-session.json` dalam sesi atau prompt apa pun! File ini berstatus **Strictly Read-Only**.
+- **Adopsi Konteks Lintas Sistem**: Segala data di luar konteks laundry di direktori `.agents/` (seperti resep bahan, studi kasus di `04-case-bank/`, dan milestone referensi) merupakan adopsi arsitektur teruji yang sah dan sengaja dipertahankan sebagai acuan teknis tim.
