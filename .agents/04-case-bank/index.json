@@ -1,0 +1,103 @@
+{
+  "version": "1.0.0",
+  "project": "E-Comerce-BucketFlowers",
+  "total_cases": 12,
+  "cases": [
+    {
+      "id": "case-20261002-postgresql-enum-type-deduction",
+      "title": "Resolusi Error Parameter Type Deduction pada PostgreSQL Enum di Express",
+      "domain": "backend-database",
+      "severity": "HIGH",
+      "status": "VERIFIED",
+      "file": "cases/case-20261002-postgresql-enum-type-deduction.yaml"
+    },
+    {
+      "id": "case-20261002-bom-hpp-database-sync",
+      "title": "Sinkronisasi Akumulasi Biaya Resep BOM dengan Kolom raw_cost_hpp Produk",
+      "domain": "database-accounting",
+      "severity": "MEDIUM",
+      "status": "VERIFIED",
+      "file": "cases/case-20261002-bom-hpp-database-sync.yaml"
+    },
+    {
+      "id": "case-20261002-csv-utf8-bom-excel-compatibility",
+      "title": "Pencegahan Teks Rusak (Mojibake) pada Ekspor CSV saat Dibuka di Microsoft Excel",
+      "domain": "frontend-export",
+      "severity": "MEDIUM",
+      "status": "VERIFIED",
+      "file": "cases/case-20261002-csv-utf8-bom-excel-compatibility.yaml"
+    },
+    {
+      "id": "case-20261003-custom-studio-checkout-and-maintenance-guard",
+      "title": "Dukungan Checkout Buket Kustom Studio dan Penegakan Guard Mode Istirahat Produksi pada Orders API",
+      "domain": "checkout-ecommerce-state-machine",
+      "severity": "HIGH",
+      "status": "VERIFIED",
+      "file": "cases/case-20261003-custom-studio-checkout-and-maintenance-guard.yaml"
+    },
+    {
+      "id": "case-20261003-admin-storefront-data-sync-copywriting",
+      "title": "Sinkronisasi Data Pengaturan Admin Toko ke Storefront & Eliminasi Copywriting AI Slop",
+      "domain": "frontend-state-copywriting-anti-slop",
+      "severity": "HIGH",
+      "status": "VERIFIED",
+      "file": "cases/case-20261003-admin-storefront-data-sync-copywriting.yaml"
+    },
+    {
+      "id": "case-20261003-cod-checkout-guard-and-zero-dummy-quota",
+      "title": "Penegakan Guard Validasi Titik Temu COD di CartDrawer & Eliminasi Mock Kuota Harian Storefront",
+      "domain": "checkout-ecommerce-state-integrity",
+      "severity": "HIGH",
+      "status": "VERIFIED",
+      "file": "cases/case-20261003-cod-checkout-guard-and-zero-dummy-quota.yaml"
+    },
+    {
+      "id": "case-20261004-chat-action-navigation-and-multi-turn-sync",
+      "title": "Resolusi Navigasi Tombol Aksi Chat, Global COD Modal & Sinkronisasi Konteks Multi-Turn Gemini AI",
+      "domain": "ai-chat-live-interactive-state",
+      "severity": "HIGH",
+      "status": "VERIFIED",
+      "file": "cases/case-20261004-chat-action-navigation-and-multi-turn-sync.yaml"
+    },
+    {
+      "id": "case-20261004-database-optimization-and-test-orders-cleanup",
+      "title": "Optimasi Performa Indeks Database PostgreSQL (27 FK Unindexed & Chat Subquery) serta Pembersihan Pesanan Uji Coba",
+      "domain": "database-performance-and-data-integrity",
+      "severity": "MEDIUM",
+      "status": "VERIFIED",
+      "file": "cases/case-20261004-database-optimization-and-test-orders-cleanup.yaml"
+    },
+    {
+      "id": "case-20261004-member-order-scoping-and-zero-fraud-claims",
+      "title": "Penegakan Scoping Pesanan Member, Penyimpanan Perangkat Guest, dan Verifikasi Kepemilikan Klaim Anti-Fraud",
+      "domain": "security-authorization-order-scoping",
+      "severity": "CRITICAL",
+      "status": "VERIFIED",
+      "file": "cases/case-20261004-member-order-scoping-and-zero-fraud-claims.yaml"
+    },
+    {
+      "id": "case-20261004-uncontrolled-input-admin-store-settings",
+      "title": "Resolusi Error Uncontrolled Input React dan Sinkronisasi Alias WhatsApp Resmi di StoreSettingsView",
+      "domain": "frontend-react-forms-admin-settings",
+      "severity": "MEDIUM",
+      "status": "VERIFIED",
+      "file": "cases/case-20261004-uncontrolled-input-admin-store-settings.yaml"
+    },
+    {
+      "id": "case-20261007-studio-folded-wrapping-upright-chenille",
+      "title": "Resolusi Swatch Kertas Wrapping Lipatan Sudut Dual-Tone, Buket Tulip Tegak Lurus, Lavender Chenille Otentik, & Cache-Buster v4",
+      "domain": "frontend-studio-asset-integrity",
+      "severity": "HIGH",
+      "status": "VERIFIED",
+      "file": "cases/case-20261007-studio-folded-wrapping-upright-chenille.yaml"
+    },
+    {
+      "id": "case-20261007-sunflower-natural-color-and-package-lightbox",
+      "title": "Resolusi Kebocoran Warna Modulasi Global Bunga Matahari & Implementasi Lightbox Modal Detail Kelengkapan Paket Studio",
+      "domain": "frontend-studio-color-integrity-and-ux",
+      "severity": "HIGH",
+      "status": "VERIFIED",
+      "file": "cases/case-20261007-sunflower-natural-color-and-package-lightbox.yaml"
+    }
+  ]
+}
