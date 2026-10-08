@@ -100,11 +100,13 @@ Setiap agen wajib membaca indeks ini sebelum mengeksekusi tugas:
    - Larangan mutlak penggunaan karakter em dash panjang (`—`). Gunakan tanda minus biasa (`-`) atau titik dua.
 7. **Pre-Push & Pre-Dev Git Pull Mandate (Kolaborasi Tim)**:
    - Sebelum mulai mengembangkan fitur dan sebelum melakukan `git push` ke GitHub, agen dan developer **WAJIB** menjalankan `git pull --rebase origin dev` untuk mencegah konflik kode dengan anggota tim lain.
-8. **Protected Benchmark Reference File (`active-session.json`)**:
-   - Berkas `.agents/02-session-state/active-session.json` adalah data referensi benchmark dari sistem saudara (`E-Comerce-BucketFlowers`) yang diadopsi sebagai acuan logika bisnis, arsitektur menu, dan riwayat milestone.
-   - **DILARANG MENGUBAH / MERESET / MENGHAPUS** file `.agents/02-session-state/active-session.json` dalam prompt atau sesi apa pun. Berkas ini berstatus **Strictly Read-Only**.
+8. **Protokol Sinkronisasi Session State SiKucek (`active-session.json`)**:
+   - Berkas `.agents/02-session-state/active-session.json` adalah Single Source of Truth pelacak sesi aktif, milestone sprint, status 13 Bab PRD, dan batasan terkunci proyek SiKucek.
+   - Setiap kali tim atau agen menyelesaikan suatu siklus tugas/prompt pengembangan, berkas `active-session.json` **WAJIB** dimutakhirkan dan di-push ke branch `dev` di GitHub agar agen/rekan tim di perangkat lain dapat langsung membaca progres dan konteks sebelumnya.
+   - Berkas referensi benchmark dari sistem saudara disimpan terpisah di `.agents/02-session-state/benchmark-reference.json` sebagai rujukan adopsi arsitektur.
 9. **Prinsip Adopsi Arsitektur Lintas Sistem (External Context Adoption)**:
-   - Segala referensi di luar konteks laundry pada direktori `.agents/` (seperti resep BOM, custom studio, atau case bank) adalah referensi adopsi pola rekayasa yang sah dari sistem saudara dan dipertahankan sebagai panduan solusi bagi tim pengembang SiKucek.
+   - Segala referensi pola teruji di direktori `.agents/` (seperti struktur case bank dan panduan integrasi) adalah referensi adopsi arsitektur yang sah dan dipertahankan sebagai panduan solusi bagi tim pengembang SiKucek.
+
 
 ---
 

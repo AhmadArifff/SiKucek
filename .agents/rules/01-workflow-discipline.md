@@ -64,12 +64,14 @@ Setiap pengerjaan teknis pada proyek ini wajib mengikuti tahapan sinkronisasi te
 0. **Tahap 0: Sinkronisasi Awal Lintas Pengembang (Pre-Development Pull-Rebase)**:
    - Sebelum menganalisis tugas atau menulis rencana, jalankan `git pull --rebase origin dev` untuk mengunduh pembaruan terbaru dari anggota tim lain.
    - Cek `git log -n 5 --oneline` untuk memverifikasi riwayat commit terkini.
-1. **Tahap 1: Perlindungan Berkas Referensi Benchmark (`active-session.json`)**:
-   - Berkas `.agents/02-session-state/active-session.json` adalah data referensi adopsi arsitektur dari sistem saudara (`E-Comerce-BucketFlowers`).
-   - Dilarang keras memodifikasi, menimpa, atau mereset berkas ini. Perlakukan sebagai berkas *strictly read-only*.
+1. **Tahap 1: Inspeksi & Pembaruan Sesi Aktif SiKucek (`active-session.json`)**:
+   - Berkas `.agents/02-session-state/active-session.json` adalah Single Source of Truth pelacak status sprint, sub-tugas, dan cakupan 13 Bab PRD SiKucek.
+   - Baca status sesi (`node .agents/02-session-state/session-manager.js`) sebelum bekerja. Mutakhirkan berkas ini setiap kali menyelesaikan siklus fitur/prompt.
+   - Berkas benchmark referensi dari sistem saudara disimpan terpisah di `benchmark-reference.json`.
 2. **Tahap 2: Rencana & Verifikasi Kualitas**:
    - Builder menyusun kode sesuai PRD SiKucek.
    - Reviewer menguji kualitas (0 error kompilasi TypeScript, tidak ada tombol/link mati, kepatuhan anti-slop).
+
 3. **Tahap 3: Otomatis Commit, Pull-Rebase Sebelum Push, & Push ke Origin `dev`**:
    - **3.1. Commit Lokal**: Stage perubahan (`git add .`) dan buat commit lokal terstruktur (`feat: ...`, `fix: ...`, `docs: ...`).
    - **3.2. Tarik Remote Terbaru (Pre-Push Pull-Rebase)**: Jalankan `git pull --rebase origin dev` sebelum melakukan push untuk menyelaraskan commit di atas commit terbaru rekan tim.

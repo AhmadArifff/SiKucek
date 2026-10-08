@@ -53,7 +53,8 @@ Proyek ini mengadopsi monorepo npm workspaces:
 
 ---
 
-## 7. Protected Benchmark Reference File (`active-session.json`) & Adopsi Lintas Sistem
-- Berkas `.agents/02-session-state/active-session.json` adalah data referensi benchmark dari sistem saudara (`E-Comerce-BucketFlowers`) yang diadopsi sebagai tolok ukur fitur, state management, alur logika, dan acuan implementasi sistem SiKucek.
-- **LARANGAN MUTLAK**: Dilarang mengubah, menimpa (*overwrite*), mereset, atau menghapus file `.agents/02-session-state/active-session.json` dalam sesi atau prompt apa pun! File ini berstatus **Strictly Read-Only**.
-- **Adopsi Konteks Lintas Sistem**: Segala data di luar konteks laundry di direktori `.agents/` (seperti resep bahan, studi kasus di `04-case-bank/`, dan milestone referensi) merupakan adopsi arsitektur teruji yang sah dan sengaja dipertahankan sebagai acuan teknis tim.
+## 7. Protokol Sinkronisasi Session State SiKucek & Berkas Benchmark
+- Berkas `.agents/02-session-state/active-session.json` adalah data sesi aktif proyek SiKucek (Single Source of Truth pelacak sprint, status 13 Bab PRD, dan batasan terkunci).
+- **Protokol Push Session State**: Setiap kali tim/agen menyelesaikan suatu siklus tugas atau penambahan fitur, berkas `active-session.json` **WAJIB** dimutakhirkan dan di-push bersama kode ke branch `dev` agar seluruh agen/developer di tim dapat melacak progres secara menyeluruh.
+- Berkas referensi benchmark dari sistem saudara disimpan secara aman dan terpisah di `.agents/02-session-state/benchmark-reference.json` sebagai rujukan adopsi arsitektur.
+
