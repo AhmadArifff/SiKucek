@@ -56,7 +56,7 @@ export function QrisPaymentModal({
             </div>
             <div>
               <h3 className="text-sm font-bold text-slate-800">
-                Pembayaran QRIS Midtrans
+                Pembayaran QRIS (Cashless)
               </h3>
               <p className="text-[11px] text-slate-500 font-mono">
                 {orderNumber} &bull; {trackingCode}
@@ -123,7 +123,7 @@ export function QrisPaymentModal({
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>
-                {settings.midtrans.is_production ? 'Production API' : 'Midtrans Sandbox (Zero Cost)'}
+                {settings.midtrans.is_production ? 'Koneksi Gateway Aktif' : 'Mode Simulasi (Rp 0)'}
               </span>
             </div>
             <span className="text-[10px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">

@@ -188,3 +188,26 @@ export function formatIndonesianDateTime(dateStr: string | Date): string {
     minute: '2-digit',
   }).format(date) + ' WIB';
 }
+
+/**
+ * Format payment channel into a customer-friendly clean label
+ * Ensures NO backend vendor / gateway names (such as Midtrans) are exposed in customer interfaces
+ */
+export function formatPaymentChannelName(channel?: string | null): string {
+  if (!channel) return 'QRIS';
+  switch (channel.toLowerCase()) {
+    case 'cash':
+      return 'Tunai';
+    case 'midtrans_qris':
+    case 'qris':
+      return 'QRIS';
+    case 'midtrans_va':
+    case 'va':
+      return 'Transfer Bank';
+    case 'midtrans_gopay':
+    case 'gopay':
+      return 'GoPay';
+    default:
+      return 'QRIS';
+  }
+}

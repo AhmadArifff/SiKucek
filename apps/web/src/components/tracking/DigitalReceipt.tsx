@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { PublicOrderTracking } from '../../lib/tracking-store';
-import { formatRupiah, formatKg } from '@sikucek/shared';
+import { formatRupiah, formatKg, formatPaymentChannelName } from '@sikucek/shared';
 import {
   Receipt,
   MessageCircle,
@@ -84,18 +84,15 @@ export default function DigitalReceipt({ order }: DigitalReceiptProps) {
             )}
           </span>
 
-          <span className="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full flex items-center gap-1">
+          <span className="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full flex items-center gap-1.5">
             {order.paymentChannel === 'cash' ? (
-              <>
-                <Banknote className="w-3.5 h-3.5" />
-                Tunai
-              </>
+              <Banknote className="w-3.5 h-3.5 text-slate-500" />
+            ) : order.paymentChannel === 'midtrans_va' ? (
+              <CreditCard className="w-3.5 h-3.5 text-slate-500" />
             ) : (
-              <>
-                <QrCode className="w-3.5 h-3.5" />
-                QRIS Midtrans
-              </>
+              <QrCode className="w-3.5 h-3.5 text-slate-500" />
             )}
+            <span>{formatPaymentChannelName(order.paymentChannel)}</span>
           </span>
         </div>
       </div>
