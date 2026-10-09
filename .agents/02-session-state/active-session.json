@@ -121,6 +121,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Integrasi uploader foto kamera WebRTC (CameraModal.tsx) ke Supabase Storage bucket qc-photos dengan kompresi WebP client-side dan fallback resilient dataURL. Integrasi trigger notifikasi otomatis di orders-store.ts saat kasir membuat order (order_received) dan saat status diubah menjadi ready di rak (order_ready) dengan enqueue ke tabel whatsapp_queue Supabase dan persistensi lokal. Background worker (apps/worker/src/index.ts) dilengkapi dengan loop polling realtime pollSupabaseQueue, normalisasi nomor 628xx, limit retry, dan update status sent secara otomatis."
+    },
+    {
+      "id": "M15_E2E_AND_QA_DELIVERY_GATE_VERIFICATION",
+      "title": "Tahapan E & F: Pengujian Komprehensif E2E, Validasi 13 Bab PRD, & QA Delivery Gate",
+      "prd_sections": ["Bab 1", "Bab 2", "Bab 3", "Bab 4", "Bab 5", "Bab 6", "Bab 7", "Bab 8", "Bab 9", "Bab 10", "Bab 11", "Bab 12", "Bab 13"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Eksekusi automated E2E test suite 29/29 checks lulus sempurna (Result pattern, partial discount Bab 10.4, guardrail nomor rak Bab 10.5, normalisasi nomor WA 628xx Bab 10.6, zero-em-dash R-02, 15 route live HTTP matrix port 3000 & 3001). Penambahan rute redirect bebas 404 (/orders, /racks, /admin/login). Seluruh 13 Bab PRD lulus QA Delivery Gate dan siap rilis produksi v1.0.0."
     }
   ],
   "in_progress_milestones": [],
@@ -152,9 +160,9 @@
     "Session State Push Protocol: Setiap kali menyelesaikan siklus prompt/task, active-session.json wajib dimutakhirkan dan di-push ke branch dev agar seluruh agen di tim tetap sinkron."
   ],
   "active_agent_pipeline": {
-    "current_stage": "STAGE_5_ALL_MILESTONES_COMPLETE",
-    "active_role": "qa-engineer / tech-critic",
-    "next_role": "synthesis-voice / team-lead",
+    "current_stage": "STAGE_6_PRODUCTION_READY",
+    "active_role": "team-lead / synthesis-voice",
+    "next_role": "user-review",
     "reviewer_role": "qa-engineer"
   }
 }
