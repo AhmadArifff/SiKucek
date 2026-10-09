@@ -4,12 +4,15 @@ import {
   PAYMENT_CHANNEL,
   SERVICE_CATEGORY,
   BUSINESS_DEFAULTS,
+  buildOrderReceivedMessage,
+  buildOrderReadyMessage,
   type OrderStatus,
   type PaymentStatus,
   type PaymentChannel,
   type QcIssueType,
 } from '@sikucek/shared';
 import { calculateHybridOrderTotals } from '@sikucek/shared';
+import { enqueueWhatsAppMessage } from '@sikucek/database';
 
 export interface PosOrderItem {
   service_id: string;
@@ -312,6 +315,29 @@ export function createPosOrder(data: {
   const existing = getStoredOrders();
   const updated = [newOrder, ...existing];
   saveStoredOrders(updated);
+
+  // Trigger WhatsApp notification for order_received
+  try {
+    const summary = newOrder.items.map((i) => `${i.quantity} ${i.service_name}`).join(', ');
+    const msg = buildOrderReceivedMessage({
+      customerName: newOrder.customer_name,
+      orderNumber: newOrder.order_number,
+      trackingCode: newOrder.tracking_code,
+      serviceSummary: summary,
+      finalAmount: newOrder.final_amount,
+      paymentStatus: newOrder.payment_status === 'paid' ? 'paid' : 'unpaid',
+      estimatedReadyAt: newOrder.estimated_ready_at,
+    });
+    enqueueWhatsAppMessage({
+      orderId: newOrder.id,
+      recipientPhone: newOrder.customer_phone,
+      messageBody: msg,
+      messageType: 'order_received',
+    }).catch(() => {});
+  } catch {
+    // Non-blocking notification dispatch
+  }
+
   return newOrder;
 }
 
@@ -344,6 +370,32 @@ export function updatePosOrderStatus(
 
   orders[idx] = updatedOrder;
   saveStoredOrders(orders);
+
+  // Trigger WhatsApp notification when order status becomes ready
+  if (newStatus === ORDER_STATUS.READY) {
+    try {
+      const summary = updatedOrder.items.map((i) => `${i.quantity} ${i.service_name}`).join(', ');
+      const msg = buildOrderReadyMessage({
+        customerName: updatedOrder.customer_name,
+        orderNumber: updatedOrder.order_number,
+        trackingCode: updatedOrder.tracking_code,
+        serviceSummary: summary,
+        finalAmount: updatedOrder.final_amount,
+        paymentStatus: updatedOrder.payment_status === 'paid' ? 'paid' : 'unpaid',
+        estimatedReadyAt: updatedOrder.estimated_ready_at,
+        rackLocation: updatedOrder.rack_location,
+      });
+      enqueueWhatsAppMessage({
+        orderId: updatedOrder.id,
+        recipientPhone: updatedOrder.customer_phone,
+        messageBody: msg,
+        messageType: 'order_ready',
+      }).catch(() => {});
+    } catch {
+      // Non-blocking notification dispatch
+    }
+  }
+
   return { success: true, order: updatedOrder };
 }
 

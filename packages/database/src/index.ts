@@ -6,3 +6,4 @@
 export * from './types';
 export * from './client';
 export * from './resilient-adapter';
+export * from './whatsapp-queue';

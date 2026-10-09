@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Camera, X, Check, RefreshCw, AlertTriangle, UploadCloud } from 'lucide-react';
 import { QC_ISSUE_TYPE, QC_ISSUE_LABELS, type QcIssueType } from '@sikucek/shared';
+import { uploadQcPhotoToStorage } from '@sikucek/database';
 import type { PosQcPhoto } from '../../lib/orders-store';
 
 interface CameraModalProps {
@@ -20,6 +21,7 @@ export function CameraModal({ isOpen, onClose, onCapture }: CameraModalProps) {
   const [selectedIssue, setSelectedIssue] = useState<QcIssueType>('stain');
   const [description, setDescription] = useState('');
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Initialize camera stream when modal opens
@@ -136,12 +138,31 @@ export function CameraModal({ isOpen, onClose, onCapture }: CameraModalProps) {
     startCamera();
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!capturedImage) return;
+
+    setIsUploading(true);
+    let finalPhotoUrl = capturedImage;
+
+    try {
+      const res = await fetch(capturedImage);
+      const blob = await res.blob();
+      const fileName = `qc_${selectedIssue}_${Date.now()}.webp`;
+
+      const uploadResult = await uploadQcPhotoToStorage(blob, fileName);
+      if (uploadResult.success && uploadResult.photoUrl) {
+        finalPhotoUrl = uploadResult.photoUrl;
+      }
+    } catch (err) {
+      console.warn('Storage upload fallback to local dataUrl:', err);
+      finalPhotoUrl = capturedImage;
+    } finally {
+      setIsUploading(false);
+    }
 
     const newPhoto: PosQcPhoto = {
       id: 'qc-' + Date.now(),
-      photo_url: capturedImage,
+      photo_url: finalPhotoUrl,
       issue_type: selectedIssue,
       description: description.trim() || undefined,
       created_at: new Date().toISOString(),
@@ -299,10 +320,20 @@ export function CameraModal({ isOpen, onClose, onCapture }: CameraModalProps) {
               <button
                 type="button"
                 onClick={handleSave}
-                className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-xl shadow-md shadow-sky-200 transition"
+                disabled={isUploading}
+                className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-xl shadow-md shadow-sky-200 transition disabled:opacity-50"
               >
-                <Check className="w-4 h-4" />
-                Lampirkan Foto QC
+                {isUploading ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    Mengunggah...
+                  </>
+                ) : (
+                  <>
+                    <Check className="w-4 h-4" />
+                    Lampirkan Foto QC
+                  </>
+                )}
               </button>
             </>
           )}

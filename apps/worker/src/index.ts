@@ -6,6 +6,7 @@
 
 import dotenv from 'dotenv';
 import pino from 'pino';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import {
   normalizeIndonesianPhone,
   buildOrderReceivedMessage,
@@ -40,6 +41,13 @@ export const workerConfig: WorkerConfig = {
   pollIntervalMs: parseInt(process.env.POLL_INTERVAL_MS || '5000', 10),
   sessionName: process.env.WA_SESSION_NAME || 'sikucek-outlet-01',
 };
+
+export const supabaseClient: SupabaseClient | null =
+  workerConfig.supabaseUrl && workerConfig.supabaseServiceKey
+    ? createClient(workerConfig.supabaseUrl, workerConfig.supabaseServiceKey, {
+        auth: { persistSession: false },
+      })
+    : null;
 
 /**
  * Message Queue Dispatcher
@@ -89,6 +97,65 @@ export async function processQueueItem(item: {
 }
 
 /**
+ * Poll Supabase public.whatsapp_queue for pending messages
+ */
+export async function pollSupabaseQueue(): Promise<number> {
+  if (!supabaseClient) return 0;
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('whatsapp_queue')
+      .select('*')
+      .eq('status', 'pending')
+      .lt('retry_count', 3)
+      .order('created_at', { ascending: true })
+      .limit(5);
+
+    if (error || !data || data.length === 0) {
+      return 0;
+    }
+
+    logger.info({ count: data.length }, 'Menemukan pesan WhatsApp baru di antrean. Memproses...');
+
+    for (const item of data) {
+      const result = await processQueueItem({
+        id: item.id,
+        phone_number: item.recipient_phone,
+        message_body: item.message_body,
+        order_id: item.order_id,
+        event_type: item.message_type,
+        attempts: item.retry_count || 0,
+      });
+
+      if (result.success) {
+        await supabaseClient
+          .from('whatsapp_queue')
+          .update({
+            status: 'sent',
+            sent_at: new Date().toISOString(),
+          })
+          .eq('id', item.id);
+      } else {
+        const nextAttempts = (item.retry_count || 0) + 1;
+        await supabaseClient
+          .from('whatsapp_queue')
+          .update({
+            retry_count: nextAttempts,
+            status: nextAttempts >= 3 ? 'failed' : 'pending',
+            error_message: result.error || 'Dispatch error',
+          })
+          .eq('id', item.id);
+      }
+    }
+
+    return data.length;
+  } catch (err: any) {
+    logger.warn({ err }, 'Error saat polling antrean whatsapp_queue');
+    return 0;
+  }
+}
+
+/**
  * Worker Heartbeat & Status Monitor
  */
 export function getWorkerHealth() {
@@ -110,7 +177,13 @@ export function startWorker() {
   logger.info('====================================================');
   logger.info({ health: getWorkerHealth() }, 'Worker siap menyimak antrean whatsapp_queue.');
 
-  if (!workerConfig.supabaseUrl || !workerConfig.supabaseServiceKey) {
+  if (supabaseClient) {
+    logger.info(
+      { interval: workerConfig.pollIntervalMs },
+      'Memulai polling realtime whatsapp_queue Supabase...'
+    );
+    setInterval(pollSupabaseQueue, workerConfig.pollIntervalMs);
+  } else {
     logger.info(
       'Kredensial Supabase belum terpasang di .env. Worker berjalan dalam mode Simulasi Mandiri (Zero Cost).'
     );

@@ -113,6 +113,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Pustaka @sikucek/database diekspor dengan client SDK (@supabase/supabase-js), DDL TypeScript types untuk 18 tabel PostgreSQL, dan resilient hybrid adapter (checkSupabaseHealth, fetchAppSettingsFromSupabase, uploadQcPhotoToStorage) yang secara otomatis mendeteksi ketersediaan kredensial Supabase Cloud di .env.local atau beralih mulus ke local mock store (Zero-Cost). Penyiapan template .env.example di root monorepo, apps/pos, apps/web, dan apps/worker. Penambahan Tab 5 Database & Cloud Sync di Admin Panel POS (/admin/settings) dengan status live query latensi dan direktori 18 tabel."
+    },
+    {
+      "id": "M14_STORAGE_QC_UPLOADER_AND_REALTIME_WA_DISPATCHER",
+      "title": "Tahapan D: Storage QC Uploader Nyata di Kamera WebRTC & Realtime WhatsApp Worker Listener",
+      "prd_sections": ["Bab 10.2", "Bab 10.6", "Bab 13"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Integrasi uploader foto kamera WebRTC (CameraModal.tsx) ke Supabase Storage bucket qc-photos dengan kompresi WebP client-side dan fallback resilient dataURL. Integrasi trigger notifikasi otomatis di orders-store.ts saat kasir membuat order (order_received) dan saat status diubah menjadi ready di rak (order_ready) dengan enqueue ke tabel whatsapp_queue Supabase dan persistensi lokal. Background worker (apps/worker/src/index.ts) dilengkapi dengan loop polling realtime pollSupabaseQueue, normalisasi nomor 628xx, limit retry, dan update status sent secara otomatis."
     }
   ],
   "in_progress_milestones": [],
