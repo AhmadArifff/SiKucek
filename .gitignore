@@ -37,3 +37,4 @@ blob-report/
 # Scratch & Temporary Logs
 scratch/
 .system_generated/
+*.tsbuildinfo

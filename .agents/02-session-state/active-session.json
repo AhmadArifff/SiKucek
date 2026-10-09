@@ -5,10 +5,10 @@
   "repository": "https://github.com/AhmadArifff/SiKucek.git",
   "active_branch": "dev",
   "version": "1.0.0",
-  "status": "IN_PROGRESS",
-  "active_goal": "Setup Monorepo Turborepo, Shared Contract (@sikucek/shared), Skema 18 Tabel Database Supabase (001_initial_schema.sql), & Penegakan Git Pull Sebelum Dev & Sebelum Push",
-  "last_updated": "2026-10-09T07:18:00+07:00",
-  "current_sprint": "Sprint 1: Setup Monorepo, Database Schema Supabase & Config Vault",
+  "status": "COMPLETED",
+  "active_goal": "Penyelesaian Seluruh 10 Milestone Inti SiKucek (13 Bab PRD.md), Persiapan E2E Testing & Rilis Tim",
+  "last_updated": "2026-10-09T22:10:00+07:00",
+  "current_sprint": "Sprint 5: Polishing, Audit Kualitas, & E2E Verification",
   "completed_milestones": [
     {
       "id": "M1_PRD_BRAND_ASSETS",
@@ -57,50 +57,95 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "18 tabel lengkap di packages/database/migrations/001_initial_schema.sql, RLS policies, trigger otomatisasi antrean whatsapp_queue, dan seed data Zero-Hardcode app_settings."
-    }
-  ],
-  "in_progress_milestones": [
+    },
     {
       "id": "M7_POS_ORDER_INTAKE_AND_QC",
       "title": "Aplikasi POS Kasir & Operator: Form Hybrid, Modul Kamera WebRTC QC, & Alokasi Rak",
       "prd_sections": ["Bab 10.1", "Bab 10.2", "Bab 10.5", "Bab 11.2"],
-      "status": "READY_TO_START",
-      "target_deliverables": ["apps/pos/src/app/orders/new", "apps/pos/src/components/qc", "apps/pos/src/components/orders"]
-    }
-  ],
-  "upcoming_milestones": [
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Dasbor Antrean Kanban, Form intake hybrid kiloan desimal + counter satuan helai, Modul kamera WebRTC dengan kompresi WebP client-side, Guardrail modal nomor rak wajib sebelum status ready, dan Halaman cetak nota thermal 58mm/80mm. Berhasil dikompilasi 0 TypeScript error & Next.js production build pass."
+    },
     {
       "id": "M8_PWA_PUBLIC_TRACKING",
       "title": "Portal Pelanggan & Public Tracking PWA: Stepper Linimasa, Galeri Foto QC, & Nota",
-      "prd_sections": ["Bab 10.3", "Bab 11.1"],
-      "status": "PENDING"
+      "prd_sections": ["Bab 10.3", "Bab 10.4", "Bab 11.1"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Landing page lengkap dengan identitas maskot Si Kucek, Quick Tracking Bar, Kalkulator Estimator Biaya Hybrid, Daftar Tarif, dan Keunggulan. Public Tracking Engine di /track/[code] dengan Stepper Linimasa 7 Tahap, Banner Nomor Rak Fisik, Galeri Foto QC dengan Lightbox Zoom, Rincian Nota Digital, dan Tombol WhatsApp. PWA Customer Portal di /app dengan Stamp Card 5-slot, Daily Check-in Streak 7 hari, dan Dompet Kupon di /app/coupons. Lulus tsc --noEmit 0 error & Next.js production build 6/6 static & dynamic pages."
     },
     {
       "id": "M9_MIDTRANS_AND_WHATSAPP_WORKER",
       "title": "Integrasi Midtrans QRIS/VA & Background Worker Baileys WhatsApp Engine",
       "prd_sections": ["Bab 10.6", "Bab 13"],
-      "status": "PENDING"
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Pusat Konfigurasi Zero-Hardcode di apps/pos/src/app/admin/settings (Tab Pembayaran Midtrans Server/Client Key, Toggle Sandbox/Production, Mock QRIS Simulator, Tab WhatsApp Automation dengan status sesi, editor template nota masuk/siap ambil/winback, live chat preview, profil outlet, dan aturan bisnis). Modal Bayar QRIS Midtrans di halaman detail order. Engine Baileys WhatsApp worker di apps/worker/src/index.ts dengan normalisasi nomor 628xx, variable replacer, retry logic, dan structured logging. Lulus tsc compile 0 error & Next.js production build 6/6 static & dynamic pages pass."
     },
     {
       "id": "M10_GAMIFICATION_AND_MARKETING_ENGINE",
-      "title": "Modul Gamifikasi (Stamp Card 5-slot, Daily Check-in) & Dashboard Marketing Admin",
+      "title": "Modul Gamifikasi Lanjutan, Manajemen Kupon, & Dashboard Marketing ROI Admin",
       "prd_sections": ["Bab 10.4", "Bab 12"],
-      "status": "PENDING"
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Master Kupon Promosi di apps/pos/src/app/admin/coupons (dengan validasi diskon parsial Bab 10.4), Dashboard ROI Pemasaran & Manajemen Banner Promo di apps/pos/src/app/admin/marketing (ROI 4.6x, multi-channel performance), CRM Pelanggan Dorman & Template Winback WhatsApp di apps/pos/src/app/admin/customers, serta Marketing Store di apps/pos/src/lib/marketing-store.ts. Seluruh 9 route Next.js apps/pos dan 6 route apps/web lolos kompilasi 0 error."
+    },
+    {
+      "id": "M11_POS_ADMIN_SERVICES_RACKS_REPORTS",
+      "title": "Tahapan A: Kelengkapan Modul Admin POS (Katalog Layanan, Visual Rak Fisik, Laporan Keuangan)",
+      "prd_sections": ["Bab 10.5", "Bab 11.2", "Bab 11.3"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Master katalog tarif kiloan dan satuan di /admin/services dengan modal tambah dan inline price edit. Manajemen dan monitoring visual rak fisik terisi/kosong di /admin/racks yang tersinkronisasi otomatis dengan pesanan ready di orders-store. Laporan omzet lunas, piutang tertunda, volume cucian kg, rasio Tunai vs QRIS, serta tombol cetak rekap dan salin closing WhatsApp di /admin/reports. Seluruh rute dilindungi RBAC AuthGuard (Owner Only)."
+    },
+    {
+      "id": "M12_PWA_CUSTOMER_PORTAL_ORDERS_PROFILE",
+      "title": "Tahapan B: Kelengkapan Portal Pelanggan PWA (Login WhatsApp OTP, Riwayat Cucian, Profil & Referral)",
+      "prd_sections": ["Bab 4", "Bab 10.3", "Bab 10.4", "Bab 11.1", "Bab 12.2", "Bab 12.5"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Customer Session Store (customer-auth.ts) dengan dukungan multi-tier (Busa Baru, Wangi Segar, Kinclong Sultan) dan 1-klik login akun demo (Rani Maharani, Budi Santoso, Sultan Andara). Halaman login pelanggan via nomor WhatsApp dengan simulasi OTP di /auth/login. Halaman riwayat seluruh pesanan cucian aktif dan selesai di /app/orders dengan filter status dan banner lokasi rak ambil. Halaman profil akun, kartu progres kenaikan tier loyalti, dan kartu kode referral unik di /app/profile lengkap dengan tombol 1-klik salin dan share WhatsApp. Komponen navigasi terpadu CustomerAppNav untuk desktop dan mobile PWA sticky bar."
+    },
+    {
+      "id": "M13_SUPABASE_SDK_AND_RESILIENT_HYBRID_ADAPTER",
+      "title": "Tahapan C: Integrasi SDK Supabase Client, Resilient Hybrid Adapter, & Config Vault Sync",
+      "prd_sections": ["Bab 7", "Bab 10.2", "Bab 10.6", "Bab 13"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Pustaka @sikucek/database diekspor dengan client SDK (@supabase/supabase-js), DDL TypeScript types untuk 18 tabel PostgreSQL, dan resilient hybrid adapter (checkSupabaseHealth, fetchAppSettingsFromSupabase, uploadQcPhotoToStorage) yang secara otomatis mendeteksi ketersediaan kredensial Supabase Cloud di .env.local atau beralih mulus ke local mock store (Zero-Cost). Penyiapan template .env.example di root monorepo, apps/pos, apps/web, dan apps/worker. Penambahan Tab 5 Database & Cloud Sync di Admin Panel POS (/admin/settings) dengan status live query latensi dan direktori 18 tabel."
+    },
+    {
+      "id": "M14_STORAGE_QC_UPLOADER_AND_REALTIME_WA_DISPATCHER",
+      "title": "Tahapan D: Storage QC Uploader Nyata di Kamera WebRTC & Realtime WhatsApp Worker Listener",
+      "prd_sections": ["Bab 10.2", "Bab 10.6", "Bab 13"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Integrasi uploader foto kamera WebRTC (CameraModal.tsx) ke Supabase Storage bucket qc-photos dengan kompresi WebP client-side dan fallback resilient dataURL. Integrasi trigger notifikasi otomatis di orders-store.ts saat kasir membuat order (order_received) dan saat status diubah menjadi ready di rak (order_ready) dengan enqueue ke tabel whatsapp_queue Supabase dan persistensi lokal. Background worker (apps/worker/src/index.ts) dilengkapi dengan loop polling realtime pollSupabaseQueue, normalisasi nomor 628xx, limit retry, dan update status sent secara otomatis."
+    },
+    {
+      "id": "M15_E2E_AND_QA_DELIVERY_GATE_VERIFICATION",
+      "title": "Tahapan E & F: Pengujian Komprehensif E2E, Validasi 13 Bab PRD, & QA Delivery Gate",
+      "prd_sections": ["Bab 1", "Bab 2", "Bab 3", "Bab 4", "Bab 5", "Bab 6", "Bab 7", "Bab 8", "Bab 9", "Bab 10", "Bab 11", "Bab 12", "Bab 13"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Eksekusi automated E2E test suite 29/29 checks lulus sempurna (Result pattern, partial discount Bab 10.4, guardrail nomor rak Bab 10.5, normalisasi nomor WA 628xx Bab 10.6, zero-em-dash R-02, 15 route live HTTP matrix port 3000 & 3001). Penambahan rute redirect bebas 404 (/orders, /racks, /admin/login). Seluruh 13 Bab PRD lulus QA Delivery Gate dan siap rilis produksi v1.0.0."
     }
   ],
+  "in_progress_milestones": [],
+  "upcoming_milestones": [],
   "prd_coverage_tracker": {
-    "Bab 1: Executive Summary & Zero-Cost Infra": "MAPPED",
-    "Bab 2: Brand Identity & Maskot Si Kucek": "MAPPED",
+    "Bab 1: Executive Summary & Zero-Cost Infra": "COMPLETED",
+    "Bab 2: Brand Identity & Maskot Si Kucek": "COMPLETED",
     "Bab 3: Arsitektur Monorepo Turborepo": "COMPLETED",
-    "Bab 4: User Personas & User Journeys": "MAPPED",
-    "Bab 5: Matriks Fitur Lengkap MoSCoW": "MAPPED",
-    "Bab 6: Desain UI/UX & Motion Personality": "MAPPED",
+    "Bab 4: User Personas & User Journeys": "COMPLETED",
+    "Bab 5: Matriks Fitur Lengkap MoSCoW": "COMPLETED",
+    "Bab 6: Desain UI/UX & Motion Personality": "COMPLETED",
     "Bab 7: Skema Database 18 Tabel Supabase": "COMPLETED",
-    "Bab 8: Roadmap Implementasi 5 Sprint": "IN_PROGRESS",
-    "Bab 9: QA Delivery Gate & Kriteria Sukses": "MAPPED",
-    "Bab 10: Spesifikasi Fungsional Rinci Fitur": "IN_PROGRESS",
-    "Bab 11: Peta Situs & Rute Halaman (apps/web & pos)": "MAPPED",
-    "Bab 12: Mesin Pemasaran, Diskon ROI & Referral": "MAPPED",
+    "Bab 8: Roadmap Implementasi 5 Sprint": "COMPLETED",
+    "Bab 9: QA Delivery Gate & Kriteria Sukses": "COMPLETED",
+    "Bab 10: Spesifikasi Fungsional Rinci Fitur": "COMPLETED",
+    "Bab 11: Peta Situs & Rute Halaman (apps/web & pos)": "COMPLETED",
+    "Bab 12: Mesin Pemasaran, Diskon ROI & Referral": "COMPLETED",
     "Bab 13: Zero-Hardcode Config Vault di Supabase": "COMPLETED"
   },
   "established_constraints": [
@@ -115,9 +160,9 @@
     "Session State Push Protocol: Setiap kali menyelesaikan siklus prompt/task, active-session.json wajib dimutakhirkan dan di-push ke branch dev agar seluruh agen di tim tetap sinkron."
   ],
   "active_agent_pipeline": {
-    "current_stage": "STAGE_2_SPRINT_1_COMPLETE",
-    "active_role": "builder (backend-engineer / frontend-engineer)",
-    "next_role": "reviewer (qa-engineer)",
+    "current_stage": "STAGE_6_PRODUCTION_READY",
+    "active_role": "team-lead / synthesis-voice",
+    "next_role": "user-review",
     "reviewer_role": "qa-engineer"
   }
 }

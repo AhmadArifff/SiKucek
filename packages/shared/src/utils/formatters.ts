@@ -145,6 +145,33 @@ export function calculateHybridBilling(params: HybridCalculationParams): HybridC
 }
 
 /**
+ * Convenient hybrid order totals calculator for POS intake
+ */
+export function calculateHybridOrderTotals(params: {
+  kiloan_weight_kg: number;
+  kiloan_unit_price: number;
+  min_weight_kg?: number;
+  satuan_subtotal: number;
+  discount_amount?: number;
+}) {
+  const chargedWeight = Math.max(params.kiloan_weight_kg, params.min_weight_kg || 0);
+  const kiloan_subtotal = params.kiloan_weight_kg > 0 ? chargedWeight * params.kiloan_unit_price : 0;
+  const gross_amount = kiloan_subtotal + params.satuan_subtotal;
+  const discount_amount = params.discount_amount || 0;
+  const final_amount = Math.max(0, gross_amount - discount_amount);
+
+  return {
+    kiloan_weight_kg: params.kiloan_weight_kg,
+    kiloan_charged_weight_kg: params.kiloan_weight_kg > 0 ? chargedWeight : 0,
+    kiloan_subtotal,
+    satuan_subtotal: params.satuan_subtotal,
+    gross_amount,
+    discount_amount,
+    final_amount,
+  };
+}
+
+/**
  * Format ISO date string into Indonesian readable format
  * e.g. '08 Okt 2026, 14:30 WIB'
  */
@@ -160,4 +187,27 @@ export function formatIndonesianDateTime(dateStr: string | Date): string {
     hour: '2-digit',
     minute: '2-digit',
   }).format(date) + ' WIB';
+}
+
+/**
+ * Format payment channel into a customer-friendly clean label
+ * Ensures NO backend vendor / gateway names (such as Midtrans) are exposed in customer interfaces
+ */
+export function formatPaymentChannelName(channel?: string | null): string {
+  if (!channel) return 'QRIS';
+  switch (channel.toLowerCase()) {
+    case 'cash':
+      return 'Tunai';
+    case 'midtrans_qris':
+    case 'qris':
+      return 'QRIS';
+    case 'midtrans_va':
+    case 'va':
+      return 'Transfer Bank';
+    case 'midtrans_gopay':
+    case 'gopay':
+      return 'GoPay';
+    default:
+      return 'QRIS';
+  }
 }
