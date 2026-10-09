@@ -129,6 +129,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Eksekusi automated E2E test suite 29/29 checks lulus sempurna (Result pattern, partial discount Bab 10.4, guardrail nomor rak Bab 10.5, normalisasi nomor WA 628xx Bab 10.6, zero-em-dash R-02, 15 route live HTTP matrix port 3000 & 3001). Penambahan rute redirect bebas 404 (/orders, /racks, /admin/login). Seluruh 13 Bab PRD lulus QA Delivery Gate dan siap rilis produksi v1.0.0."
+    },
+    {
+      "id": "M16_PRODUCTION_RELEASE_V1",
+      "title": "Rilis Produksi v1.0.0: Merge Branch dev ke main & Git Tag v1.0.0",
+      "prd_sections": ["Bab 1", "Bab 3", "Bab 8", "Bab 9"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Lolos kompilasi Turbo Production Build (apps/web 9/9 pages, apps/pos 16/16 pages, apps/worker tsc) dengan 0 errors. Merge branch dev ke branch main berhasil tanpa konflik (80 files merged, 13.635 insertions). Tag Git v1.0.0 berhasil dibuat dan dipush ke remote origin GitHub."
     }
   ],
   "in_progress_milestones": [],
