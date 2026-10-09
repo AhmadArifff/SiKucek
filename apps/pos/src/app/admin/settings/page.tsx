@@ -25,18 +25,32 @@ import {
   Info,
   Sliders,
   Check,
+  Database,
+  Server,
+  RefreshCw,
+  ExternalLink,
 } from 'lucide-react';
+import {
+  checkSupabaseHealth,
+  isSupabaseConfigured,
+  type HealthCheckResult,
+} from '@sikucek/database';
 
 export default function AdminSettingsPage() {
-  const [activeTab, setActiveTab] = useState<'payment' | 'whatsapp' | 'outlet' | 'rules'>('payment');
+  const [activeTab, setActiveTab] = useState<
+    'payment' | 'whatsapp' | 'outlet' | 'rules' | 'database'
+  >('payment');
   const [settings, setSettings] = useState<AppSettingsBundle>(DEFAULT_SETTINGS);
   const [showServerKey, setShowServerKey] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isTestingMidtrans, setIsTestingMidtrans] = useState<boolean>(false);
+  const [dbHealth, setDbHealth] = useState<HealthCheckResult | null>(null);
+  const [isCheckingDb, setIsCheckingDb] = useState<boolean>(false);
 
   useEffect(() => {
     const loaded = getAppSettings();
     setSettings(loaded);
+    checkSupabaseHealth().then(setDbHealth);
   }, []);
 
   const handleSave = () => {
@@ -65,6 +79,15 @@ export default function AdminSettingsPage() {
       );
       setTimeout(() => setToastMessage(null), 4000);
     }, 600);
+  };
+
+  const handleCheckDb = async () => {
+    setIsCheckingDb(true);
+    const res = await checkSupabaseHealth();
+    setDbHealth(res);
+    setIsCheckingDb(false);
+    setToastMessage(res.message);
+    setTimeout(() => setToastMessage(null), 4000);
   };
 
   // Live preview message for WhatsApp
@@ -160,6 +183,7 @@ export default function AdminSettingsPage() {
             { id: 'whatsapp', label: '2. WhatsApp Automation', icon: MessageCircle },
             { id: 'outlet', label: '3. Profil Outlet', icon: Store },
             { id: 'rules', label: '4. Aturan Bisnis', icon: Sliders },
+            { id: 'database', label: '5. Database & Cloud Sync', icon: Database },
           ].map((t) => {
             const Icon = t.icon;
             const isActive = activeTab === t.id;
@@ -781,6 +805,196 @@ export default function AdminSettingsPage() {
                 <p className="text-[11px] text-slate-600 mt-1">
                   Pelanggan tanpa cucian melewati batas ini masuk daftar Winback Promo.
                 </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 5: DATABASE SUPABASE & CLOUD SYNC */}
+        {activeTab === 'database' && (
+          <div className="space-y-6">
+            {/* Info Callout */}
+            <div className="bg-sky-50 border border-sky-200 rounded-2xl p-4 flex items-start gap-3">
+              <Info className="w-5 h-5 text-sky-600 shrink-0 mt-0.5" />
+              <div className="text-xs text-sky-900 leading-relaxed">
+                <p className="font-bold mb-0.5">
+                  Arsitektur Database Supabase PostgreSQL (PRD Bab 7 &amp; Bab 13):
+                </p>
+                <p>
+                  Sistem dirancang dengan pola <strong>Resilient Hybrid Adapter</strong>. Jika proyek Supabase Cloud telah dihubungkan melalui file <code>.env.local</code>, data akan tersinkronisasi otomatis ke cloud. Jika belum diisi, sistem beroperasi 100% normal tanpa biaya infrastruktur (Zero Cost) menggunakan <em>Mock Store Lokal</em>.
+                </p>
+              </div>
+            </div>
+
+            {/* Connection Status Card */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+                <div>
+                  <h2 className="text-lg font-bold text-slate-800">
+                    Status Koneksi Database Cloud
+                  </h2>
+                  <p className="text-xs text-slate-500">
+                    Pemeriksaan realtime kesiapan client SDK dan endpoint Supabase
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleCheckDb}
+                  disabled={isCheckingDb}
+                  className="px-4 py-2 text-xs font-bold text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-xl transition flex items-center gap-2 self-start sm:self-auto disabled:opacity-50"
+                >
+                  <RefreshCw
+                    className={`w-3.5 h-3.5 ${isCheckingDb ? 'animate-spin' : ''}`}
+                  />
+                  {isCheckingDb ? 'Memeriksa...' : 'Uji Ulang Koneksi'}
+                </button>
+              </div>
+
+              {/* Status Banner */}
+              <div
+                className={`p-5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                  dbHealth?.mode === 'live'
+                    ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
+                    : 'bg-slate-50 border-slate-200 text-slate-800'
+                }`}
+              >
+                <div className="flex items-start gap-3.5">
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                      dbHealth?.mode === 'live'
+                        ? 'bg-emerald-500 text-white shadow-sm'
+                        : 'bg-sky-500 text-white shadow-sm'
+                    }`}
+                  >
+                    <Server className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-black">
+                        {dbHealth?.mode === 'live'
+                          ? 'Terhubung ke Supabase Cloud (Live Data)'
+                          : 'Mode Mandiri / Zero Cost (Mock Store Lokal)'}
+                      </span>
+                      <span
+                        className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
+                          dbHealth?.mode === 'live'
+                            ? 'bg-emerald-200 text-emerald-800'
+                            : 'bg-sky-100 text-sky-800'
+                        }`}
+                      >
+                        {dbHealth?.mode === 'live' ? 'ONLINE LIVE' : 'ZERO-COST MOCK'}
+                      </span>
+                    </div>
+                    <p className="text-xs mt-1 text-slate-600">
+                      {dbHealth?.message ||
+                        'Sistem siap digunakan untuk transaksi kasir dan tracking pelanggan.'}
+                    </p>
+                  </div>
+                </div>
+
+                {dbHealth?.latencyMs !== undefined && (
+                  <div className="text-right sm:text-right shrink-0">
+                    <span className="text-[10px] font-bold text-slate-400 block uppercase">
+                      Latensi Query
+                    </span>
+                    <span className="text-sm font-mono font-black text-slate-700">
+                      {dbHealth.latencyMs} ms
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Step Guide for Connecting Supabase */}
+              <div className="bg-slate-50/70 rounded-2xl p-5 border border-slate-200 space-y-3">
+                <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                  <Database className="w-4 h-4 text-sky-600" />
+                  Panduan 3 Langkah Menghubungkan Supabase Cloud (Tier Gratis Rp 0):
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                  <div className="bg-white p-3.5 rounded-xl border border-slate-200">
+                    <span className="w-5 h-5 rounded-full bg-sky-100 text-sky-700 font-black text-[11px] inline-flex items-center justify-center mb-1.5">
+                      1
+                    </span>
+                    <h4 className="font-bold text-slate-800 mb-0.5">Buat Proyek</h4>
+                    <p className="text-[11px] text-slate-500">
+                      Daftar gratis di supabase.com dan buat project baru (Region Singapore).
+                    </p>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-slate-200">
+                    <span className="w-5 h-5 rounded-full bg-sky-100 text-sky-700 font-black text-[11px] inline-flex items-center justify-center mb-1.5">
+                      2
+                    </span>
+                    <h4 className="font-bold text-slate-800 mb-0.5">Eksekusi DDL SQL</h4>
+                    <p className="text-[11px] text-slate-500">
+                      Buka SQL Editor lalu jalankan file <code>packages/database/migrations/001_initial_schema.sql</code>.
+                    </p>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-slate-200">
+                    <span className="w-5 h-5 rounded-full bg-sky-100 text-sky-700 font-black text-[11px] inline-flex items-center justify-center mb-1.5">
+                      3
+                    </span>
+                    <h4 className="font-bold text-slate-800 mb-0.5">Isi .env.local</h4>
+                    <p className="text-[11px] text-slate-500">
+                      Salin <code>.env.example</code> ke <code>.env.local</code> dan masukkan Project URL &amp; Anon Key Anda.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 18 Tables Directory Card */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-slate-800">
+                    Katalog 18 Tabel Database SiKucek (PRD Bab 7)
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Seluruh skema tabel, trigger, dan Row Level Security (RLS) siap pakai
+                  </p>
+                </div>
+                <span className="text-xs font-mono font-bold px-2.5 py-1 bg-slate-100 rounded-lg text-slate-700">
+                  18 Tabel Siap Pakai
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2 text-xs">
+                {[
+                  { name: 'profiles', desc: 'Akun pelanggan & staf kasir/operator' },
+                  { name: 'services', desc: 'Master katalog tarif kiloan & satuan' },
+                  { name: 'racks', desc: 'Master rak penyimpanan fisik outlet' },
+                  { name: 'orders', desc: 'Data transaksi order hybrid kiloan+satuan' },
+                  { name: 'order_items', desc: 'Rincian item layanan dalam tiap pesanan' },
+                  { name: 'order_qc_photos', desc: 'Foto bukti cacat fisik awal pakaian' },
+                  { name: 'order_status_logs', desc: 'Linimasa riwayat status cucian' },
+                  { name: 'payments', desc: 'Catatan pembayaran tunai & Midtrans QRIS' },
+                  { name: 'loyalty_stamp_cards', desc: 'Kartu progres 5 stempel loyalti' },
+                  { name: 'daily_checkins', desc: 'Riwayat klaim check-in streak 7 hari' },
+                  { name: 'coupons', desc: 'Master voucher potongan & diskon kiloan' },
+                  { name: 'customer_coupons', desc: 'Kupon aktif milik akun pelanggan' },
+                  { name: 'marketing_campaigns', desc: 'Pelacakan saluran promosi & ROI' },
+                  { name: 'referral_logs', desc: 'Catatan poin & referral ajak teman' },
+                  { name: 'marketing_banners', desc: 'Banner promo carousel web & PWA' },
+                  { name: 'app_settings', desc: 'Vault konfigurasi zero-hardcode' },
+                  { name: 'whatsapp_queue', desc: 'Antrean pesan WhatsApp Baileys' },
+                  { name: 'activity_audit_logs', desc: 'Catatan audit aktivitas pengguna' },
+                ].map((tbl) => (
+                  <div
+                    key={tbl.name}
+                    className="p-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-sky-300 transition"
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-mono font-bold text-sky-700 text-xs">
+                        {tbl.name}
+                      </span>
+                      <Check className="w-3.5 h-3.5 text-emerald-500" />
+                    </div>
+                    <p className="text-[11px] text-slate-500 leading-tight">
+                      {tbl.desc}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

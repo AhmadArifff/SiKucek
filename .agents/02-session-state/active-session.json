@@ -7,7 +7,7 @@
   "version": "1.0.0",
   "status": "COMPLETED",
   "active_goal": "Penyelesaian Seluruh 10 Milestone Inti SiKucek (13 Bab PRD.md), Persiapan E2E Testing & Rilis Tim",
-  "last_updated": "2026-10-09T21:48:00+07:00",
+  "last_updated": "2026-10-09T22:10:00+07:00",
   "current_sprint": "Sprint 5: Polishing, Audit Kualitas, & E2E Verification",
   "completed_milestones": [
     {
@@ -105,6 +105,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Customer Session Store (customer-auth.ts) dengan dukungan multi-tier (Busa Baru, Wangi Segar, Kinclong Sultan) dan 1-klik login akun demo (Rani Maharani, Budi Santoso, Sultan Andara). Halaman login pelanggan via nomor WhatsApp dengan simulasi OTP di /auth/login. Halaman riwayat seluruh pesanan cucian aktif dan selesai di /app/orders dengan filter status dan banner lokasi rak ambil. Halaman profil akun, kartu progres kenaikan tier loyalti, dan kartu kode referral unik di /app/profile lengkap dengan tombol 1-klik salin dan share WhatsApp. Komponen navigasi terpadu CustomerAppNav untuk desktop dan mobile PWA sticky bar."
+    },
+    {
+      "id": "M13_SUPABASE_SDK_AND_RESILIENT_HYBRID_ADAPTER",
+      "title": "Tahapan C: Integrasi SDK Supabase Client, Resilient Hybrid Adapter, & Config Vault Sync",
+      "prd_sections": ["Bab 7", "Bab 10.2", "Bab 10.6", "Bab 13"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Pustaka @sikucek/database diekspor dengan client SDK (@supabase/supabase-js), DDL TypeScript types untuk 18 tabel PostgreSQL, dan resilient hybrid adapter (checkSupabaseHealth, fetchAppSettingsFromSupabase, uploadQcPhotoToStorage) yang secara otomatis mendeteksi ketersediaan kredensial Supabase Cloud di .env.local atau beralih mulus ke local mock store (Zero-Cost). Penyiapan template .env.example di root monorepo, apps/pos, apps/web, dan apps/worker. Penambahan Tab 5 Database & Cloud Sync di Admin Panel POS (/admin/settings) dengan status live query latensi dan direktori 18 tabel."
     }
   ],
   "in_progress_milestones": [],

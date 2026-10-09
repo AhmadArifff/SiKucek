@@ -2,8 +2,17 @@
   "name": "@sikucek/database",
   "version": "1.0.0",
   "private": true,
-  "description": "Supabase PostgreSQL migrations, DDL, RLS, and seeders for SiKucek",
+  "description": "Supabase PostgreSQL migrations, DDL, RLS, client SDK, and resilient adapter for SiKucek",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "scripts": {
-    "lint": "echo 'No lint for sql migrations'"
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1",
+    "@sikucek/shared": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
   }
 }
