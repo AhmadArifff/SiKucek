@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
-  WashingMachine,
+  ClipboardList,
   PlusCircle,
-  LayoutDashboard,
   Tag,
   TrendingUp,
   Users,
@@ -16,7 +16,7 @@ export function Navbar() {
   const pathname = usePathname();
 
   const navItems = [
-    { href: '/', label: 'Antrean', icon: LayoutDashboard },
+    { href: '/', label: 'Antrean', icon: ClipboardList },
     { href: '/orders/new', label: 'Terima Cucian', icon: PlusCircle },
     { href: '/admin/coupons', label: 'Kupon Promo', icon: Tag },
     { href: '/admin/marketing', label: 'Marketing ROI', icon: TrendingUp },
@@ -28,8 +28,14 @@ export function Navbar() {
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group shrink-0">
-          <div className="w-10 h-10 rounded-xl bg-sky-500 text-white flex items-center justify-center shadow-md shadow-sky-200 group-hover:scale-105 transition">
-            <WashingMachine className="w-6 h-6 animate-pulse" />
+          <div className="relative w-10 h-10 rounded-xl overflow-hidden border-2 border-sky-400 shadow-sm shadow-sky-200 group-hover:scale-105 transition-transform">
+            <Image
+              src="/logo-sikucek.jpg"
+              alt="Logo SiKucek"
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
           <div className="hidden sm:block">
             <div className="flex items-center gap-2">

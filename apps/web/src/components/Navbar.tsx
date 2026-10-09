@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Sparkles, Search, Gift, Smartphone } from 'lucide-react';
+import { Search, Calculator, Receipt, ShieldCheck, Gift, QrCode } from 'lucide-react';
 
 export default function Navbar() {
   return (
@@ -48,24 +48,26 @@ export default function Navbar() {
             href="/#kalkulator"
             className="hover:text-sky-600 transition flex items-center gap-1.5"
           >
-            <Sparkles className="w-4 h-4 text-amber-500" />
+            <Calculator className="w-4 h-4 text-sky-500" />
             Estimator Biaya
           </Link>
           <Link
             href="/#layanan"
-            className="hover:text-sky-600 transition"
+            className="hover:text-sky-600 transition flex items-center gap-1.5"
           >
+            <Receipt className="w-4 h-4 text-sky-500" />
             Daftar Tarif
           </Link>
           <Link
             href="/#keunggulan"
-            className="hover:text-sky-600 transition"
+            className="hover:text-sky-600 transition flex items-center gap-1.5"
           >
+            <ShieldCheck className="w-4 h-4 text-sky-500" />
             Keunggulan
           </Link>
           <Link
             href="/app"
-            className="text-amber-600 hover:text-amber-700 flex items-center gap-1 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200 transition"
+            className="text-amber-600 hover:text-amber-700 flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200 transition"
           >
             <Gift className="w-4 h-4" />
             Stamp Card & Poin
@@ -78,7 +80,7 @@ export default function Navbar() {
             href="/track/SKC-B8D02"
             className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-sky-700 bg-sky-50 hover:bg-sky-100 rounded-xl border border-sky-200 transition"
           >
-            <Smartphone className="w-3.5 h-3.5 text-sky-600" />
+            <QrCode className="w-3.5 h-3.5 text-sky-600" />
             Demo Resi
           </Link>
           <Link

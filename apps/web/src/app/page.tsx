@@ -10,13 +10,14 @@ import Footer from '../components/Footer';
 import {
   Search,
   Camera,
-  Layers,
+  MapPin,
   Gift,
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
-  Clock,
+  MessageCircle,
   Shirt,
+  Tag,
   Sparkles,
   Smartphone,
 } from 'lucide-react';
@@ -214,7 +215,7 @@ export default function HomePage() {
               {/* Pilar 2 */}
               <div className="bg-sky-50/50 rounded-3xl p-6 border border-sky-100 hover:shadow-lg hover:border-sky-300 transition group">
                 <div className="w-12 h-12 rounded-2xl bg-teal-500 text-white flex items-center justify-center shadow-md shadow-teal-200 mb-4 group-hover:scale-105 transition-transform">
-                  <Layers className="w-6 h-6" />
+                  <MapPin className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-bold text-slate-800">
                   Nomor Rak Fisik Tertera
@@ -240,7 +241,7 @@ export default function HomePage() {
               {/* Pilar 4 */}
               <div className="bg-sky-50/50 rounded-3xl p-6 border border-sky-100 hover:shadow-lg hover:border-sky-300 transition group">
                 <div className="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center shadow-md shadow-sky-200 mb-4 group-hover:scale-105 transition-transform">
-                  <Clock className="w-6 h-6" />
+                  <MessageCircle className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-bold text-slate-800">
                   Notifikasi WA Otomatis
@@ -330,7 +331,7 @@ export default function HomePage() {
               <div className="bg-amber-50/40 rounded-3xl p-6 sm:p-7 border border-amber-100">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center">
-                    <Sparkles className="w-5 h-5" />
+                    <Tag className="w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-slate-800">

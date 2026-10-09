@@ -7,7 +7,7 @@ import {
   Search,
   Package,
   Scale,
-  DollarSign,
+  Banknote,
   ChevronRight,
   MapPin,
   Clock,
@@ -166,7 +166,7 @@ export default function PosDashboardPage() {
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
               Omzet Lunas (Rp)
             </span>
-            <DollarSign className="w-4 h-4 text-emerald-500" />
+            <Banknote className="w-4 h-4 text-emerald-500" />
           </div>
           <p className="text-2xl font-extrabold text-slate-900 font-mono">
             {formatRupiah(metrics.totalOmzet)}

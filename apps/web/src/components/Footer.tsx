@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Clock, Phone, Sparkles, CheckCircle2 } from 'lucide-react';
+import { MapPin, Clock, Phone, Gift, CheckCircle2 } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -32,7 +32,7 @@ export default function Footer() {
                 Anti-Sengketa QC
               </span>
               <span className="bg-slate-800 px-3 py-1 rounded-full border border-slate-700 flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <Gift className="w-3.5 h-3.5 text-amber-400" />
                 Kupon Gratis 5 Kg
               </span>
             </div>

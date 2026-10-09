@@ -5,7 +5,6 @@ import Link from 'next/link';
 import {
   TrendingUp,
   Image as ImageIcon,
-  DollarSign,
   PlusCircle,
   Sparkles,
   Layers,
@@ -238,7 +237,7 @@ export default function AdminMarketingPage() {
         <div className="bg-gradient-to-br from-sky-500 to-sky-600 text-white p-4 rounded-3xl shadow-lg shadow-sky-200 space-y-1">
           <span className="text-[11px] font-bold uppercase tracking-wider text-sky-100 flex items-center justify-between">
             <span>Rasio ROI Keseluruhan</span>
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <TrendingUp className="w-3.5 h-3.5 text-amber-300" />
           </span>
           <p className="text-2xl font-black font-mono">{overallRoiRatio}x ROI</p>
           <p className="text-[10px] text-sky-100 font-medium">
