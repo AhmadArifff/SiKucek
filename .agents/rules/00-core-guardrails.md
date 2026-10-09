@@ -44,3 +44,17 @@ Proyek ini mengadopsi monorepo npm workspaces:
 ## 5. Secret & Credential Isolation
 - Kredensial sensitif (`SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL`, `JWT_SECRET`, `MIDTRANS_SERVER_KEY`, `BITESHIP_API_KEY`) hanya boleh dibaca dari file `.env`.
 - Dilarang keras menaruh string kredensial secara *hardcoded* di dalam source code commit git.
+
+---
+
+## 6. Pre-Push & Pre-Dev Git Pull Mandate (Kolaborasi Tim)
+- Setiap awal sesi pengerjaan dan sebelum melakukan `git push` ke GitHub pada branch `dev`, agen dan tim **WAJIB** menjalankan `git pull --rebase origin dev` terlebih dahulu untuk mencegah code conflict antar anggota tim pengembang.
+- Jika terjadi konflik, selesaikan secara hati-hati tanpa membuang logika valid, lakukan verifikasi ulang, baru lanjutkan proses push.
+
+---
+
+## 7. Protokol Sinkronisasi Session State SiKucek & Berkas Benchmark
+- Berkas `.agents/02-session-state/active-session.json` adalah data sesi aktif proyek SiKucek (Single Source of Truth pelacak sprint, status 13 Bab PRD, dan batasan terkunci).
+- **Protokol Push Session State**: Setiap kali tim/agen menyelesaikan suatu siklus tugas atau penambahan fitur, berkas `active-session.json` **WAJIB** dimutakhirkan dan di-push bersama kode ke branch `dev` agar seluruh agen/developer di tim dapat melacak progres secara menyeluruh.
+- Berkas referensi benchmark dari sistem saudara disimpan secara aman dan terpisah di `.agents/02-session-state/benchmark-reference.json` sebagai rujukan adopsi arsitektur.
+

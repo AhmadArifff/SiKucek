@@ -24,6 +24,11 @@
 - Seluruh tipe bersama **WAJIB** berada di dalam `packages/shared/src/`.
 - Seluruh berkas tes sementara **WAJIB** disimpan di `.gemini/antigravity-ide/brain/.../scratch/` dan **DILARANG** ditinggalkan di direktori kerja git (*Zero-Residual Scratch Rule*).
 
+### Kebijakan Git Branching Strategy:
+- **Branch `dev` (Aktif)**: Seluruh proses pengembangan fitur, perbaikan bug, dan pengujian harian **WAJIB** berada di branch `dev`.
+- **Branch `main` (Produksi)**: Branch `main` **HANYA** digunakan untuk rilis produksi (*production release*) yang sudah stabil, teruji, dan lulus verifikasi QA Delivery Gate.
+
+
 ---
 
 ## 2. 4-Tier Hirarki Peran (22 Spesialis) & 14 Expert Personas DNA
@@ -93,6 +98,15 @@ Setiap agen wajib membaca indeks ini sebelum mengeksekusi tugas:
    - Builder dilarang mereview kodenya sendiri. Setiap artefak wajib melalui verifikasi independen oleh `qa-engineer` atau `tech-critic`.
 6. **Bebas Em Dash (R-02)**:
    - Larangan mutlak penggunaan karakter em dash panjang (`—`). Gunakan tanda minus biasa (`-`) atau titik dua.
+7. **Pre-Push & Pre-Dev Git Pull Mandate (Kolaborasi Tim)**:
+   - Sebelum mulai mengembangkan fitur dan sebelum melakukan `git push` ke GitHub, agen dan developer **WAJIB** menjalankan `git pull --rebase origin dev` untuk mencegah konflik kode dengan anggota tim lain.
+8. **Protokol Sinkronisasi Session State SiKucek (`active-session.json`)**:
+   - Berkas `.agents/02-session-state/active-session.json` adalah Single Source of Truth pelacak sesi aktif, milestone sprint, status 13 Bab PRD, dan batasan terkunci proyek SiKucek.
+   - Setiap kali tim atau agen menyelesaikan suatu siklus tugas/prompt pengembangan, berkas `active-session.json` **WAJIB** dimutakhirkan dan di-push ke branch `dev` di GitHub agar agen/rekan tim di perangkat lain dapat langsung membaca progres dan konteks sebelumnya.
+   - Berkas referensi benchmark dari sistem saudara disimpan terpisah di `.agents/02-session-state/benchmark-reference.json` sebagai rujukan adopsi arsitektur.
+9. **Prinsip Adopsi Arsitektur Lintas Sistem (External Context Adoption)**:
+   - Segala referensi pola teruji di direktori `.agents/` (seperti struktur case bank dan panduan integrasi) adalah referensi adopsi arsitektur yang sah dan dipertahankan sebagai panduan solusi bagi tim pengembang SiKucek.
+
 
 ---
 

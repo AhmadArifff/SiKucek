@@ -63,3 +63,11 @@ Setiap paket aplikasi harus mematuhi pipeline standar berikut:
    - Mengadopsi pola dari `E-Comerce-BucketFlowers`: Jika server Midtrans Sandbox mengalami gangguan atau outlet offline, sistem kasir membangkitkan simulasi token agar pengujian intake tidak pernah macet (*anti-freeze*).
 3. **Idempotensi Webhook**:
    - Webhook pembayaran dan event order wajib menangani duplikasi payload tanpa memicu penambahan stempel ganda (*anti-double stamp*).
+
+---
+
+## 5. Strategi Percabangan Git (Git Branching Strategy)
+
+- **Branch `dev` (Active Development)**: Seluruh pekerjaan implementasi modul baru, perbaikan bug, integrasi database, dan eksperimen harian **WAJIB** berada di branch `dev`.
+- **Branch `main` (Production Release)**: Branch `main` diproteksi ketat dan hanya menerima penggabungan (*merge/PR*) dari `dev` saat seluruh fitur telah stabil dan lulus pengujian QA Delivery Gate.
+

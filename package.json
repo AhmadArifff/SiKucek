@@ -1,0 +1,32 @@
+{
+  "name": "sikucek-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "packageManager": "npm@11.16.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:web": "npm run dev --workspace=sikucek-web",
+    "dev:pos": "npm run dev --workspace=sikucek-pos",
+    "dev:worker": "npm run dev --workspace=sikucek-worker",
+    "build": "turbo run build",
+    "build:web": "npm run build --workspace=sikucek-web",
+    "build:pos": "npm run build --workspace=sikucek-pos",
+    "build:worker": "npm run build --workspace=sikucek-worker",
+    "build:shared": "npm run build --workspace=@sikucek/shared",
+    "kill:port": "npx -y kill-port 3000 3001 4000",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "turbo": "^2.4.0",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

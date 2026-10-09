@@ -10,8 +10,8 @@ Selamat datang di direktori tata kelola aturan, alur kerja, dan basis pengetahua
 ## 1. Aturan Mutlak (Selalu Aktif)
 
 Setiap agen pengembang **WAJIB** tunduk pada dokumen berikut:
-* **[00-core-guardrails.md](./rules/00-core-guardrails.md)**: Larangan keras hardcode kredensial rahasia, larangan mengubah skema database tanpa review, dan isolasi kredensial.
-* **[01-workflow-discipline.md](./rules/01-workflow-discipline.md)**: Siklus OODA (Observe -> Orient -> Decide -> Act), review gate sebelum mutasi database, pembersihan berkas scratch (*Zero-Residual Scratch Rule*), dan higienitas komentar kode.
+* **[00-core-guardrails.md](./rules/00-core-guardrails.md)**: Larangan keras hardcode kredensial rahasia, larangan mengubah skema database tanpa review, proteksi berkas benchmark `active-session.json` (strictly read-only), dan mandat `git pull --rebase origin dev` sebelum push.
+* **[01-workflow-discipline.md](./rules/01-workflow-discipline.md)**: Siklus OODA (Observe -> Orient -> Decide -> Act), protokol kolaborasi tim branch `dev`, pembersihan berkas scratch (*Zero-Residual Scratch Rule*), dan adopsi pola arsitektur lintas sistem.
 
 ---
 
