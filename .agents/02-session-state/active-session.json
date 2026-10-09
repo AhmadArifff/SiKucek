@@ -6,9 +6,9 @@
   "active_branch": "dev",
   "version": "1.0.0",
   "status": "IN_PROGRESS",
-  "active_goal": "Setup Monorepo Turborepo, Shared Contract (@sikucek/shared), Skema 18 Tabel Database Supabase (001_initial_schema.sql), & Penegakan Git Pull Sebelum Dev & Sebelum Push",
-  "last_updated": "2026-10-09T07:18:00+07:00",
-  "current_sprint": "Sprint 1: Setup Monorepo, Database Schema Supabase & Config Vault",
+  "active_goal": "Penyelesaian Milestone M7 Aplikasi POS Kasir (Form Hybrid, Kamera WebRTC QC, Alokasi Rak Fisik, & Cetak Nota Thermal) dan Persiapan Milestone M8 Portal Pelanggan PWA Tracking",
+  "last_updated": "2026-10-09T07:45:00+07:00",
+  "current_sprint": "Sprint 2: POS Kasir, Quality Control Kamera, & Manajemen Rak",
   "completed_milestones": [
     {
       "id": "M1_PRD_BRAND_ASSETS",
@@ -57,24 +57,26 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "18 tabel lengkap di packages/database/migrations/001_initial_schema.sql, RLS policies, trigger otomatisasi antrean whatsapp_queue, dan seed data Zero-Hardcode app_settings."
-    }
-  ],
-  "in_progress_milestones": [
+    },
     {
       "id": "M7_POS_ORDER_INTAKE_AND_QC",
       "title": "Aplikasi POS Kasir & Operator: Form Hybrid, Modul Kamera WebRTC QC, & Alokasi Rak",
       "prd_sections": ["Bab 10.1", "Bab 10.2", "Bab 10.5", "Bab 11.2"],
-      "status": "READY_TO_START",
-      "target_deliverables": ["apps/pos/src/app/orders/new", "apps/pos/src/components/qc", "apps/pos/src/components/orders"]
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Dasbor Antrean Kanban, Form intake hybrid kiloan desimal + counter satuan helai, Modul kamera WebRTC dengan kompresi WebP client-side, Guardrail modal nomor rak wajib sebelum status ready, dan Halaman cetak nota thermal 58mm/80mm. Berhasil dikompilasi 0 TypeScript error & Next.js production build pass."
     }
   ],
-  "upcoming_milestones": [
+  "in_progress_milestones": [
     {
       "id": "M8_PWA_PUBLIC_TRACKING",
       "title": "Portal Pelanggan & Public Tracking PWA: Stepper Linimasa, Galeri Foto QC, & Nota",
       "prd_sections": ["Bab 10.3", "Bab 11.1"],
-      "status": "PENDING"
-    },
+      "status": "READY_TO_START",
+      "target_deliverables": ["apps/web/src/app/track/[code]", "apps/web/src/components/tracking"]
+    }
+  ],
+  "upcoming_milestones": [
     {
       "id": "M9_MIDTRANS_AND_WHATSAPP_WORKER",
       "title": "Integrasi Midtrans QRIS/VA & Background Worker Baileys WhatsApp Engine",
