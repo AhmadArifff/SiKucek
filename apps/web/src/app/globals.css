@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-cyan: #0ea5e9;
+  --bubble-blush: #fb7185;
+  --loyalty-gold: #f59e0b;
+}

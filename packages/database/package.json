@@ -1,0 +1,9 @@
+{
+  "name": "@sikucek/database",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Supabase PostgreSQL migrations, DDL, RLS, and seeders for SiKucek",
+  "scripts": {
+    "lint": "echo 'No lint for sql migrations'"
+  }
+}

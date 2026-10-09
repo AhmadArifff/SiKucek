@@ -103,14 +103,15 @@ flowchart LR
    - Perbarui field `last_updated`.
    - Pindahkan milestone yang telah selesai ke dalam array `completed_milestones` dengan status `VERIFIED_PASS`.
    - Perbarui status bab pada `prd_coverage_tracker` (misal dari `IN_PROGRESS` menjadi `MAPPED` atau `COMPLETED`).
-5. **Langkah 5 - Komit & Push ke GitHub (*Sync Push*)**:
-   Kirimkan kode beserta pembaruan session state ke repositori remote:
+5. **Langkah 5 - Tarik Ulang Sebelum Push & Kirim ke GitHub (*Sync Push Mandate*)**:
+   Tepat sebelum melakukan `git push`, jalankan kembali `git pull --rebase origin dev` untuk memastikan tidak ada perubahan tim lain yang masuk selama development, lalu lakukan push:
    ```bash
    git add .
    git commit -m "feat(modul): deskripsi perubahan fitur dan update session state"
+   git pull --rebase origin dev
    git push origin dev
    ```
-   Dengan demikian, rekan tim atau agen di perangkat lain yang menjalankan `git pull` akan langsung mengetahui status terkini proyek tanpa kehilangan jejak.
+   Dengan demikian, rekan tim atau agen di perangkat lain yang menjalankan `git pull` akan langsung mengetahui status terkini proyek tanpa risiko konflik (zero merge conflict).
 
 ---
 

@@ -6,8 +6,8 @@
   "active_branch": "dev",
   "version": "1.0.0",
   "status": "IN_PROGRESS",
-  "active_goal": "Inisialisasi Dokumentasi Kolaborasi Tim (DOC.md), Protokol Sinkronisasi Session State Multi-Agen, dan Persiapan Scaffolding Monorepo Turborepo",
-  "last_updated": "2026-10-09T06:35:00+07:00",
+  "active_goal": "Setup Monorepo Turborepo, Shared Contract (@sikucek/shared), Skema 18 Tabel Database Supabase (001_initial_schema.sql), & Penegakan Git Pull Sebelum Dev & Sebelum Push",
+  "last_updated": "2026-10-09T07:18:00+07:00",
   "current_sprint": "Sprint 1: Setup Monorepo, Database Schema Supabase & Config Vault",
   "completed_milestones": [
     {
@@ -41,30 +41,34 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "DOC.md untuk panduan tim, active-session.json SiKucek terstruktur, dan SOP commit session state ke Git setiap selesai siklus task."
+    },
+    {
+      "id": "M5_MONOREPO_SCAFFOLDING_TURBO",
+      "title": "Inisialisasi Monorepo Turborepo, Workspaces, & Pustaka packages/shared",
+      "prd_sections": ["Bab 3", "Bab 10", "Bab 11"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Root package.json, turbo.json, pnpm-workspace.yaml, packages/shared (types, Zod schemas, formatters, Result pattern), apps skeletons (web, pos, worker), dan verified 0 errors type-checking."
+    },
+    {
+      "id": "M6_DATABASE_SCHEMA_SUPABASE_DDL",
+      "title": "Skema Database 18 Tabel Supabase, DDL SQL, RLS Policies, & Storage Bucket qc-photos",
+      "prd_sections": ["Bab 7", "Bab 10.2", "Bab 10.6", "Bab 13"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "18 tabel lengkap di packages/database/migrations/001_initial_schema.sql, RLS policies, trigger otomatisasi antrean whatsapp_queue, dan seed data Zero-Hardcode app_settings."
     }
   ],
   "in_progress_milestones": [
     {
-      "id": "M5_MONOREPO_SCAFFOLDING_TURBO",
-      "title": "Inisialisasi Monorepo Turborepo, pnpm workspaces, & Pustaka packages/shared",
-      "prd_sections": ["Bab 3", "Bab 10", "Bab 11"],
-      "status": "READY_TO_START",
-      "target_deliverables": ["package.json", "pnpm-workspace.yaml", "turbo.json", "packages/shared", "packages/database"]
-    }
-  ],
-  "upcoming_milestones": [
-    {
-      "id": "M6_DATABASE_SCHEMA_SUPABASE_DDL",
-      "title": "Skema Database 18 Tabel Supabase, DDL SQL, RLS Policies, & Storage Bucket qc-photos",
-      "prd_sections": ["Bab 7", "Bab 10.2", "Bab 13"],
-      "status": "PENDING"
-    },
-    {
       "id": "M7_POS_ORDER_INTAKE_AND_QC",
       "title": "Aplikasi POS Kasir & Operator: Form Hybrid, Modul Kamera WebRTC QC, & Alokasi Rak",
       "prd_sections": ["Bab 10.1", "Bab 10.2", "Bab 10.5", "Bab 11.2"],
-      "status": "PENDING"
-    },
+      "status": "READY_TO_START",
+      "target_deliverables": ["apps/pos/src/app/orders/new", "apps/pos/src/components/qc", "apps/pos/src/components/orders"]
+    }
+  ],
+  "upcoming_milestones": [
     {
       "id": "M8_PWA_PUBLIC_TRACKING",
       "title": "Portal Pelanggan & Public Tracking PWA: Stepper Linimasa, Galeri Foto QC, & Nota",
@@ -87,19 +91,20 @@
   "prd_coverage_tracker": {
     "Bab 1: Executive Summary & Zero-Cost Infra": "MAPPED",
     "Bab 2: Brand Identity & Maskot Si Kucek": "MAPPED",
-    "Bab 3: Arsitektur Monorepo Turborepo": "IN_PROGRESS",
+    "Bab 3: Arsitektur Monorepo Turborepo": "COMPLETED",
     "Bab 4: User Personas & User Journeys": "MAPPED",
     "Bab 5: Matriks Fitur Lengkap MoSCoW": "MAPPED",
     "Bab 6: Desain UI/UX & Motion Personality": "MAPPED",
-    "Bab 7: Skema Database 18 Tabel Supabase": "READY_FOR_DDL",
+    "Bab 7: Skema Database 18 Tabel Supabase": "COMPLETED",
     "Bab 8: Roadmap Implementasi 5 Sprint": "IN_PROGRESS",
     "Bab 9: QA Delivery Gate & Kriteria Sukses": "MAPPED",
-    "Bab 10: Spesifikasi Fungsional Rinci Fitur": "MAPPED",
+    "Bab 10: Spesifikasi Fungsional Rinci Fitur": "IN_PROGRESS",
     "Bab 11: Peta Situs & Rute Halaman (apps/web & pos)": "MAPPED",
     "Bab 12: Mesin Pemasaran, Diskon ROI & Referral": "MAPPED",
-    "Bab 13: Zero-Hardcode Config Vault di Supabase": "READY_FOR_DDL"
+    "Bab 13: Zero-Hardcode Config Vault di Supabase": "COMPLETED"
   },
   "established_constraints": [
+    "Git Pull Double-Check Mandate: Seluruh anggota tim dan agen AI WAJIB menjalankan git pull --rebase origin dev sebelum mulai development dan tepat sebelum push ke remote repo dev untuk mencegah konflik merge.",
     "Prinsip Zero-Hardcode (Bab 13): Seluruh kunci API Midtrans, template WhatsApp, dan aturan bisnis wajib dibaca dari tabel public.app_settings dengan proteksi is_secret=true.",
     "Logika Diskon Parsial Kupon Stempel (Bab 10.4): Kupon gratis kiloan maksimal 5 kg HANYA memotong subtotal porsi kiloan, pakaian satuan tetap ditagih penuh.",
     "Guardrail Nomor Rak Fisik (Bab 10.5): Kasir dilarang mengubah status cucian menjadi ready sebelum field rack_location terisi valid.",
@@ -110,9 +115,9 @@
     "Session State Push Protocol: Setiap kali menyelesaikan siklus prompt/task, active-session.json wajib dimutakhirkan dan di-push ke branch dev agar seluruh agen di tim tetap sinkron."
   ],
   "active_agent_pipeline": {
-    "current_stage": "STAGE_1_COLLABORATION_SETUP",
-    "active_role": "problem-decomposer",
-    "next_role": "builder (backend-engineer / frontend-engineer)",
+    "current_stage": "STAGE_2_SPRINT_1_COMPLETE",
+    "active_role": "builder (backend-engineer / frontend-engineer)",
+    "next_role": "reviewer (qa-engineer)",
     "reviewer_role": "qa-engineer"
   }
 }
