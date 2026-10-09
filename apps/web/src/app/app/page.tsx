@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Navbar from '../../components/Navbar';
+import CustomerAppNav from '../../components/CustomerAppNav';
 import Footer from '../../components/Footer';
 import {
   Gift,
@@ -16,19 +16,48 @@ import {
   Zap,
   ShoppingBag,
   ExternalLink,
+  User,
+  Ticket,
 } from 'lucide-react';
+import {
+  getCustomerSession,
+  updateCustomerPoints,
+  updateCustomerStamps,
+  type CustomerSession,
+} from '../../lib/customer-auth';
 
 export default function CustomerDashboardPage() {
+  const [session, setSession] = useState<CustomerSession | null>(null);
   const [stampsCount, setStampsCount] = useState<number>(3);
   const [pointsBalance, setPointsBalance] = useState<number>(240);
   const [hasClaimedToday, setHasClaimedToday] = useState<boolean>(false);
   const [streakDay, setStreakDay] = useState<number>(4);
   const [celebrationMessage, setCelebrationMessage] = useState<string | null>(null);
 
+  useEffect(() => {
+    const current = getCustomerSession();
+    setSession(current);
+    setStampsCount(current.stampsCount);
+    setPointsBalance(current.pointsBalance);
+
+    const handleUpdate = () => {
+      const updated = getCustomerSession();
+      setSession(updated);
+      setStampsCount(updated.stampsCount);
+      setPointsBalance(updated.pointsBalance);
+    };
+
+    window.addEventListener('sikucek_customer_session_updated', handleUpdate);
+    return () => {
+      window.removeEventListener('sikucek_customer_session_updated', handleUpdate);
+    };
+  }, []);
+
   const handleClaimDaily = () => {
     if (hasClaimedToday) return;
     const earned = streakDay * 5 + 5; // e.g. Day 4 = 25 pts
-    setPointsBalance((prev) => prev + earned);
+    const updated = updateCustomerPoints(earned);
+    setPointsBalance(updated.pointsBalance);
     setHasClaimedToday(true);
     setCelebrationMessage(`Hore! +${earned} Koin Poin berhasil diklaim ke saldo Anda!`);
     setTimeout(() => setCelebrationMessage(null), 4000);
@@ -37,7 +66,8 @@ export default function CustomerDashboardPage() {
   const handleSimulateAddStamp = () => {
     if (stampsCount < 5) {
       const next = stampsCount + 1;
-      setStampsCount(next);
+      const updated = updateCustomerStamps(1);
+      setStampsCount(updated.stampsCount);
       if (next === 5) {
         setCelebrationMessage(
           'Selamat! 5 Stempel Lengkap! 1 Voucher "Gratis Cuci Kiloan Maks. 5 Kg" otomatis diterbitkan ke dompet kupon Anda!'
@@ -45,15 +75,16 @@ export default function CustomerDashboardPage() {
       }
     } else {
       // Reset card cycle
-      setStampsCount(1);
+      const updated = updateCustomerStamps(-4);
+      setStampsCount(updated.stampsCount);
       setCelebrationMessage('Siklus kartu baru dimulai! Stempel ke-1 tercatat.');
     }
     setTimeout(() => setCelebrationMessage(null), 5000);
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50/70 text-slate-900">
-      <Navbar />
+    <div className="min-h-screen flex flex-col bg-slate-50/70 text-slate-900 pb-16 sm:pb-0">
+      <CustomerAppNav />
 
       <main className="flex-1 py-8 sm:py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
@@ -72,14 +103,14 @@ export default function CustomerDashboardPage() {
                 <div>
                   <div className="flex items-center gap-2">
                     <h1 className="text-xl sm:text-2xl font-black">
-                      Halo, Rani Maharani!
+                      Halo, {session?.name || 'Rani Maharani'}!
                     </h1>
                     <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-400 text-slate-900 shadow-sm">
-                      Tier: Wangi Segar
+                      Tier: {session?.tierLabel || 'Wangi Segar'}
                     </span>
                   </div>
                   <p className="text-xs sm:text-sm text-sky-100 mt-1">
-                    0812-3456-7890 &bull; Kode Referral: <span className="font-mono font-bold">RANI-KUCEK</span>
+                    {session?.phone || '0812-3456-7890'} &bull; Kode Referral: <span className="font-mono font-bold">{session?.referralCode || 'RANI-KUCEK'}</span>
                   </p>
                 </div>
               </div>
@@ -100,22 +131,29 @@ export default function CustomerDashboardPage() {
 
             {/* Quick Links Nav */}
             <div className="mt-6 pt-5 border-t border-white/20 flex flex-wrap gap-2 text-xs font-bold">
-              <span className="bg-white text-sky-700 px-3.5 py-1.5 rounded-xl">
+              <span className="bg-white text-sky-700 px-3.5 py-1.5 rounded-xl shadow-sm">
                 Loyalti &amp; Stamp
               </span>
               <Link
-                href="/app/coupons"
-                className="bg-white/20 hover:bg-white/30 text-white px-3.5 py-1.5 rounded-xl transition flex items-center gap-1"
+                href="/app/orders"
+                className="bg-white/20 hover:bg-white/30 text-white px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5"
               >
-                Dompet Kupon Saya
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ShoppingBag className="w-3.5 h-3.5" />
+                Pesanan Saya
               </Link>
               <Link
-                href="/track/SKC-R4N1X"
-                className="bg-white/20 hover:bg-white/30 text-white px-3.5 py-1.5 rounded-xl transition flex items-center gap-1"
+                href="/app/coupons"
+                className="bg-white/20 hover:bg-white/30 text-white px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5"
               >
-                Cucian Aktif Saya
-                <ExternalLink className="w-3.5 h-3.5" />
+                <Ticket className="w-3.5 h-3.5" />
+                Dompet Kupon
+              </Link>
+              <Link
+                href="/app/profile"
+                className="bg-white/20 hover:bg-white/30 text-white px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5"
+              >
+                <User className="w-3.5 h-3.5" />
+                Profil &amp; Referral
               </Link>
             </div>
           </div>

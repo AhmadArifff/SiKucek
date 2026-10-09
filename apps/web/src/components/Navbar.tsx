@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, Calculator, Receipt, ShieldCheck, Gift, QrCode } from 'lucide-react';
+import { Search, Calculator, Receipt, ShieldCheck, Gift, QrCode, User } from 'lucide-react';
 
 export default function Navbar() {
   return (
@@ -75,7 +75,14 @@ export default function Navbar() {
         </nav>
 
         {/* Action Button */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Link
+            href="/auth/login"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-sky-700 bg-slate-50 hover:bg-sky-50 rounded-xl border border-slate-200 transition"
+          >
+            <User className="w-3.5 h-3.5 text-sky-600" />
+            Akun PWA
+          </Link>
           <Link
             href="/track/SKC-B8D02"
             className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-sky-700 bg-sky-50 hover:bg-sky-100 rounded-xl border border-sky-200 transition"

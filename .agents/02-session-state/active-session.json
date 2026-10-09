@@ -7,7 +7,7 @@
   "version": "1.0.0",
   "status": "COMPLETED",
   "active_goal": "Penyelesaian Seluruh 10 Milestone Inti SiKucek (13 Bab PRD.md), Persiapan E2E Testing & Rilis Tim",
-  "last_updated": "2026-10-09T20:10:00+07:00",
+  "last_updated": "2026-10-09T21:48:00+07:00",
   "current_sprint": "Sprint 5: Polishing, Audit Kualitas, & E2E Verification",
   "completed_milestones": [
     {
@@ -89,6 +89,22 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Master Kupon Promosi di apps/pos/src/app/admin/coupons (dengan validasi diskon parsial Bab 10.4), Dashboard ROI Pemasaran & Manajemen Banner Promo di apps/pos/src/app/admin/marketing (ROI 4.6x, multi-channel performance), CRM Pelanggan Dorman & Template Winback WhatsApp di apps/pos/src/app/admin/customers, serta Marketing Store di apps/pos/src/lib/marketing-store.ts. Seluruh 9 route Next.js apps/pos dan 6 route apps/web lolos kompilasi 0 error."
+    },
+    {
+      "id": "M11_POS_ADMIN_SERVICES_RACKS_REPORTS",
+      "title": "Tahapan A: Kelengkapan Modul Admin POS (Katalog Layanan, Visual Rak Fisik, Laporan Keuangan)",
+      "prd_sections": ["Bab 10.5", "Bab 11.2", "Bab 11.3"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Master katalog tarif kiloan dan satuan di /admin/services dengan modal tambah dan inline price edit. Manajemen dan monitoring visual rak fisik terisi/kosong di /admin/racks yang tersinkronisasi otomatis dengan pesanan ready di orders-store. Laporan omzet lunas, piutang tertunda, volume cucian kg, rasio Tunai vs QRIS, serta tombol cetak rekap dan salin closing WhatsApp di /admin/reports. Seluruh rute dilindungi RBAC AuthGuard (Owner Only)."
+    },
+    {
+      "id": "M12_PWA_CUSTOMER_PORTAL_ORDERS_PROFILE",
+      "title": "Tahapan B: Kelengkapan Portal Pelanggan PWA (Login WhatsApp OTP, Riwayat Cucian, Profil & Referral)",
+      "prd_sections": ["Bab 4", "Bab 10.3", "Bab 10.4", "Bab 11.1", "Bab 12.2", "Bab 12.5"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Customer Session Store (customer-auth.ts) dengan dukungan multi-tier (Busa Baru, Wangi Segar, Kinclong Sultan) dan 1-klik login akun demo (Rani Maharani, Budi Santoso, Sultan Andara). Halaman login pelanggan via nomor WhatsApp dengan simulasi OTP di /auth/login. Halaman riwayat seluruh pesanan cucian aktif dan selesai di /app/orders dengan filter status dan banner lokasi rak ambil. Halaman profil akun, kartu progres kenaikan tier loyalti, dan kartu kode referral unik di /app/profile lengkap dengan tombol 1-klik salin dan share WhatsApp. Komponen navigasi terpadu CustomerAppNav untuk desktop dan mobile PWA sticky bar."
     }
   ],
   "in_progress_milestones": [],

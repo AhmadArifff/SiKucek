@@ -454,3 +454,141 @@ export function getOrderTracking(rawCode: string): PublicOrderTracking {
     isSimulation: true,
   };
 }
+
+/**
+ * Retrieve all orders associated with a customer phone number
+ * Reads from POS localStorage and showcase dataset
+ */
+export function getCustomerOrders(customerPhone?: string): PublicOrderTracking[] {
+  const allOrders: PublicOrderTracking[] = [];
+  const cleanPhone = (customerPhone || '').replace(/\D/g, '');
+
+  // 1. Check POS localStorage
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = localStorage.getItem('sikucek_pos_orders_v1');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          for (const match of parsed) {
+            const matchPhone = (match.customer_phone || '').replace(/\D/g, '');
+            if (!cleanPhone || matchPhone.includes(cleanPhone) || cleanPhone.includes(matchPhone)) {
+              allOrders.push({
+                id: match.id,
+                orderNumber: match.order_number,
+                trackingCode: match.tracking_code,
+                customerName: match.customer_name,
+                customerPhone: match.customer_phone,
+                status: match.status,
+                paymentStatus: match.payment_status,
+                paymentChannel: match.payment_channel,
+                rackLocation: match.rack_location,
+                kiloanWeightKg: match.kiloan_weight_kg || 0,
+                kiloanChargedWeightKg: match.kiloan_charged_weight_kg || 0,
+                kiloanSubtotal: match.kiloan_subtotal || 0,
+                satuanSubtotal: match.satuan_subtotal || 0,
+                grossAmount: match.gross_amount || 0,
+                discountAmount: match.discount_amount || 0,
+                discountExplanation: match.discount_explanation,
+                finalAmount: match.final_amount || 0,
+                createdAt: match.created_at || new Date().toISOString(),
+                estimatedReadyAt: match.estimated_ready_at || new Date().toISOString(),
+                notes: match.notes,
+                items: (match.items || []).map((it: any) => ({
+                  name: it.service_name,
+                  category: it.category,
+                  quantity: it.quantity,
+                  unit: it.category === 'kiloan' ? 'kg' : 'pcs',
+                  pricePerUnit: it.price_per_unit,
+                  subtotal: it.subtotal,
+                })),
+                qcPhotos: (match.qc_photos || []).map((qc: any) => ({
+                  id: qc.id,
+                  photoUrl: qc.photo_url,
+                  issueType: qc.issue_type,
+                  issueLabel: QC_ISSUE_LABELS[qc.issue_type as QcIssueType] || 'Kondisi Cacat',
+                  description: qc.description || 'Pemeriksaan kondisi fisik awal',
+                  createdAt: qc.created_at || new Date().toISOString(),
+                })),
+                steps: buildTimelineSteps(
+                  match.status,
+                  match.created_at || new Date().toISOString(),
+                  match.estimated_ready_at || new Date().toISOString()
+                ),
+                isSimulation: false,
+              });
+            }
+          }
+        }
+      }
+    } catch {
+      // Ignore
+    }
+  }
+
+  // 2. Check Showcase Orders
+  for (const ord of SHOWCASE_ORDERS) {
+    const ordPhone = (ord.customerPhone || '').replace(/\D/g, '');
+    if (!cleanPhone || ordPhone.includes(cleanPhone) || cleanPhone.includes(ordPhone)) {
+      if (!allOrders.some((o) => o.id === ord.id || o.trackingCode === ord.trackingCode)) {
+        allOrders.push(ord);
+      }
+    }
+  }
+
+  // 3. Fallback demo order history if empty
+  if (allOrders.length === 0 || cleanPhone.includes('81234567890')) {
+    const pastOrder: PublicOrderTracking = {
+      id: 'ord-hist-001',
+      orderNumber: 'SKC-261005-0012',
+      trackingCode: 'SKC-L4L4P',
+      customerName: 'Rani Maharani',
+      customerPhone: '081234567890',
+      status: 'completed',
+      paymentStatus: 'paid',
+      paymentChannel: 'cash',
+      rackLocation: 'RAK-A01',
+      kiloanWeightKg: 4.0,
+      kiloanChargedWeightKg: 4.0,
+      kiloanSubtotal: 28000,
+      satuanSubtotal: 15000,
+      grossAmount: 43000,
+      discountAmount: 0,
+      finalAmount: 43000,
+      createdAt: new Date(Date.now() - 86400000 * 5).toISOString(),
+      estimatedReadyAt: new Date(Date.now() - 86400000 * 3).toISOString(),
+      actualReadyAt: new Date(Date.now() - 86400000 * 3 + 3600000).toISOString(),
+      items: [
+        {
+          name: 'Cuci Kering Setrika Reguler',
+          category: 'kiloan',
+          quantity: 4.0,
+          unit: 'kg',
+          pricePerUnit: 7000,
+          subtotal: 28000,
+        },
+        {
+          name: 'Jaket Denim (Satuan)',
+          category: 'satuan',
+          quantity: 1,
+          unit: 'pcs',
+          pricePerUnit: 15000,
+          subtotal: 15000,
+        },
+      ],
+      qcPhotos: [],
+      steps: buildTimelineSteps(
+        'completed',
+        new Date(Date.now() - 86400000 * 5).toISOString(),
+        new Date(Date.now() - 86400000 * 3).toISOString()
+      ),
+      isSimulation: false,
+    };
+    if (!allOrders.some((o) => o.id === pastOrder.id)) {
+      allOrders.push(pastOrder);
+    }
+  }
+
+  return allOrders;
+}
+

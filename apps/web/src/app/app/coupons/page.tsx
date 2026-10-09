@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Navbar from '../../../components/Navbar';
+import CustomerAppNav from '../../../components/CustomerAppNav';
 import Footer from '../../../components/Footer';
 import {
   Tag,
@@ -15,6 +15,10 @@ import {
   Clock,
 } from 'lucide-react';
 import { formatRupiah } from '@sikucek/shared';
+import {
+  getCustomerSession,
+  updateCustomerPoints,
+} from '../../../lib/customer-auth';
 
 interface CouponItem {
   id: string;
@@ -93,6 +97,11 @@ export default function CouponsPage() {
   const [userCoupons, setUserCoupons] = useState<CouponItem[]>(INITIAL_COUPONS);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  useEffect(() => {
+    const session = getCustomerSession();
+    setPoints(session.pointsBalance);
+  }, []);
+
   const handleRedeem = (reward: RedeemableReward) => {
     if (points < reward.costPoints) {
       setToastMessage('Poin Anda belum mencukupi untuk menukar voucher ini.');
@@ -100,7 +109,9 @@ export default function CouponsPage() {
       return;
     }
 
-    setPoints((prev) => prev - reward.costPoints);
+    const updated = updateCustomerPoints(-reward.costPoints);
+    setPoints(updated.pointsBalance);
+
     const newCoupon: CouponItem = {
       id: `cp-${Date.now()}`,
       code: `TUKAR-${reward.costPoints}PTS`,
@@ -117,8 +128,8 @@ export default function CouponsPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50/70 text-slate-900">
-      <Navbar />
+    <div className="min-h-screen flex flex-col bg-slate-50/70 text-slate-900 pb-16 sm:pb-0">
+      <CustomerAppNav />
 
       <main className="flex-1 py-8 sm:py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
