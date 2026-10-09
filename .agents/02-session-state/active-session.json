@@ -6,9 +6,9 @@
   "active_branch": "dev",
   "version": "1.0.0",
   "status": "IN_PROGRESS",
-  "active_goal": "Penyelesaian Milestone M7 Aplikasi POS Kasir (Form Hybrid, Kamera WebRTC QC, Alokasi Rak Fisik, & Cetak Nota Thermal) dan Persiapan Milestone M8 Portal Pelanggan PWA Tracking",
-  "last_updated": "2026-10-09T07:45:00+07:00",
-  "current_sprint": "Sprint 2: POS Kasir, Quality Control Kamera, & Manajemen Rak",
+  "active_goal": "Penyelesaian Milestone M8 Portal Pelanggan & Public Tracking PWA, dan Persiapan Milestone M9 Integrasi Pembayaran Midtrans QRIS & WhatsApp Worker Baileys",
+  "last_updated": "2026-10-09T08:05:00+07:00",
+  "current_sprint": "Sprint 3: Portal Pelanggan, Public Tracking PWA, & Gamifikasi",
   "completed_milestones": [
     {
       "id": "M1_PRD_BRAND_ASSETS",
@@ -65,24 +65,26 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Dasbor Antrean Kanban, Form intake hybrid kiloan desimal + counter satuan helai, Modul kamera WebRTC dengan kompresi WebP client-side, Guardrail modal nomor rak wajib sebelum status ready, dan Halaman cetak nota thermal 58mm/80mm. Berhasil dikompilasi 0 TypeScript error & Next.js production build pass."
+    },
+    {
+      "id": "M8_PWA_PUBLIC_TRACKING",
+      "title": "Portal Pelanggan & Public Tracking PWA: Stepper Linimasa, Galeri Foto QC, & Nota",
+      "prd_sections": ["Bab 10.3", "Bab 10.4", "Bab 11.1"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Landing page lengkap dengan identitas maskot Si Kucek, Quick Tracking Bar, Kalkulator Estimator Biaya Hybrid, Daftar Tarif, dan Keunggulan. Public Tracking Engine di /track/[code] dengan Stepper Linimasa 7 Tahap, Banner Nomor Rak Fisik, Galeri Foto QC dengan Lightbox Zoom, Rincian Nota Digital, dan Tombol WhatsApp. PWA Customer Portal di /app dengan Stamp Card 5-slot, Daily Check-in Streak 7 hari, dan Dompet Kupon di /app/coupons. Lulus tsc --noEmit 0 error & Next.js production build 6/6 static & dynamic pages."
     }
   ],
   "in_progress_milestones": [
     {
-      "id": "M8_PWA_PUBLIC_TRACKING",
-      "title": "Portal Pelanggan & Public Tracking PWA: Stepper Linimasa, Galeri Foto QC, & Nota",
-      "prd_sections": ["Bab 10.3", "Bab 11.1"],
-      "status": "READY_TO_START",
-      "target_deliverables": ["apps/web/src/app/track/[code]", "apps/web/src/components/tracking"]
-    }
-  ],
-  "upcoming_milestones": [
-    {
       "id": "M9_MIDTRANS_AND_WHATSAPP_WORKER",
       "title": "Integrasi Midtrans QRIS/VA & Background Worker Baileys WhatsApp Engine",
       "prd_sections": ["Bab 10.6", "Bab 13"],
-      "status": "PENDING"
-    },
+      "status": "READY_TO_START",
+      "target_deliverables": ["apps/worker/src", "packages/shared/src/schemas/payment.ts"]
+    }
+  ],
+  "upcoming_milestones": [
     {
       "id": "M10_GAMIFICATION_AND_MARKETING_ENGINE",
       "title": "Modul Gamifikasi (Stamp Card 5-slot, Daily Check-in) & Dashboard Marketing Admin",
@@ -101,7 +103,7 @@
     "Bab 8: Roadmap Implementasi 5 Sprint": "IN_PROGRESS",
     "Bab 9: QA Delivery Gate & Kriteria Sukses": "MAPPED",
     "Bab 10: Spesifikasi Fungsional Rinci Fitur": "IN_PROGRESS",
-    "Bab 11: Peta Situs & Rute Halaman (apps/web & pos)": "MAPPED",
+    "Bab 11: Peta Situs & Rute Halaman (apps/web & pos)": "COMPLETED",
     "Bab 12: Mesin Pemasaran, Diskon ROI & Referral": "MAPPED",
     "Bab 13: Zero-Hardcode Config Vault di Supabase": "COMPLETED"
   },
@@ -117,8 +119,8 @@
     "Session State Push Protocol: Setiap kali menyelesaikan siklus prompt/task, active-session.json wajib dimutakhirkan dan di-push ke branch dev agar seluruh agen di tim tetap sinkron."
   ],
   "active_agent_pipeline": {
-    "current_stage": "STAGE_2_SPRINT_1_COMPLETE",
-    "active_role": "builder (backend-engineer / frontend-engineer)",
+    "current_stage": "STAGE_3_SPRINT_3_IN_PROGRESS",
+    "active_role": "builder (frontend-engineer / backend-engineer)",
     "next_role": "reviewer (qa-engineer)",
     "reviewer_role": "qa-engineer"
   }
