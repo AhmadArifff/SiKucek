@@ -8,6 +8,9 @@ import {
   ClipboardList,
   PlusCircle,
   Tag,
+  MapPin,
+  BarChart3,
+  Gift,
   TrendingUp,
   Users,
   Settings,
@@ -41,9 +44,12 @@ export function Navbar() {
   const navItems = [
     { href: '/', label: 'Antrean', icon: ClipboardList, adminOnly: false },
     { href: '/orders/new', label: 'Terima Cucian', icon: PlusCircle, adminOnly: false },
-    { href: '/admin/coupons', label: 'Kupon Promo', icon: Tag, adminOnly: true },
-    { href: '/admin/marketing', label: 'Marketing ROI', icon: TrendingUp, adminOnly: true },
-    { href: '/admin/customers', label: 'CRM Pelanggan', icon: Users, adminOnly: true },
+    { href: '/admin/services', label: 'Tarif Layanan', icon: Tag, adminOnly: true },
+    { href: '/admin/racks', label: 'Rak Fisik', icon: MapPin, adminOnly: true },
+    { href: '/admin/reports', label: 'Laporan', icon: BarChart3, adminOnly: true },
+    { href: '/admin/coupons', label: 'Kupon', icon: Gift, adminOnly: true },
+    { href: '/admin/marketing', label: 'Marketing', icon: TrendingUp, adminOnly: true },
+    { href: '/admin/customers', label: 'CRM', icon: Users, adminOnly: true },
     { href: '/admin/settings', label: 'Pengaturan', icon: Settings, adminOnly: true },
   ];
 
