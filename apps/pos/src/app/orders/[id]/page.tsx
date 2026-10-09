@@ -15,6 +15,7 @@ import {
   CheckCircle,
   X,
   ExternalLink,
+  QrCode,
 } from 'lucide-react';
 import {
   formatRupiah,
@@ -26,10 +27,12 @@ import {
 import {
   getStoredOrders,
   updatePosOrderStatus,
+  updatePosOrderPayment,
   type PosOrder,
   type PosQcPhoto,
 } from '../../../lib/orders-store';
 import { RackModal } from '../../../components/orders/RackModal';
+import { QrisPaymentModal } from '../../../components/payment/QrisPaymentModal';
 
 const STATUS_PIPELINE: { status: OrderStatus; label: string }[] = [
   { status: 'received', label: 'Diterima' },
@@ -49,7 +52,17 @@ export default function OrderDetailPage() {
   const [order, setOrder] = useState<PosOrder | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<PosQcPhoto | null>(null);
   const [isRackModalOpen, setIsRackModalOpen] = useState(false);
+  const [isQrisModalOpen, setIsQrisModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleConfirmQrisPayment = () => {
+    if (!order) return;
+    const res = updatePosOrderPayment(order.id, 'midtrans_qris', 'paid');
+    if (res.success && res.order) {
+      setOrder(res.order);
+      setIsQrisModalOpen(false);
+    }
+  };
 
   useEffect(() => {
     const orders = getStoredOrders();
@@ -158,15 +171,28 @@ export default function OrderDetailPage() {
             <span className="text-2xl font-extrabold text-sky-600 font-mono">
               {formatRupiah(order.final_amount)}
             </span>
-            <span
-              className={`text-[11px] font-bold uppercase mt-1 px-2.5 py-0.5 rounded-full ${
-                order.payment_status === 'paid'
-                  ? 'bg-emerald-100 text-emerald-800'
-                  : 'bg-amber-100 text-amber-800'
-              }`}
-            >
-              {order.payment_status === 'paid' ? 'LUNAS' : 'BELUM BAYAR'}
-            </span>
+            <div className="flex items-center gap-2 mt-1">
+              <span
+                className={`text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-full ${
+                  order.payment_status === 'paid'
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-amber-100 text-amber-800'
+                }`}
+              >
+                {order.payment_status === 'paid' ? 'LUNAS' : 'BELUM BAYAR'}
+              </span>
+
+              {order.payment_status !== 'paid' && (
+                <button
+                  type="button"
+                  onClick={() => setIsQrisModalOpen(true)}
+                  className="px-2.5 py-0.5 text-[11px] font-bold bg-sky-500 hover:bg-sky-600 text-white rounded-full shadow-sm transition flex items-center gap-1 active:scale-95"
+                >
+                  <QrCode className="w-3 h-3" />
+                  Bayar QRIS
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -347,6 +373,17 @@ export default function OrderDetailPage() {
         customerName={order.customer_name}
         onClose={() => setIsRackModalOpen(false)}
         onConfirm={handleConfirmRack}
+      />
+
+      {/* QRIS Payment Modal */}
+      <QrisPaymentModal
+        isOpen={isQrisModalOpen}
+        orderNumber={order.order_number}
+        trackingCode={order.tracking_code}
+        customerName={order.customer_name}
+        finalAmount={order.final_amount}
+        onClose={() => setIsQrisModalOpen(false)}
+        onPaymentSuccess={handleConfirmQrisPayment}
       />
     </div>
   );

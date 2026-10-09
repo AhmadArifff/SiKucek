@@ -346,3 +346,26 @@ export function updatePosOrderStatus(
   saveStoredOrders(orders);
   return { success: true, order: updatedOrder };
 }
+
+export function updatePosOrderPayment(
+  orderId: string,
+  paymentChannel: PaymentChannel = 'midtrans_qris',
+  paymentStatus: PaymentStatus = 'paid'
+): { success: boolean; error?: string; order?: PosOrder } {
+  const orders = getStoredOrders();
+  const idx = orders.findIndex((o) => o.id === orderId);
+  if (idx === -1) {
+    return { success: false, error: 'Pesanan tidak ditemukan' };
+  }
+
+  const updatedOrder: PosOrder = {
+    ...orders[idx],
+    payment_status: paymentStatus,
+    payment_channel: paymentChannel,
+  };
+
+  orders[idx] = updatedOrder;
+  saveStoredOrders(orders);
+  return { success: true, order: updatedOrder };
+}
+

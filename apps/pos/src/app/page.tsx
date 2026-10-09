@@ -13,6 +13,7 @@ import {
   Clock,
   Phone,
   ShieldAlert,
+  Settings,
 } from 'lucide-react';
 import {
   formatRupiah,
@@ -101,13 +102,22 @@ export default function PosDashboardPage() {
           </p>
         </div>
 
-        <Link
-          href="/orders/new"
-          className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-2xl shadow-lg shadow-sky-200 transition self-start sm:self-auto"
-        >
-          <PlusCircle className="w-4 h-4" />
-          + Terima Cucian Baru
-        </Link>
+        <div className="flex items-center gap-2.5 self-start sm:self-auto">
+          <Link
+            href="/admin/settings"
+            className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-2xl border border-slate-200 transition"
+          >
+            <Settings className="w-4 h-4 text-slate-500" />
+            Pengaturan (Vault)
+          </Link>
+          <Link
+            href="/orders/new"
+            className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-2xl shadow-lg shadow-sky-200 transition"
+          >
+            <PlusCircle className="w-4 h-4" />
+            + Terima Cucian Baru
+          </Link>
+        </div>
       </div>
 
       {/* KPI Metric Cards */}
