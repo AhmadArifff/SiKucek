@@ -145,6 +145,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Implementasi Tab 6 Pemeliharaan & Backup di Admin Settings POS (/admin/settings) dan MaintenanceBanner di portal pelanggan (apps/web). Fitur backup 1-klik unduh snapshot .json dan pulihkan file cadangan. Fitur migrasi DDL SQL Supabase dan CLI script npm run db:migrate. Fitur reset transaksi cucian demo serta factory reset sistem dengan proteksi ketik kata RESET. Script CLI mandiri: npm run db:backup, npm run db:reset, dan npm run db:migrate."
+    },
+    {
+      "id": "M18_EXECUTIVE_SIDEBAR_LAYOUT",
+      "title": "Transformasi Antarmuka Admin Panel: Vertical Sidebar Navigation, Categorized Groups, TopBar Dinamis, & Drawer Mobile",
+      "prd_sections": ["Bab 4", "Bab 6", "Bab 11.2"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Pembaruan arsitektur layout POS (/apps/pos) dari horizontal topbar berjejal menjadi Vertical Side Navigation (AdminSidebarLayout) bergaya Enterprise SaaS. Dilengkapi 4 kelompok menu terstruktur (Operasional Kasir, Manajemen Outlet, Pemasaran & CRM, Sistem & Vault), live badge counter antrean & rak terisi, jam digital realtime WIB, breadcrumbs dinamis, avatar profile staff dengan badge peran (Owner/Kasir), tombol logout terpadu, dan slide-over drawer responsif untuk perangkat mobile."
     }
   ],
   "in_progress_milestones": [],
