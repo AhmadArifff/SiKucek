@@ -108,11 +108,20 @@ export default function Footer() {
           <p>
             &copy; {new Date().getFullYear()} SiKucek Operating System. Hak cipta dilindungi.
           </p>
-          <p className="flex items-center gap-1.5 text-slate-400">
-            <span>Dirancang dengan</span>
-            <span className="text-rose-500">&hearts;</span>
-            <span>untuk kebersihan higienis tanpa drama</span>
-          </p>
+          <div className="flex items-center gap-4 text-slate-400">
+            <a
+              href="http://localhost:3001"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sky-400 hover:text-sky-300 transition font-bold"
+            >
+              Masuk Portal Kasir &amp; Admin &rarr;
+            </a>
+            <span className="hidden sm:inline text-slate-700">&bull;</span>
+            <p className="hidden md:flex items-center gap-1.5">
+              <span>Kebersihan higienis tanpa drama</span>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
