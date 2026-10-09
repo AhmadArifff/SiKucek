@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Navbar } from '../components/layout/Navbar';
+import { AuthGuard } from '../components/auth/AuthGuard';
 
 export const metadata: Metadata = {
   title: 'SiKucek POS - Kasir & Operator Laundry',
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className="antialiased min-h-screen bg-slate-100 text-slate-900">
-        <Navbar />
-        <main className="pb-12">{children}</main>
+        <AuthGuard>
+          <Navbar />
+          <main className="pb-12">{children}</main>
+        </AuthGuard>
       </body>
     </html>
   );
