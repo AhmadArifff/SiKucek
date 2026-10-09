@@ -39,11 +39,19 @@ export interface BusinessRulesState {
   dormant_days_limit: number;
 }
 
+export interface MaintenanceSettingsState {
+  is_maintenance_mode: boolean;
+  maintenance_message: string;
+  expected_end_at: string;
+  support_whatsapp: string;
+}
+
 export interface AppSettingsBundle {
   midtrans: MidtransSettingsState;
   whatsapp: WhatsAppSettingsState;
   outlet: OutletProfileState;
   business_rules: BusinessRulesState;
+  maintenance: MaintenanceSettingsState;
 }
 
 export const DEFAULT_SETTINGS: AppSettingsBundle = {
@@ -96,6 +104,13 @@ export const DEFAULT_SETTINGS: AppSettingsBundle = {
     stamp_reward_max_kg: BUSINESS_DEFAULTS.STAMP_REWARD_MAX_KG, // 5.0 kg
     dormant_days_limit: BUSINESS_DEFAULTS.DORMANT_DAYS_THRESHOLD, // 14 hari
   },
+  maintenance: {
+    is_maintenance_mode: false,
+    maintenance_message:
+      'Outlet SiKucek sedang dalam pemeliharaan sistem rutin. Layanan penerimaan cucian dan pelacakan akan segera dibuka kembali.',
+    expected_end_at: '',
+    support_whatsapp: '081234567890',
+  },
 };
 
 const SETTINGS_STORAGE_KEY = 'sikucek_app_settings_v1';
@@ -114,6 +129,7 @@ export function getAppSettings(): AppSettingsBundle {
       whatsapp: { ...DEFAULT_SETTINGS.whatsapp, ...parsed.whatsapp },
       outlet: { ...DEFAULT_SETTINGS.outlet, ...parsed.outlet },
       business_rules: { ...DEFAULT_SETTINGS.business_rules, ...parsed.business_rules },
+      maintenance: { ...DEFAULT_SETTINGS.maintenance, ...parsed.maintenance },
     };
   } catch {
     return DEFAULT_SETTINGS;

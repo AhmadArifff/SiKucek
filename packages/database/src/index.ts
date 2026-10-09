@@ -7,3 +7,4 @@ export * from './types';
 export * from './client';
 export * from './resilient-adapter';
 export * from './whatsapp-queue';
+export * from './backup-manager';

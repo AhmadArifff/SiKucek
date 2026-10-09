@@ -38,3 +38,6 @@ blob-report/
 scratch/
 .system_generated/
 *.tsbuildinfo
+
+# Database Backups
+backups/*.json

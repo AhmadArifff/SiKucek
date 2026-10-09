@@ -137,6 +137,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Lolos kompilasi Turbo Production Build (apps/web 9/9 pages, apps/pos 16/16 pages, apps/worker tsc) dengan 0 errors. Merge branch dev ke branch main berhasil tanpa konflik (80 files merged, 13.635 insertions). Tag Git v1.0.0 berhasil dibuat dan dipush ke remote origin GitHub."
+    },
+    {
+      "id": "M17_MAINTENANCE_MIGRATION_BACKUP_RESET_TOOLKIT",
+      "title": "Fitur Pemeliharaan (Maintenance Mode), Migrasi DDL Supabase, Backup & Restore JSON, dan Reset Database Terkendali",
+      "prd_sections": ["Bab 7", "Bab 11.2", "Bab 13"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Implementasi Tab 6 Pemeliharaan & Backup di Admin Settings POS (/admin/settings) dan MaintenanceBanner di portal pelanggan (apps/web). Fitur backup 1-klik unduh snapshot .json dan pulihkan file cadangan. Fitur migrasi DDL SQL Supabase dan CLI script npm run db:migrate. Fitur reset transaksi cucian demo serta factory reset sistem dengan proteksi ketik kata RESET. Script CLI mandiri: npm run db:backup, npm run db:reset, dan npm run db:migrate."
     }
   ],
   "in_progress_milestones": [],
