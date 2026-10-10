@@ -19,6 +19,7 @@
     "db:migrate": "node packages/database/scripts/migrate.mjs",
     "db:migrate:live": "node packages/database/scripts/migrate-live.mjs",
     "db:test": "node packages/database/scripts/test-connection.mjs",
+    "db:test:sdk": "node packages/database/scripts/test-sdk.mjs",
     "lint": "turbo run lint",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean"

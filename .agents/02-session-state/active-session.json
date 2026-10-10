@@ -156,11 +156,11 @@
     },
     {
       "id": "M19_SUPABASE_CLOUD_LIVE_INSTANCE_AND_MIGRATION",
-      "title": "Integrasi Database Supabase Cloud Live, Dokumentasi PRD Bab 7.1 & 13.4, Agent Skills, dan Eksekusi Migrasi 19 Tabel",
-      "prd_sections": ["Bab 7.1", "Bab 7.2", "Bab 13.4"],
+      "title": "Integrasi Database Supabase Cloud Live, Dokumentasi PRD Bab 7.1 & 13.4, Agent Skills, Eksekusi Migrasi 19 Tabel, & Setup Storage qc-photos",
+      "prd_sections": ["Bab 7.1", "Bab 7.2", "Bab 10.2", "Bab 13.4"],
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-10",
-      "details": "Pendokumentasian spesifikasi instance Supabase Cloud terkelola (Project Ref nvnuezmzbtcgpzqulwbw, Region Tokyo ap-northeast-1, Pooler Port 6543, Direct Port 5432) pada PRD.md Bab 7.1 dan Bab 13.4. Pemasangan Supabase Agent Skills di .agents/skills/. Pembuatan skrip otomasi npm run db:test dan npm run db:migrate:live dengan driver pg. Berhasil mengeksekusi migrasi DDL 001_initial_schema.sql langsung ke database Supabase Cloud (19 tabel public terbuat dalam 0.46 detik)."
+      "details": "Pendokumentasian spesifikasi instance Supabase Cloud terkelola (Project Ref nvnuezmzbtcgpzqulwbw, Region Tokyo ap-northeast-1, Pooler Port 6543, Direct Port 5432) pada PRD.md Bab 7.1 dan Bab 13.4. Pemasangan Supabase Agent Skills di .agents/skills/. Pembuatan skrip otomasi npm run db:test dan npm run db:migrate:live dengan driver pg. Berhasil mengeksekusi migrasi DDL 001_initial_schema.sql langsung ke database Supabase Cloud (19 tabel public terbuat dalam 0.46 detik). Integrasi lengkap Anon Key & Service Role Key ke seluruh berkas .env.local monorepo, serta pembuatan dan verifikasi otomatis Supabase Storage Bucket qc-photos berstatus Public dengan uji coba upload gambar PNG via skrip npm run db:test:sdk (100% lulus)."
     }
   ],
   "in_progress_milestones": [],
