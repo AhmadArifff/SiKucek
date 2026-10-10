@@ -41,3 +41,7 @@ scratch/
 
 # Database Backups
 backups/*.json
+
+# CLI Temporary Skills Folders
+.claude/
+agent/

@@ -9,10 +9,12 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@sikucek/shared": "*",
     "@supabase/supabase-js": "^2.48.1",
-    "@sikucek/shared": "*"
+    "pg": "^8.23.1"
   },
   "devDependencies": {
+    "@types/pg": "^8.23.1",
     "typescript": "^5.7.3"
   }
 }

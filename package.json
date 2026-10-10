@@ -17,6 +17,8 @@
     "db:backup": "node packages/database/scripts/backup.mjs",
     "db:reset": "node packages/database/scripts/reset.mjs",
     "db:migrate": "node packages/database/scripts/migrate.mjs",
+    "db:migrate:live": "node packages/database/scripts/migrate-live.mjs",
+    "db:test": "node packages/database/scripts/test-connection.mjs",
     "lint": "turbo run lint",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean"
