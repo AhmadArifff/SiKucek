@@ -161,6 +161,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-10",
       "details": "Pendokumentasian spesifikasi instance Supabase Cloud terkelola (Project Ref nvnuezmzbtcgpzqulwbw, Region Tokyo ap-northeast-1, Pooler Port 6543, Direct Port 5432) pada PRD.md Bab 7.1 dan Bab 13.4. Pemasangan Supabase Agent Skills di .agents/skills/. Pembuatan skrip otomasi npm run db:test dan npm run db:migrate:live dengan driver pg. Berhasil mengeksekusi migrasi DDL 001_initial_schema.sql langsung ke database Supabase Cloud (19 tabel public terbuat dalam 0.46 detik). Integrasi lengkap Anon Key & Service Role Key ke seluruh berkas .env.local monorepo, serta pembuatan dan verifikasi otomatis Supabase Storage Bucket qc-photos berstatus Public dengan uji coba upload gambar PNG via skrip npm run db:test:sdk (100% lulus)."
+    },
+    {
+      "id": "M20_VERCEL_DEPLOYMENT_SPECIFICATION_AND_PRODUCTION_VERIFICATION",
+      "title": "Kesiapan Deployment Online Vercel Monorepo Turborepo, Verifikasi Build 25 Halaman, & Dokumen DEPLOYMENT.md",
+      "prd_sections": ["Bab 1", "Bab 3", "Bab 8", "Bab 9"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-10",
+      "details": "Verifikasi kompilasi bundel produksi Turborepo npm run build (apps/web 9/9 pages, apps/pos 16/16 pages, apps/worker tsc) 100% lulus dalam 2 menit. Penyusunan panduan deployment monorepo Vercel di DEPLOYMENT.md untuk 2 proyek independen (sikucek-web dan sikucek-pos), pemetaan root directory, variabel lingkungan Supabase Cloud live, serta pengujian end-to-end online."
     }
   ],
   "in_progress_milestones": [],
