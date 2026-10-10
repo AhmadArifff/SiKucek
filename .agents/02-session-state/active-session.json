@@ -6,9 +6,9 @@
   "active_branch": "dev",
   "version": "1.0.0",
   "status": "COMPLETED",
-  "active_goal": "Penyelesaian Seluruh 10 Milestone Inti SiKucek (13 Bab PRD.md), Persiapan E2E Testing & Rilis Tim",
-  "last_updated": "2026-10-09T22:10:00+07:00",
-  "current_sprint": "Sprint 5: Polishing, Audit Kualitas, & E2E Verification",
+  "active_goal": "Audit & Refinement Tampilan Mobile (Device HP) Seluruh Halaman POS Admin dan Web Customer",
+  "last_updated": "2026-10-10T09:20:00+07:00",
+  "current_sprint": "Sprint 5: Polishing, Mobile Responsiveness, & Production Deployment Parity",
   "completed_milestones": [
     {
       "id": "M1_PRD_BRAND_ASSETS",
@@ -169,6 +169,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-10",
       "details": "Verifikasi kompilasi bundel produksi Turborepo npm run build (apps/web 9/9 pages, apps/pos 16/16 pages, apps/worker tsc) 100% lulus dalam 2 menit. Penyusunan panduan deployment monorepo Vercel di DEPLOYMENT.md untuk 2 proyek independen (sikucek-web dan sikucek-pos), pemetaan root directory, variabel lingkungan Supabase Cloud live, serta pengujian end-to-end online."
+    },
+    {
+      "id": "M21_MOBILE_RESPONSIVE_POLISHING_ACROSS_DEVICES",
+      "title": "Audit Komprehensif & Refinement Responsivitas Mobile (Device HP) Seluruh Halaman POS Admin dan Web Customer",
+      "prd_sections": ["Bab 6", "Bab 10", "Bab 11"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-10",
+      "details": "Pembersihan dan standardisasi tampilan layar smartphone/HP (viewport 360px-480px) di 16 berkas antarmuka utama. Mengatasi teks tombol terpotong 3 baris di Card QC Kamera (/orders/new), merampingkan padding kartu dan tombol counter satuan, mencegah layout clash pada topbar header dengan title truncation, memadatkan grid KPI dan omzet pada dashboard POS, modul rak, katalog tarif, laporan keuangan, dan CRM, serta merapikan slot kartu stempel 5 slot dan daily streak 7 hari di portal PWA customer. Turbo build lulus 100% (25 rute Next.js, 0 error)."
     }
   ],
   "in_progress_milestones": [],

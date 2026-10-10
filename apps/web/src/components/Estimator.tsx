@@ -76,37 +76,37 @@ export default function Estimator() {
   }, [weightKg, kiloanRate, satuanItems, useFreeKiloanCoupon]);
 
   return (
-    <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-xl shadow-sky-100/60">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-sky-50">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-sky-500 text-white flex items-center justify-center shadow-md shadow-sky-200">
-            <Calculator className="w-5 h-5" />
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-sky-100 shadow-xl shadow-sky-100/60">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 sm:mb-6 pb-3 sm:pb-4 border-b border-sky-50">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-sky-500 text-white flex items-center justify-center shadow-md shadow-sky-200 shrink-0">
+            <Calculator className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-slate-800">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-800">
               Kalkulator Biaya Hybrid
             </h3>
-            <p className="text-xs text-slate-500">
+            <p className="text-[11px] sm:text-xs text-slate-500">
               Simulasi biaya transparan kiloan + satuan sebelum datang ke outlet
             </p>
           </div>
         </div>
 
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 self-start sm:self-auto">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 self-start sm:self-auto">
           <CheckCircle2 className="w-3.5 h-3.5" />
           Min. Cuci Kiloan 2.00 Kg
         </span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
         {/* Left Side: Controls */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-7 space-y-5 sm:space-y-6">
           {/* Pilihan Layanan Kiloan */}
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+            <label className="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
               1. Pilih Jenis Layanan Kiloan
             </label>
-            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-3">
               {[
                 { name: 'Reguler (2 Hari)', rate: 7000, desc: 'Rp 7.000 / kg' },
                 { name: 'Express (1 Hari)', rate: 10000, desc: 'Rp 10.000 / kg' },
@@ -116,14 +116,14 @@ export default function Estimator() {
                   key={opt.name}
                   type="button"
                   onClick={() => handleKiloanChange(opt.rate, opt.name)}
-                  className={`p-3 rounded-2xl text-left border text-xs sm:text-sm font-semibold transition ${
+                  className={`p-2 sm:p-3 rounded-xl sm:rounded-2xl text-left border text-xs sm:text-sm font-semibold transition ${
                     kiloanRate === opt.rate
                       ? 'border-sky-500 bg-sky-50/80 text-sky-800 ring-2 ring-sky-400/20'
                       : 'border-slate-200 bg-slate-50/50 hover:bg-slate-100/60 text-slate-600'
                   }`}
                 >
-                  <p className="font-bold leading-tight">{opt.name}</p>
-                  <p className="text-[11px] text-slate-500 font-normal mt-0.5">
+                  <p className="font-bold text-[11px] sm:text-xs leading-tight truncate">{opt.name}</p>
+                  <p className="text-[10px] text-slate-500 font-normal mt-0.5 truncate">
                     {opt.desc}
                   </p>
                 </button>
@@ -231,7 +231,7 @@ export default function Estimator() {
 
         {/* Right Side: Detailed Summary Card */}
         <div className="lg:col-span-5">
-          <div className="bg-gradient-to-br from-sky-600 to-sky-700 text-white rounded-3xl p-6 sm:p-7 shadow-xl shadow-sky-600/25 flex flex-col justify-between h-full">
+          <div className="bg-gradient-to-br from-sky-600 to-sky-700 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-xl shadow-sky-600/25 flex flex-col justify-between h-full">
             <div>
               <div className="flex items-center justify-between border-b border-white/20 pb-4 mb-5">
                 <span className="text-xs font-semibold uppercase tracking-wider text-sky-100">

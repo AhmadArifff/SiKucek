@@ -127,38 +127,38 @@ _Laporan otomatis digenerate dari SiKucek POS Operating System_`;
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 print:hidden">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
-              Laporan Keuangan &amp; Rekapitulasi Operasional
+            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
+              Laporan Keuangan &amp; Rekapitulasi
             </h1>
             <span className="text-[10px] font-bold uppercase tracking-wider bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full">
               Khusus Owner
             </span>
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-[11px] sm:text-xs text-slate-500">
             Audit omzet kasir harian, volume timbangan, rincian tunai vs QRIS, dan rekap closing outlet
           </p>
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <button
             type="button"
             onClick={handleCopyClosingSummary}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold rounded-xl transition"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold rounded-xl transition"
           >
             {copiedSummary ? (
               <>
-                <Check className="w-4 h-4 text-emerald-600" />
-                <span>Format WA Disalin!</span>
+                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span className="truncate">Disalin!</span>
               </>
             ) : (
               <>
-                <Copy className="w-4 h-4" />
-                <span>Salin Rekap WA</span>
+                <Copy className="w-4 h-4 shrink-0" />
+                <span className="truncate">Salin Rekap WA</span>
               </>
             )}
           </button>
@@ -166,10 +166,10 @@ _Laporan otomatis digenerate dari SiKucek POS Operating System_`;
           <button
             type="button"
             onClick={handlePrint}
-            className="flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl shadow transition"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl shadow transition"
           >
-            <Printer className="w-4 h-4" />
-            <span>Cetak Rekap</span>
+            <Printer className="w-4 h-4 shrink-0" />
+            <span className="truncate">Cetak Rekap</span>
           </button>
         </div>
       </div>
@@ -184,63 +184,63 @@ _Laporan otomatis digenerate dari SiKucek POS Operating System_`;
       </div>
 
       {/* KPI Financial Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 truncate block">
             Omzet Lunas Diterima
           </span>
-          <p className="text-2xl font-black font-mono text-emerald-600">
+          <p className="text-base sm:text-2xl font-black font-mono text-emerald-600 truncate">
             {formatRupiah(metrics.paidTotal)}
           </p>
-          <p className="text-[10px] text-slate-600">Kas masuk kasir</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-600 truncate">Kas masuk kasir</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-            Total Piutang Belum Lunas
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 truncate block">
+            Piutang Belum Lunas
           </span>
-          <p className="text-2xl font-black font-mono text-amber-600">
+          <p className="text-base sm:text-2xl font-black font-mono text-amber-600 truncate">
             {formatRupiah(metrics.unpaidTotal)}
           </p>
-          <p className="text-[10px] text-slate-600">Bayar saat ambil pakaian</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-600 truncate">Bayar saat ambil</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-bold uppercase tracking-wider">
-              Total Berat Kiloan
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider truncate">
+              Berat Kiloan
             </span>
-            <Scale className="w-4 h-4 text-sky-500" />
+            <Scale className="w-3.5 h-3.5 text-sky-500 shrink-0" />
           </div>
-          <p className="text-2xl font-black font-mono text-slate-900">
+          <p className="text-base sm:text-2xl font-black font-mono text-slate-900 truncate">
             {formatKg(metrics.totalWeight)}
           </p>
-          <p className="text-[10px] text-slate-600">Beban kerja mesin cuci</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-600 truncate">Beban mesin cuci</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-            Diskon Kupon Promo
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 truncate block">
+            Diskon Promo
           </span>
-          <p className="text-2xl font-black font-mono text-rose-600">
+          <p className="text-base sm:text-2xl font-black font-mono text-rose-600 truncate">
             {formatRupiah(metrics.totalDiscount)}
           </p>
-          <p className="text-[10px] text-slate-600">Insentif royalti pelanggan</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-600 truncate">Insentif royalti</p>
         </div>
       </div>
 
       {/* Payment Channel Breakdown Card */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center">
-              <Banknote className="w-6 h-6" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4">
+        <div className="bg-white p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center shrink-0">
+              <Banknote className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase text-slate-500">
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase text-slate-500 block">
                 Penerimaan Tunai (Cash)
               </span>
-              <p className="text-xl font-black font-mono text-slate-900">
+              <p className="text-base sm:text-xl font-black font-mono text-slate-900 truncate">
                 {formatRupiah(metrics.cashTotal)}
               </p>
             </div>
@@ -253,16 +253,16 @@ _Laporan otomatis digenerate dari SiKucek POS Operating System_`;
           </span>
         </div>
 
-        <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 border border-sky-200 flex items-center justify-center">
-              <QrCode className="w-6 h-6" />
+        <div className="bg-white p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-sky-50 text-sky-600 border border-sky-200 flex items-center justify-center shrink-0">
+              <QrCode className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase text-slate-500">
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase text-slate-500 block">
                 Penerimaan QRIS &amp; Transfer
               </span>
-              <p className="text-xl font-black font-mono text-slate-900">
+              <p className="text-base sm:text-xl font-black font-mono text-slate-900 truncate">
                 {formatRupiah(metrics.qrisTotal)}
               </p>
             </div>
@@ -277,7 +277,7 @@ _Laporan otomatis digenerate dari SiKucek POS Operating System_`;
       </div>
 
       {/* Filter Tabs & Search Bar */}
-      <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-white p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 print:hidden">
           <div className="flex items-center gap-1.5 overflow-x-auto">
             <button

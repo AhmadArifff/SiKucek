@@ -272,92 +272,93 @@ export default function AdminSettingsPage() {
     .replace('{tracking_code}', 'SKC-B8D02');
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
       {/* Page Title & Action Bar */}
-      <div className="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="w-10 h-10 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition shrink-0"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition shrink-0"
             title="Kembali ke Antrean"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
-                Pusat Konfigurasi Zero-Hardcode (Vault)
+              <h1 className="text-base sm:text-xl font-extrabold text-slate-900 tracking-tight">
+                Pusat Konfigurasi Vault
               </h1>
-              <span className="text-[10px] font-extrabold uppercase tracking-wide bg-sky-100 text-sky-700 px-2.5 py-0.5 rounded-full">
+              <span className="text-[10px] font-extrabold uppercase tracking-wide bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full">
                 Bab 13 Vault
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Kelola kredensial Midtrans, template WhatsApp, aturan outlet, dan pemeliharaan tanpa mengubah kode
+            <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5">
+              Kelola kredensial Midtrans, template WhatsApp, aturan outlet, dan pemeliharaan
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5 self-start sm:self-auto">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <button
             type="button"
             onClick={handleResetDefaults}
-            className="px-3.5 py-2 text-xs font-semibold text-slate-600 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 border border-slate-200 rounded-xl transition flex items-center gap-1.5"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 border border-slate-200 rounded-xl transition"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Reset Standar</span>
+            <span>Reset Standar</span>
           </button>
 
           <button
             type="button"
             onClick={handleSave}
-            className="px-5 py-2 text-xs sm:text-sm font-bold text-white bg-sky-500 hover:bg-sky-600 rounded-xl shadow-md shadow-sky-200 transition active:scale-95 flex items-center gap-1.5"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold text-white bg-sky-500 hover:bg-sky-600 rounded-xl shadow-md shadow-sky-200 transition active:scale-95"
           >
-            <Save className="w-4 h-4" />
-            <span>Simpan Perubahan</span>
+            <Save className="w-4 h-4 shrink-0" />
+            <span>Simpan</span>
           </button>
         </div>
       </div>
-        {/* Toast Alert */}
-        {toastMessage && (
-          <div className="mb-6 bg-emerald-100 border-2 border-emerald-300 text-emerald-900 rounded-2xl p-4 shadow-lg flex items-center justify-between gap-3 animate-fadeIn">
-            <div className="flex items-center gap-2.5">
-              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-              <p className="text-xs sm:text-sm font-bold">{toastMessage}</p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setToastMessage(null)}
-              className="text-xs text-emerald-700 hover:text-emerald-900 font-bold"
-            >
-              Tutup
-            </button>
-          </div>
-        )}
 
-        {/* Navigation Tabs */}
-        <div className="flex border-b border-slate-200 gap-2 overflow-x-auto pb-1 mb-8">
-          {[
-            { id: 'payment', label: '1. Pembayaran Midtrans', icon: CreditCard },
-            { id: 'whatsapp', label: '2. WhatsApp Automation', icon: MessageCircle },
-            { id: 'outlet', label: '3. Profil Outlet', icon: Store },
-            { id: 'rules', label: '4. Aturan Bisnis', icon: Sliders },
-            { id: 'database', label: '5. Database & Cloud Sync', icon: Database },
-            { id: 'maintenance', label: '6. Pemeliharaan & Backup', icon: Wrench },
-          ].map((t) => {
-            const Icon = t.icon;
-            const isActive = activeTab === t.id;
-            return (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setActiveTab(t.id as any)}
-                className={`flex items-center gap-2 px-4 py-3 text-xs sm:text-sm font-bold rounded-2xl border transition whitespace-nowrap ${
-                  isActive
-                    ? 'border-sky-500 bg-sky-50 text-sky-700 shadow-sm'
-                    : 'border-transparent text-slate-600 hover:bg-slate-100'
-                }`}
-              >
+      {/* Toast Alert */}
+      {toastMessage && (
+        <div className="mb-4 sm:mb-6 bg-emerald-100 border-2 border-emerald-300 text-emerald-900 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-lg flex items-center justify-between gap-3 animate-fadeIn">
+          <div className="flex items-center gap-2.5">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+            <p className="text-xs sm:text-sm font-bold">{toastMessage}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setToastMessage(null)}
+            className="text-xs text-emerald-700 hover:text-emerald-900 font-bold"
+          >
+            Tutup
+          </button>
+        </div>
+      )}
+
+      {/* Navigation Tabs */}
+      <div className="flex border-b border-slate-200 gap-1.5 sm:gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
+        {[
+          { id: 'payment', label: '1. Pembayaran Midtrans', icon: CreditCard },
+          { id: 'whatsapp', label: '2. WhatsApp Automation', icon: MessageCircle },
+          { id: 'outlet', label: '3. Profil Outlet', icon: Store },
+          { id: 'rules', label: '4. Aturan Bisnis', icon: Sliders },
+          { id: 'database', label: '5. Database & Cloud Sync', icon: Database },
+          { id: 'maintenance', label: '6. Pemeliharaan & Backup', icon: Wrench },
+        ].map((t) => {
+          const Icon = t.icon;
+          const isActive = activeTab === t.id;
+          return (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => setActiveTab(t.id as any)}
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-xl sm:rounded-2xl border transition whitespace-nowrap shrink-0 ${
+                isActive
+                  ? 'border-sky-500 bg-sky-50 text-sky-700 shadow-sm'
+                  : 'border-transparent text-slate-600 hover:bg-slate-100'
+              }`}
+            >
                 <Icon className={`w-4 h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
                 <span>{t.label}</span>
               </button>

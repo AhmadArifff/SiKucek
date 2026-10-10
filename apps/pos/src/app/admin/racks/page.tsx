@@ -138,86 +138,86 @@ export default function AdminRacksPage() {
   const occupancyPercentage = totalRacks > 0 ? Math.round((occupiedCount / totalRacks) * 100) : 0;
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
-              Master Rak Fisik &amp; Manajemen Penyimpanan
+            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
+              Master Rak Fisik &amp; Alokasi
             </h1>
             <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
               Bab 10.5 PRD
             </span>
           </div>
-          <p className="text-xs text-slate-500">
-            Tata letak nomor rak outlet untuk penempatan pakaian siap ambil (Ready to Pick Up)
+          <p className="text-[11px] sm:text-xs text-slate-500">
+            Tata letak nomor rak outlet untuk penempatan pakaian siap ambil (Ready)
           </p>
         </div>
 
         <button
           type="button"
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-2xl shadow-lg shadow-sky-200 transition active:scale-95 self-start sm:self-auto"
+          className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-xl sm:rounded-2xl shadow-md shadow-sky-200 transition active:scale-95 w-full sm:w-auto"
         >
           <PlusCircle className="w-4 h-4" />
-          + Tambah Rak Baru
+          <span>+ Tambah Rak Baru</span>
         </button>
       </div>
 
       {/* Toast Alert */}
       {toastMessage && (
-        <div className="bg-emerald-100 border border-emerald-300 text-emerald-900 rounded-2xl p-4 shadow-sm flex items-center gap-2 text-xs font-bold animate-fadeIn">
+        <div className="bg-emerald-100 border border-emerald-300 text-emerald-900 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-2 text-xs font-bold animate-fadeIn">
           <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 truncate block">
             Total Rak Outlet
           </span>
-          <p className="text-2xl font-black font-mono text-slate-900">{totalRacks}</p>
-          <p className="text-[10px] text-slate-600">Kapasitas penyimpanan</p>
+          <p className="text-lg sm:text-2xl font-black font-mono text-slate-900 truncate">{totalRacks}</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Kapasitas penyimpanan</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-bold uppercase tracking-wider">
-              Rak Terisi (Ready)
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider truncate">
+              Rak Terisi
             </span>
-            <PackageCheck className="w-4 h-4 text-emerald-500" />
+            <PackageCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
           </div>
-          <p className="text-2xl font-black font-mono text-emerald-600">{occupiedCount}</p>
-          <p className="text-[10px] text-slate-600">Menunggu diambil pelanggan</p>
+          <p className="text-lg sm:text-2xl font-black font-mono text-emerald-600 truncate">{occupiedCount}</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Menunggu diambil</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-bold uppercase tracking-wider">
-              Rak Kosong (Tersedia)
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider truncate">
+              Rak Kosong
             </span>
-            <Package className="w-4 h-4 text-sky-500" />
+            <Package className="w-3.5 h-3.5 text-sky-500 shrink-0" />
           </div>
-          <p className="text-2xl font-black font-mono text-sky-600">{emptyCount}</p>
-          <p className="text-[10px] text-slate-600">Siap dialokasikan</p>
+          <p className="text-lg sm:text-2xl font-black font-mono text-sky-600 truncate">{emptyCount}</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Siap dialokasikan</p>
         </div>
 
-        <div className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white p-4 rounded-3xl shadow-lg shadow-emerald-200 space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-100">
-            Tingkat Keterisian Rak
+        <div className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl shadow-md shadow-emerald-200 space-y-1">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-emerald-100 truncate block">
+            Tingkat Keterisian
           </span>
-          <p className="text-2xl font-black font-mono">{occupancyPercentage}%</p>
-          <p className="text-[10px] text-emerald-100">Efisiensi ruang outlet</p>
+          <p className="text-lg sm:text-2xl font-black font-mono truncate">{occupancyPercentage}%</p>
+          <p className="text-[9px] sm:text-[10px] text-emerald-100 truncate">Efisiensi rak outlet</p>
         </div>
       </div>
 
       {/* Filter Tabs & Search */}
-      <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-white p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
             <button
               type="button"
               onClick={() => setFilterOccupancy('all')}
@@ -276,7 +276,7 @@ export default function AdminRacksPage() {
             return (
               <div
                 key={rack.id}
-                className={`rounded-3xl p-5 border transition flex flex-col justify-between ${
+                className={`rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border transition flex flex-col justify-between ${
                   isOccupied
                     ? 'border-emerald-300 bg-emerald-50/50 shadow-md shadow-emerald-100'
                     : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-sky-300 shadow-sm'

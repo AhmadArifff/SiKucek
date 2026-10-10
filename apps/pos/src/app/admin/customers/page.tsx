@@ -66,81 +66,81 @@ export default function AdminCustomersPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
-              CRM Pelanggan &amp; Retensi Dorman
+            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
+              CRM Pelanggan &amp; Retensi
             </h1>
             <span className="text-[10px] font-bold uppercase tracking-wider bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full">
               Bab 12 PRD
             </span>
           </div>
-          <p className="text-xs text-slate-500">
-            Segmentasi pelanggan setia, audit aktivitas cucian, dan automasi re-engagement winback WhatsApp
+          <p className="text-[11px] sm:text-xs text-slate-500">
+            Segmentasi pelanggan setia, audit aktivitas cucian, dan automasi winback WhatsApp
           </p>
         </div>
       </div>
 
       {/* Toast Alert */}
       {toastMessage && (
-        <div className="bg-emerald-100 border border-emerald-300 text-emerald-900 rounded-2xl p-4 shadow-sm flex items-center gap-2 text-xs font-bold animate-fadeIn">
+        <div className="bg-emerald-100 border border-emerald-300 text-emerald-900 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-2 text-xs font-bold animate-fadeIn">
           <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* Top Metrics Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 truncate">
               Total Pelanggan
             </span>
-            <Users className="w-4 h-4 text-sky-500" />
+            <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500 shrink-0" />
           </div>
-          <p className="text-2xl font-black font-mono text-slate-900">{totalCustomers}</p>
-          <p className="text-[10px] text-slate-500">Basis database outlet</p>
+          <p className="text-lg sm:text-2xl font-black font-mono text-slate-900 truncate">{totalCustomers}</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Basis database</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 truncate">
               Pelanggan Aktif
             </span>
-            <UserCheck className="w-4 h-4 text-emerald-500" />
+            <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500 shrink-0" />
           </div>
-          <p className="text-2xl font-black font-mono text-emerald-600">{activeCustomers.length}</p>
-          <p className="text-[10px] text-slate-500">Mencuci &lt;14 hari terakhir</p>
+          <p className="text-lg sm:text-2xl font-black font-mono text-emerald-600 truncate">{activeCustomers.length}</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">&lt;14 hari terakhir</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-rose-200 bg-rose-50/20 shadow-sm space-y-1">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-rose-200 bg-rose-50/20 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-rose-700 truncate">
               Pelanggan Dorman
             </span>
-            <UserX className="w-4 h-4 text-rose-500" />
+            <UserX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-500 shrink-0" />
           </div>
-          <p className="text-2xl font-black font-mono text-rose-600">{dormantCustomers.length}</p>
-          <p className="text-[10px] text-rose-700 font-semibold">&gt;14 hari tidak mencuci</p>
+          <p className="text-lg sm:text-2xl font-black font-mono text-rose-600 truncate">{dormantCustomers.length}</p>
+          <p className="text-[9px] sm:text-[10px] text-rose-700 font-semibold truncate">&gt;14 hari tanpa order</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              Poin Loyalti Beredar
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 truncate">
+              Poin Loyalti
             </span>
-            <Coins className="w-4 h-4 text-amber-500" />
+            <Coins className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500 shrink-0" />
           </div>
-          <p className="text-2xl font-black font-mono text-amber-600">{totalPoints} Pts</p>
-          <p className="text-[10px] text-slate-500">Dapat ditukarkan kupon</p>
+          <p className="text-lg sm:text-2xl font-black font-mono text-amber-600 truncate">{totalPoints} Pts</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Dapat ditukarkan kupon</p>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex border-b border-slate-200 gap-2 pb-1">
+      <div className="flex border-b border-slate-200 gap-1.5 sm:gap-2 pb-1 overflow-x-auto scrollbar-none">
         <button
           type="button"
           onClick={() => setActiveTab('dormant')}
