@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Navbar } from '../components/layout/Navbar';
+import { AdminSidebarLayout } from '../components/layout/AdminSidebarLayout';
 import { AuthGuard } from '../components/auth/AuthGuard';
 
 export const metadata: Metadata = {
@@ -17,8 +17,7 @@ export default function RootLayout({
     <html lang="id">
       <body className="antialiased min-h-screen bg-slate-100 text-slate-900">
         <AuthGuard>
-          <Navbar />
-          <main className="pb-12">{children}</main>
+          <AdminSidebarLayout>{children}</AdminSidebarLayout>
         </AuthGuard>
       </body>
     </html>

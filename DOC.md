@@ -184,12 +184,23 @@ pnpm type-check
 pnpm kill:port
 
 # 6. Membangun bundle produksi
-pnpm build
+npm run build
+
+# 7. Menguji koneksi database Supabase & API keys
+npm run db:test
+npm run db:test:sdk
 ```
 
 ---
 
-## 7. Kriteria Selesai (*Definition of Done - DoD*)
+## 7. Panduan Deployment Produksi (Vercel)
+
+Aplikasi telah siap dideploy ke **Vercel** secara mandiri untuk pengujian online:
+- Panduan terperinci, konfigurasi root directory `apps/web` & `apps/pos`, serta daftar environment variables terdokumentasi lengkap pada [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+
+---
+
+## 8. Kriteria Selesai (*Definition of Done - DoD*)
 
 Sebelum sebuah tugas/fitur dianggap selesai dan siap digabung:
 1. Kode telah diuji secara fungsional (bebas error kompilasi dan tipe data).
@@ -197,3 +208,4 @@ Sebelum sebuah tugas/fitur dianggap selesai dan siap digabung:
 3. Bebas dari hardcode kredensial dan bebas karakter em dash.
 4. File `.agents/02-session-state/active-session.json` telah dimutakhirkan.
 5. Perubahan telah dikomit dan di-push ke branch `dev`.
+

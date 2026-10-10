@@ -38,3 +38,10 @@ blob-report/
 scratch/
 .system_generated/
 *.tsbuildinfo
+
+# Database Backups
+backups/*.json
+
+# CLI Temporary Skills Folders
+.claude/
+agent/

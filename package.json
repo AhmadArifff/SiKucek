@@ -14,6 +14,12 @@
     "build:worker": "npm run build --workspace=sikucek-worker",
     "build:shared": "npm run build --workspace=@sikucek/shared",
     "kill:port": "npx -y kill-port 3000 3001 4000",
+    "db:backup": "node packages/database/scripts/backup.mjs",
+    "db:reset": "node packages/database/scripts/reset.mjs",
+    "db:migrate": "node packages/database/scripts/migrate.mjs",
+    "db:migrate:live": "node packages/database/scripts/migrate-live.mjs",
+    "db:test": "node packages/database/scripts/test-connection.mjs",
+    "db:test:sdk": "node packages/database/scripts/test-sdk.mjs",
     "lint": "turbo run lint",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean"

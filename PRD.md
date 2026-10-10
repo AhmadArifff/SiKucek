@@ -195,6 +195,28 @@ Mengacu pada prinsip **Rich Aesthetics & Dynamic Design**:
 
 ## 7. Skema Data & Relasi Database (Supabase PostgreSQL)
 
+### 7.1 Spesifikasi Instance Supabase Cloud (Live Production Instance)
+
+Sistem SiKucek terhubung ke instance cloud database Supabase PostgreSQL terkelola (*managed cloud database*) dengan spesifikasi arsitektur berikut:
+
+| Parameter Konfigurasi | Nilai Konfigurasi / Spesifikasi | Keterangan & Peran Arsitektur |
+|---|---|---|
+| **Penyedia Layanan (Provider)** | Supabase Cloud (AWS Infrastructure) | Layanan database PostgreSQL terdistribusi dengan High Availability |
+| **Wilayah (Region)** | Tokyo (`ap-northeast-1` / `aws-0-ap-northeast-1`) | Latensi rendah ke Indonesia (kisaran 60 - 90 ms) |
+| **Project Reference ID** | `nvnuezmzbtcgpzqulwbw` | Identifier unik instance Supabase SiKucek |
+| **Project URL Endpoint** | `https://nvnuezmzbtcgpzqulwbw.supabase.co` | RESTful & Real-time Webhook API Endpoint |
+| **Shared Pooler Host** | `aws-0-ap-northeast-1.pooler.supabase.com` | Supavisor Connection Pooler untuk arsitektur serverless |
+| **Port Transaksi (Pooler)** | `6543` | Transaction Mode (direkomendasikan untuk Next.js App Router & serverless API) |
+| **Port Sesi (Direct Session)** | `5432` | Session Mode (digunakan untuk migrasi skema DDL, fungsi trigger, dan worker persisten) |
+| **Nama Database** | `postgres` | Default primary database name |
+| **Nama Pengguna (User)** | `postgres.nvnuezmzbtcgpzqulwbw` | Tenant-specific database superuser role |
+| **Connection URI (Pooler)** | `postgresql://postgres.nvnuezmzbtcgpzqulwbw:[YOUR-PASSWORD]@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres` | URI transaksi pooling dengan protokol SSL aktif |
+| **Connection URI (Direct)** | `postgresql://postgres.nvnuezmzbtcgpzqulwbw:[YOUR-PASSWORD]@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres` | URI koneksi langsung untuk skrip DDL dan tools database |
+| **Agent Skills Toolkit** | `npx skills add supabase/agent-skills` | Terpasang di `.agents/skills/supabase` & `supabase-postgres-best-practices` |
+| **Protokol Password & Rahasia** | Terproteksi di `.env.local` / Config Vault | Password aktual diisolasi ketat dari version control publik sesuai Bab 13.3 |
+
+### 7.2 Katalog 18 Tabel Inti PostgreSQL
+
 Struktur tabel dioptimalkan untuk performa tinggi, integritas data, zero-hardcode architecture, dan isolasi RLS:
 
 | Nama Tabel | Deskripsi & Tujuan |
@@ -659,6 +681,22 @@ CREATE TABLE public.app_settings (
    - Hanya API backend (`apps/worker` atau Next.js Server Route dengan Supabase Service Role Key) yang dapat membaca kunci rahasia ini.
 2. **Kemudahan Pergantian Kunci (Zero Downtime Config Rotation):**
    - Ketika ingin beralih dari Midtrans Sandbox ke Midtrans Production, pemilik cukup mengedit nilai di halaman `/admin/settings` atau Supabase Table Editor tanpa perlu menyentuh file `.env` ataupun melakukan build ulang (*redeploy*) aplikasi di Vercel.
+
+### 13.4 Spesifikasi Environment Variables Monorepo (Supabase & Database Vault)
+
+Untuk menghubungkan seluruh workspace (`apps/web`, `apps/pos`, `apps/worker`, dan `packages/database`) ke instance Supabase Cloud secara aman dan deterministik, sistem mendefinisikan standar variabel lingkungan (*environment variables*) pada berkas `.env.local`:
+
+| Nama Variabel Lingkungan | Contoh Nilai / Format | Target Workspace | Keterangan & Tingkat Sensitivitas |
+|---|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://nvnuezmzbtcgpzqulwbw.supabase.co` | `apps/web`, `apps/pos` | URL REST/Realtime publik instance Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `eyJhbGciOiJIUzI1NiIsIn...` | `apps/web`, `apps/pos` | Kunci anonim publik untuk query aman berpagar RLS |
+| `SUPABASE_SERVICE_ROLE_KEY` | `eyJhbGciOiJIUzI1NiIsIn...` | `apps/worker`, server API | **Rahasia Tinggi (Secret):** Bypass RLS untuk sinkronisasi antrean & pembayaran |
+| `DATABASE_URL` | `postgresql://postgres.nvnuezmzbtcgpzqulwbw:[PASSWORD]@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres` | Seluruh workspace | Connection string port 6543 (Transaction Pooler) untuk query operasional serverless |
+| `DIRECT_URL` | `postgresql://postgres.nvnuezmzbtcgpzqulwbw:[PASSWORD]@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres` | `packages/database` | Connection string port 5432 (Session Mode) khusus eksekusi migrasi DDL & triggers |
+
+> **Catatan Keamanan & Git Guard:**  
+> Berkas `.env.local` yang memuat password riil telah didaftarkan dalam `.gitignore` di tingkat root maupun sub-folder monorepo. Template kosong yang aman didokumentasikan pada [.env.example](./.env.example).
+
 
 
 

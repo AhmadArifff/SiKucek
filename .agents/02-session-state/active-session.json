@@ -129,6 +129,46 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Eksekusi automated E2E test suite 29/29 checks lulus sempurna (Result pattern, partial discount Bab 10.4, guardrail nomor rak Bab 10.5, normalisasi nomor WA 628xx Bab 10.6, zero-em-dash R-02, 15 route live HTTP matrix port 3000 & 3001). Penambahan rute redirect bebas 404 (/orders, /racks, /admin/login). Seluruh 13 Bab PRD lulus QA Delivery Gate dan siap rilis produksi v1.0.0."
+    },
+    {
+      "id": "M16_PRODUCTION_RELEASE_V1",
+      "title": "Rilis Produksi v1.0.0: Merge Branch dev ke main & Git Tag v1.0.0",
+      "prd_sections": ["Bab 1", "Bab 3", "Bab 8", "Bab 9"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Lolos kompilasi Turbo Production Build (apps/web 9/9 pages, apps/pos 16/16 pages, apps/worker tsc) dengan 0 errors. Merge branch dev ke branch main berhasil tanpa konflik (80 files merged, 13.635 insertions). Tag Git v1.0.0 berhasil dibuat dan dipush ke remote origin GitHub."
+    },
+    {
+      "id": "M17_MAINTENANCE_MIGRATION_BACKUP_RESET_TOOLKIT",
+      "title": "Fitur Pemeliharaan (Maintenance Mode), Migrasi DDL Supabase, Backup & Restore JSON, dan Reset Database Terkendali",
+      "prd_sections": ["Bab 7", "Bab 11.2", "Bab 13"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Implementasi Tab 6 Pemeliharaan & Backup di Admin Settings POS (/admin/settings) dan MaintenanceBanner di portal pelanggan (apps/web). Fitur backup 1-klik unduh snapshot .json dan pulihkan file cadangan. Fitur migrasi DDL SQL Supabase dan CLI script npm run db:migrate. Fitur reset transaksi cucian demo serta factory reset sistem dengan proteksi ketik kata RESET. Script CLI mandiri: npm run db:backup, npm run db:reset, dan npm run db:migrate."
+    },
+    {
+      "id": "M18_EXECUTIVE_SIDEBAR_LAYOUT",
+      "title": "Transformasi Antarmuka Admin Panel: Vertical Sidebar Navigation, Categorized Groups, TopBar Dinamis, & Drawer Mobile",
+      "prd_sections": ["Bab 4", "Bab 6", "Bab 11.2"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Pembaruan arsitektur layout POS (/apps/pos) dari horizontal topbar berjejal menjadi Vertical Side Navigation (AdminSidebarLayout) bergaya Enterprise SaaS. Dilengkapi 4 kelompok menu terstruktur (Operasional Kasir, Manajemen Outlet, Pemasaran & CRM, Sistem & Vault), live badge counter antrean & rak terisi, jam digital realtime WIB, breadcrumbs dinamis, avatar profile staff dengan badge peran (Owner/Kasir), tombol logout terpadu, dan slide-over drawer responsif untuk perangkat mobile."
+    },
+    {
+      "id": "M19_SUPABASE_CLOUD_LIVE_INSTANCE_AND_MIGRATION",
+      "title": "Integrasi Database Supabase Cloud Live, Dokumentasi PRD Bab 7.1 & 13.4, Agent Skills, Eksekusi Migrasi 19 Tabel, & Setup Storage qc-photos",
+      "prd_sections": ["Bab 7.1", "Bab 7.2", "Bab 10.2", "Bab 13.4"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-10",
+      "details": "Pendokumentasian spesifikasi instance Supabase Cloud terkelola (Project Ref nvnuezmzbtcgpzqulwbw, Region Tokyo ap-northeast-1, Pooler Port 6543, Direct Port 5432) pada PRD.md Bab 7.1 dan Bab 13.4. Pemasangan Supabase Agent Skills di .agents/skills/. Pembuatan skrip otomasi npm run db:test dan npm run db:migrate:live dengan driver pg. Berhasil mengeksekusi migrasi DDL 001_initial_schema.sql langsung ke database Supabase Cloud (19 tabel public terbuat dalam 0.46 detik). Integrasi lengkap Anon Key & Service Role Key ke seluruh berkas .env.local monorepo, serta pembuatan dan verifikasi otomatis Supabase Storage Bucket qc-photos berstatus Public dengan uji coba upload gambar PNG via skrip npm run db:test:sdk (100% lulus)."
+    },
+    {
+      "id": "M20_VERCEL_DEPLOYMENT_SPECIFICATION_AND_PRODUCTION_VERIFICATION",
+      "title": "Kesiapan Deployment Online Vercel Monorepo Turborepo, Verifikasi Build 25 Halaman, & Dokumen DEPLOYMENT.md",
+      "prd_sections": ["Bab 1", "Bab 3", "Bab 8", "Bab 9"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-10",
+      "details": "Verifikasi kompilasi bundel produksi Turborepo npm run build (apps/web 9/9 pages, apps/pos 16/16 pages, apps/worker tsc) 100% lulus dalam 2 menit. Penyusunan panduan deployment monorepo Vercel di DEPLOYMENT.md untuk 2 proyek independen (sikucek-web dan sikucek-pos), pemetaan root directory, variabel lingkungan Supabase Cloud live, serta pengujian end-to-end online."
     }
   ],
   "in_progress_milestones": [],

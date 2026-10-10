@@ -29,16 +29,41 @@ import {
   Server,
   RefreshCw,
   ExternalLink,
+  Wrench,
+  Download,
+  Upload,
+  AlertTriangle,
+  Trash2,
+  Copy,
+  FileText,
+  HardDrive,
+  Clock,
 } from 'lucide-react';
 import {
   checkSupabaseHealth,
   isSupabaseConfigured,
+  generateBackupBundle,
+  validateBackupBundle,
+  DATABASE_MIGRATION_MANIFEST,
   type HealthCheckResult,
 } from '@sikucek/database';
+import { getStoredOrders, saveStoredOrders } from '../../../lib/orders-store';
+import { getStoredServices, saveStoredServices } from '../../../lib/services-store';
+import { getStoredRacks, saveStoredRacks } from '../../../lib/racks-store';
+import {
+  getStoredCoupons,
+  saveStoredCoupons,
+  getStoredCampaigns,
+  saveStoredCampaigns,
+  getStoredBanners,
+  saveStoredBanners,
+  getStoredCustomers,
+  saveStoredCustomers,
+} from '../../../lib/marketing-store';
 
 export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState<
-    'payment' | 'whatsapp' | 'outlet' | 'rules' | 'database'
+    'payment' | 'whatsapp' | 'outlet' | 'rules' | 'database' | 'maintenance'
   >('payment');
   const [settings, setSettings] = useState<AppSettingsBundle>(DEFAULT_SETTINGS);
   const [showServerKey, setShowServerKey] = useState<boolean>(false);
@@ -46,6 +71,13 @@ export default function AdminSettingsPage() {
   const [isTestingMidtrans, setIsTestingMidtrans] = useState<boolean>(false);
   const [dbHealth, setDbHealth] = useState<HealthCheckResult | null>(null);
   const [isCheckingDb, setIsCheckingDb] = useState<boolean>(false);
+
+  // Maintenance & Backup States
+  const [isExportingBackup, setIsExportingBackup] = useState<boolean>(false);
+  const [restoreFeedback, setRestoreFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [resetModalMode, setResetModalMode] = useState<'transactions' | 'factory' | null>(null);
+  const [resetConfirmationText, setResetConfirmationText] = useState<string>('');
+  const [isResetting, setIsResetting] = useState<boolean>(false);
 
   useEffect(() => {
     const loaded = getAppSettings();
@@ -90,6 +122,137 @@ export default function AdminSettingsPage() {
     setTimeout(() => setToastMessage(null), 4000);
   };
 
+  // Export Full Backup Snapshot
+  const handleExportBackup = () => {
+    setIsExportingBackup(true);
+    try {
+      const orders = getStoredOrders();
+      const services = getStoredServices();
+      const racks = getStoredRacks();
+      const coupons = getStoredCoupons();
+      const campaigns = getStoredCampaigns();
+      const banners = getStoredBanners();
+      const customers = getStoredCustomers();
+      const app_settings = getAppSettings();
+
+      const bundle = generateBackupBundle(
+        { orders, services, racks, coupons, campaigns, banners, customers, app_settings },
+        'pos_admin'
+      );
+
+      const jsonStr = JSON.stringify(bundle, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      a.href = url;
+      a.download = `sikucek-backup-${timestamp}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      setToastMessage('Snapshot cadangan database berhasil diunduh ke perangkat Anda!');
+      setTimeout(() => setToastMessage(null), 4000);
+    } catch (err: any) {
+      alert(`Gagal membuat berkas cadangan: ${err?.message}`);
+    } finally {
+      setIsExportingBackup(false);
+    }
+  };
+
+  // Restore Backup File
+  const handleRestoreFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const text = event.target?.result as string;
+        const parsed = JSON.parse(text);
+        const validation = validateBackupBundle(parsed);
+
+        if (!validation.valid) {
+          setRestoreFeedback({
+            type: 'error',
+            message: validation.error || 'Format berkas cadangan tidak valid!',
+          });
+          return;
+        }
+
+        // Restore to local stores
+        if (parsed.data.orders) saveStoredOrders(parsed.data.orders);
+        if (parsed.data.services) saveStoredServices(parsed.data.services);
+        if (parsed.data.racks) saveStoredRacks(parsed.data.racks);
+        if (parsed.data.coupons) saveStoredCoupons(parsed.data.coupons);
+        if (parsed.data.campaigns) saveStoredCampaigns(parsed.data.campaigns);
+        if (parsed.data.banners) saveStoredBanners(parsed.data.banners);
+        if (parsed.data.customers) saveStoredCustomers(parsed.data.customers);
+        if (parsed.data.app_settings) {
+          saveAppSettings(parsed.data.app_settings);
+          setSettings(parsed.data.app_settings);
+        }
+
+        setRestoreFeedback({
+          type: 'success',
+          message: `Berhasil memulihkan ${validation.metadata?.total_orders || 0} pesanan, ${validation.metadata?.total_services || 0} layanan, dan ${validation.metadata?.total_racks || 0} rak fisik.`,
+        });
+        setToastMessage('Database berhasil dipulihkan dari berkas cadangan!');
+        setTimeout(() => setToastMessage(null), 4000);
+      } catch (err: any) {
+        setRestoreFeedback({
+          type: 'error',
+          message: `Gagal membaca berkas JSON: ${err?.message}`,
+        });
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
+
+  // Execute Database Reset
+  const handleExecuteReset = () => {
+    if (resetConfirmationText.trim().toUpperCase() !== 'RESET') {
+      alert('Ketik kata "RESET" untuk mengonfirmasi tindakan ini.');
+      return;
+    }
+
+    setIsResetting(true);
+    setTimeout(() => {
+      if (resetModalMode === 'transactions') {
+        saveStoredOrders([]);
+        const racks = getStoredRacks();
+        saveStoredRacks(
+          racks.map((r) => ({
+            ...r,
+            status: 'empty',
+            current_order_id: undefined,
+            current_order_number: undefined,
+          }))
+        );
+        setToastMessage('Data transaksi cucian dan status rak berhasil dibersihkan!');
+      } else if (resetModalMode === 'factory') {
+        localStorage.clear();
+        setSettings(DEFAULT_SETTINGS);
+        saveAppSettings(DEFAULT_SETTINGS);
+        setToastMessage('Database berhasil di-reset total ke konfigurasi awal pabrik.');
+      }
+      setIsResetting(false);
+      setResetModalMode(null);
+      setResetConfirmationText('');
+      setTimeout(() => setToastMessage(null), 4000);
+    }, 600);
+  };
+
+  const handleCopySqlInfo = () => {
+    navigator.clipboard.writeText(
+      '-- Buka SQL Editor di Supabase lalu jalankan file: packages/database/migrations/001_initial_schema.sql\n-- Berkas ini berisi 18 tabel PostgreSQL, RLS policies, trigger antrean WhatsApp, dan data awal.'
+    );
+    setToastMessage('Petunjuk & path berkas migrasi SQL berhasil disalin ke clipboard!');
+    setTimeout(() => setToastMessage(null), 3500);
+  };
+
   // Live preview message for WhatsApp
   const previewReceivedMsg = settings.whatsapp.template_received
     .replace('{customer_name}', 'Rani Maharani')
@@ -109,56 +272,52 @@ export default function AdminSettingsPage() {
     .replace('{tracking_code}', 'SKC-B8D02');
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pb-16">
-      {/* Top Bar Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition"
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </Link>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-base sm:text-lg font-black text-slate-900">
-                  Pusat Konfigurasi Zero-Hardcode
-                </h1>
-                <span className="text-[10px] font-extrabold uppercase tracking-wide bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full">
-                  Bab 13 Vault
-                </span>
-              </div>
-              <p className="text-xs text-slate-500 hidden sm:block">
-                Kelola kredensial Midtrans, template WhatsApp, dan aturan outlet tanpa mengubah kode
-              </p>
+    <div className="max-w-6xl mx-auto space-y-6">
+      {/* Page Title & Action Bar */}
+      <div className="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="w-10 h-10 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition shrink-0"
+            title="Kembali ke Antrean"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
+                Pusat Konfigurasi Zero-Hardcode (Vault)
+              </h1>
+              <span className="text-[10px] font-extrabold uppercase tracking-wide bg-sky-100 text-sky-700 px-2.5 py-0.5 rounded-full">
+                Bab 13 Vault
+              </span>
             </div>
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={handleResetDefaults}
-              className="px-3 py-2 text-xs font-semibold text-slate-600 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 border border-slate-200 rounded-xl transition flex items-center gap-1.5"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Reset Standar</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSave}
-              className="px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold text-white bg-sky-500 hover:bg-sky-600 rounded-xl shadow-md shadow-sky-200 transition active:scale-95 flex items-center gap-1.5"
-            >
-              <Save className="w-4 h-4" />
-              <span>Simpan Perubahan</span>
-            </button>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Kelola kredensial Midtrans, template WhatsApp, aturan outlet, dan pemeliharaan tanpa mengubah kode
+            </p>
           </div>
         </div>
-      </header>
 
-      {/* Main Container */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-6">
+        <div className="flex items-center gap-2.5 self-start sm:self-auto">
+          <button
+            type="button"
+            onClick={handleResetDefaults}
+            className="px-3.5 py-2 text-xs font-semibold text-slate-600 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 border border-slate-200 rounded-xl transition flex items-center gap-1.5"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Reset Standar</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSave}
+            className="px-5 py-2 text-xs sm:text-sm font-bold text-white bg-sky-500 hover:bg-sky-600 rounded-xl shadow-md shadow-sky-200 transition active:scale-95 flex items-center gap-1.5"
+          >
+            <Save className="w-4 h-4" />
+            <span>Simpan Perubahan</span>
+          </button>
+        </div>
+      </div>
         {/* Toast Alert */}
         {toastMessage && (
           <div className="mb-6 bg-emerald-100 border-2 border-emerald-300 text-emerald-900 rounded-2xl p-4 shadow-lg flex items-center justify-between gap-3 animate-fadeIn">
@@ -184,6 +343,7 @@ export default function AdminSettingsPage() {
             { id: 'outlet', label: '3. Profil Outlet', icon: Store },
             { id: 'rules', label: '4. Aturan Bisnis', icon: Sliders },
             { id: 'database', label: '5. Database & Cloud Sync', icon: Database },
+            { id: 'maintenance', label: '6. Pemeliharaan & Backup', icon: Wrench },
           ].map((t) => {
             const Icon = t.icon;
             const isActive = activeTab === t.id;
@@ -999,7 +1159,429 @@ export default function AdminSettingsPage() {
             </div>
           </div>
         )}
-      </main>
+
+        {/* TAB 6: PEMELIHARAAN & BACKUP DATABASE */}
+        {activeTab === 'maintenance' && (
+          <div className="space-y-6">
+            {/* Header Callout */}
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+              <Wrench className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <div className="text-xs text-amber-900 leading-relaxed">
+                <p className="font-bold mb-0.5">
+                  Pusat Pemeliharaan Sistem &amp; Manajemen Basis Data (Maintenance &amp; Disaster Recovery):
+                </p>
+                <p>
+                  Kelola mode offline saat pemeliharaan outlet, buat salinan snapshot data berkala (Backup JSON), pulihkan data (Restore), periksa skrip migrasi Supabase DDL, dan lakukan pembersihan data transaksi dengan proteksi ganda.
+                </p>
+              </div>
+            </div>
+
+            {/* SECTION 1: MAINTENANCE MODE */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+                <div>
+                  <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5 text-amber-500" />
+                    Mode Pemeliharaan Outlet (Maintenance Mode)
+                  </h2>
+                  <p className="text-xs text-slate-500">
+                    Aktifkan jika outlet sedang renovasi, libur hari raya, atau sedang upgrade server
+                  </p>
+                </div>
+
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={settings.maintenance.is_maintenance_mode}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        maintenance: {
+                          ...settings.maintenance,
+                          is_maintenance_mode: e.target.checked,
+                        },
+                      })
+                    }
+                    className="sr-only peer"
+                  />
+                  <div className="w-12 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                  <span className="ml-3 text-xs font-bold text-slate-700">
+                    {settings.maintenance.is_maintenance_mode ? 'AKTIF (Mode Maintenance)' : 'NONAKTIF (Normal)'}
+                  </span>
+                </label>
+              </div>
+
+              {/* Maintenance Mode Form */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2 space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">
+                    Pesan Pengumuman untuk Pelanggan (Tampil di Web &amp; PWA)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={settings.maintenance.maintenance_message}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        maintenance: {
+                          ...settings.maintenance,
+                          maintenance_message: e.target.value,
+                        },
+                      })
+                    }
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-slate-50/50"
+                    placeholder="Contoh: Outlet SiKucek sedang dalam pemeliharaan sistem rutin. Layanan cuci dibuka kembali besok pukul 08.00 WIB."
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">
+                    Estimasi Selesai Pemeliharaan
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.maintenance.expected_end_at}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        maintenance: {
+                          ...settings.maintenance,
+                          expected_end_at: e.target.value,
+                        },
+                      })
+                    }
+                    className="w-full px-4 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-slate-50/50"
+                    placeholder="Contoh: Besok, pukul 08:00 WIB"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">
+                    Nomor WhatsApp Bantuan Darurat
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.maintenance.support_whatsapp}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        maintenance: {
+                          ...settings.maintenance,
+                          support_whatsapp: e.target.value,
+                        },
+                      })
+                    }
+                    className="w-full px-4 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-slate-50/50"
+                    placeholder="081234567890"
+                  />
+                </div>
+              </div>
+
+              {/* Live Preview Banner */}
+              <div className="pt-2">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-2">
+                  Pratinjau Tampilan Banner untuk Pelanggan di Web:
+                </span>
+                <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-2xl p-3 sm:p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                      <AlertTriangle className="w-3.5 h-3.5 text-amber-100" />
+                    </span>
+                    <div>
+                      <span className="font-black uppercase tracking-wider text-[10px] bg-white/20 px-2 py-0.5 rounded-full mr-2">
+                        Pemberitahuan
+                      </span>
+                      <span>{settings.maintenance.maintenance_message}</span>
+                      {settings.maintenance.expected_end_at && (
+                        <span className="font-bold ml-2 underline">
+                          Estimasi: {settings.maintenance.expected_end_at}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <span className="px-3 py-1 bg-white text-amber-800 font-bold rounded-lg text-[11px] shrink-0">
+                    WhatsApp Bantuan
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION 2: BACKUP & RESTORE DATABASE */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Card Backup */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2.5 mb-2">
+                    <div className="w-9 h-9 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+                      <Download className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-slate-800">
+                        Unduh Snapshot Cadangan (Backup JSON)
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        Ekspor seluruh data transaksi, master layanan, rak, dan pengaturan
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-xs text-slate-600 space-y-1.5 my-3">
+                    <div className="flex justify-between">
+                      <span>Cakupan Data:</span>
+                      <span className="font-bold text-slate-800">Orders, Racks, Services, Coupons, Settings</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Format Berkas:</span>
+                      <span className="font-mono font-bold text-sky-700">.json (Canonical SiKucek 1.0.0)</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Opsi Terminal CLI:</span>
+                      <span className="font-mono text-slate-700">npm run db:backup</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleExportBackup}
+                  disabled={isExportingBackup}
+                  className="w-full py-2.5 px-4 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl shadow-sm transition flex items-center justify-center gap-2 text-xs sm:text-sm disabled:opacity-50"
+                >
+                  <Download className="w-4 h-4" />
+                  {isExportingBackup ? 'Memproses Berkas...' : 'Unduh Snapshot Cadangan Sekarang'}
+                </button>
+              </div>
+
+              {/* Card Restore */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2.5 mb-2">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                      <Upload className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-slate-800">
+                        Pulihkan Database (Restore Backup)
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        Kembalikan data transaksi &amp; pengaturan dari berkas cadangan JSON
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-xs text-slate-600 space-y-2 my-3">
+                    <p>Pilih berkas cadangan <code>sikucek-backup-*.json</code> yang telah diunduh sebelumnya:</p>
+                    <input
+                      type="file"
+                      accept=".json"
+                      onChange={handleRestoreFile}
+                      className="block w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer"
+                    />
+                  </div>
+
+                  {restoreFeedback && (
+                    <div
+                      className={`p-3 rounded-xl text-xs font-medium border ${
+                        restoreFeedback.type === 'success'
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                          : 'bg-rose-50 text-rose-800 border-rose-200'
+                      }`}
+                    >
+                      {restoreFeedback.message}
+                    </div>
+                  )}
+                </div>
+
+                <div className="text-[11px] text-slate-400 text-center">
+                  Pemulihan akan menggantikan data aktif di penyimpanan lokal outlet.
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION 3: MIGRATION & SQL DDL TOOL */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center">
+                    <FileText className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-slate-800">
+                      Migrasi Skema PostgreSQL (Supabase DDL Runner)
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      Berkas DDL SQL untuk inisialisasi atau pembaruan 19 tabel di Supabase Cloud
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleCopySqlInfo}
+                    className="px-3.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition flex items-center gap-1.5"
+                  >
+                    <Copy className="w-3.5 h-3.5 text-slate-500" />
+                    Salin Info SQL
+                  </button>
+
+                  <a
+                    href="https://supabase.com/dashboard"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-xl transition flex items-center gap-1.5 shadow-sm"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    Buka Supabase SQL Editor
+                  </a>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-xs text-slate-700 space-y-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <span className="font-bold">Nama Berkas Migrasi Utama:</span>
+                  <code className="bg-slate-200 px-2 py-0.5 rounded text-[11px] font-mono text-purple-900">
+                    packages/database/migrations/001_initial_schema.sql
+                  </code>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <span className="font-bold">Perintah Verifikasi Terminal CLI:</span>
+                  <code className="bg-slate-200 px-2 py-0.5 rounded text-[11px] font-mono text-slate-900">
+                    npm run db:migrate
+                  </code>
+                </div>
+                <p className="text-[11px] text-slate-500 pt-1">
+                  Mencakup seluruh tabel: profiles, customer_tiers, services, racks, orders, order_items, order_qc_photos, payments, loyalty, coupons, marketing, app_settings, dan whatsapp_queue.
+                </p>
+              </div>
+            </div>
+
+            {/* SECTION 4: DANGER ZONE (RESET DATABASE) */}
+            <div className="bg-rose-50/60 rounded-3xl p-6 sm:p-8 border-2 border-rose-200 space-y-5">
+              <div className="flex items-center gap-2.5 pb-3 border-b border-rose-200">
+                <Trash2 className="w-5 h-5 text-rose-600" />
+                <div>
+                  <h3 className="text-base font-black text-rose-900">
+                    Zona Bahaya: Reset Basis Data (Dangerous Zone)
+                  </h3>
+                  <p className="text-xs text-rose-700">
+                    Tindakan ini permanen. Pastikan Anda telah mengunduh cadangan snapshot sebelum melakukan reset.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Reset Transaksi */}
+                <div className="bg-white p-5 rounded-2xl border border-rose-200 shadow-sm flex flex-col justify-between space-y-3">
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-800 mb-1">
+                      1. Bersihkan Data Transaksi Saja
+                    </h4>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      Menghapus seluruh pesanan cucian demo, mengosongkan status rak fisik, dan mereset antrean pesan. Master tarif layanan dan profil outlet tetap aman.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setResetModalMode('transactions');
+                      setResetConfirmationText('');
+                    }}
+                    className="w-full py-2 px-3 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-300 rounded-xl transition"
+                  >
+                    Bersihkan Riwayat Transaksi...
+                  </button>
+                </div>
+
+                {/* Factory Reset */}
+                <div className="bg-white p-5 rounded-2xl border border-rose-200 shadow-sm flex flex-col justify-between space-y-3">
+                  <div>
+                    <h4 className="text-sm font-bold text-rose-900 mb-1">
+                      2. Reset Total ke Awal Pabrik (Factory Reset)
+                    </h4>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      Menghapus seluruh data lokal dan mengembalikan sistem ke dataset awal bawaan standar SiKucek (orders, services, racks, coupons, settings).
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setResetModalMode('factory');
+                      setResetConfirmationText('');
+                    }}
+                    className="w-full py-2 px-3 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl transition shadow-sm"
+                  >
+                    Reset Total ke Awal Pabrik...
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* MODAL KONFIRMASI RESET (PROTECTED CONFIRMATION) */}
+        {resetModalMode && (
+          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
+            <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-200 space-y-5">
+              <div className="flex items-center gap-3 text-rose-600">
+                <div className="w-10 h-10 rounded-2xl bg-rose-100 flex items-center justify-center shrink-0">
+                  <AlertTriangle className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900">
+                    Konfirmasi Tindakan Reset
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    {resetModalMode === 'transactions'
+                      ? 'Pembersihan Transaksi Cucian'
+                      : 'Factory Reset Total ke Kondisi Awal'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-xs text-slate-600 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                <p>
+                  {resetModalMode === 'transactions'
+                    ? 'Seluruh pesanan cucian di antrean dan rak fisik akan dikosongkan. Tindakan ini tidak dapat dibatalkan.'
+                    : 'Seluruh data transaksi, pengaturan, dan master lokal akan dikembalikan ke kondisi standar awal pabrik.'}
+                </p>
+                <p className="font-bold text-slate-800">
+                  Ketik kata <span className="text-rose-600 font-mono">RESET</span> di bawah untuk melanjutkan:
+                </p>
+                <input
+                  type="text"
+                  value={resetConfirmationText}
+                  onChange={(e) => setResetConfirmationText(e.target.value)}
+                  placeholder="Ketik RESET"
+                  className="w-full px-3 py-2 text-sm font-mono font-bold rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-rose-500 bg-white"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setResetModalMode(null);
+                    setResetConfirmationText('');
+                  }}
+                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition"
+                >
+                  Batal
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleExecuteReset}
+                  disabled={resetConfirmationText.trim().toUpperCase() !== 'RESET' || isResetting}
+                  className="px-5 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl shadow-md transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  {isResetting ? 'Mereset Data...' : 'Konfirmasi & Eksekusi Reset'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 }
