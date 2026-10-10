@@ -90,93 +90,93 @@ export default function PosDashboardPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
       {/* Top Banner Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
-            Dasbor Antrean Kasir & Operator
+          <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
+            Dasbor Antrean Kasir &amp; Operator
           </h1>
-          <p className="text-xs text-slate-500">
+          <p className="text-[11px] sm:text-xs text-slate-500">
             Kelola penerimaan cucian, pemantauan mesin, dan alokasi rak fisik
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 self-start sm:self-auto">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <Link
             href="/admin/settings"
-            className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-2xl border border-slate-200 transition"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl sm:rounded-2xl border border-slate-200 transition"
           >
-            <Settings className="w-4 h-4 text-slate-500" />
-            Pengaturan (Vault)
+            <Settings className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+            <span className="truncate">Pengaturan</span>
           </Link>
           <Link
             href="/orders/new"
-            className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-2xl shadow-lg shadow-sky-200 transition"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 sm:px-5 py-2 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-xl sm:rounded-2xl shadow-md shadow-sky-200 transition active:scale-95"
           >
-            <PlusCircle className="w-4 h-4" />
-            + Terima Cucian Baru
+            <PlusCircle className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">+ Terima Cucian</span>
           </Link>
         </div>
       </div>
 
       {/* KPI Metric Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1 sm:space-y-2">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-              Total Order Hari Ini
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 truncate">
+              Order Hari Ini
             </span>
-            <Package className="w-4 h-4 text-sky-500" />
+            <Package className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500 shrink-0" />
           </div>
-          <p className="text-2xl font-extrabold text-slate-900 font-mono">
+          <p className="text-lg sm:text-2xl font-extrabold text-slate-900 font-mono truncate">
             {metrics.totalOrders}
           </p>
-          <p className="text-[10px] text-slate-500">Transaksi tercatat</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Transaksi tercatat</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1 sm:space-y-2">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 truncate">
               Berat Kiloan (Kg)
             </span>
-            <Scale className="w-4 h-4 text-sky-500" />
+            <Scale className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500 shrink-0" />
           </div>
-          <p className="text-2xl font-extrabold text-slate-900 font-mono">
+          <p className="text-lg sm:text-2xl font-extrabold text-slate-900 font-mono truncate">
             {formatKg(metrics.totalWeight)}
           </p>
-          <p className="text-[10px] text-slate-500">Total cucian masuk</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Total cucian masuk</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1 sm:space-y-2">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-              Siap di Rak (Ready)
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 truncate">
+              Siap di Rak
             </span>
-            <MapPin className="w-4 h-4 text-emerald-500" />
+            <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500 shrink-0" />
           </div>
-          <p className="text-2xl font-extrabold text-emerald-600 font-mono">
+          <p className="text-lg sm:text-2xl font-extrabold text-emerald-600 font-mono truncate">
             {metrics.readyInRack}
           </p>
-          <p className="text-[10px] text-slate-500">Menunggu diambil pelanggan</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Menunggu diambil</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1 sm:space-y-2">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 truncate">
               Omzet Lunas (Rp)
             </span>
-            <Banknote className="w-4 h-4 text-emerald-500" />
+            <Banknote className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500 shrink-0" />
           </div>
-          <p className="text-2xl font-extrabold text-slate-900 font-mono">
+          <p className="text-base sm:text-2xl font-extrabold text-slate-900 font-mono truncate">
             {formatRupiah(metrics.totalOmzet)}
           </p>
-          <p className="text-[10px] text-slate-500">Kasir tunai & QRIS</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Kasir tunai &amp; QRIS</p>
         </div>
       </div>
 
       {/* Filter Tabs & Search */}
-      <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-white p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           {/* Workflow Tabs */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
@@ -191,7 +191,7 @@ export default function PosDashboardPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
                   activeTab === tab.id
                     ? 'bg-sky-500 text-white shadow-sm shadow-sky-200'
                     : 'text-slate-600 hover:bg-slate-100'
@@ -217,17 +217,17 @@ export default function PosDashboardPage() {
 
         {/* Orders Table / Cards List */}
         {filteredOrders.length === 0 ? (
-          <div className="p-12 text-center text-slate-400 space-y-2">
-            <Package className="w-10 h-10 mx-auto opacity-40 text-slate-400" />
+          <div className="p-8 sm:p-12 text-center text-slate-400 space-y-2">
+            <Package className="w-8 h-8 sm:w-10 sm:h-10 mx-auto opacity-40 text-slate-400" />
             <p className="text-xs font-medium">Tidak ada cucian pada kategori ini</p>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2.5 sm:space-y-3">
             {filteredOrders.map((order) => (
               <Link
                 key={order.id}
                 href={`/orders/${order.id}`}
-                className="block p-4 rounded-2xl border border-slate-200 hover:border-sky-300 hover:shadow-md transition bg-slate-50/50 hover:bg-white group"
+                className="block p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200 hover:border-sky-300 hover:shadow-md transition bg-slate-50/50 hover:bg-white group"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="space-y-1">

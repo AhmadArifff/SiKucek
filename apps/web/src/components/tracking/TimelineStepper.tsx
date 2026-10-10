@@ -45,7 +45,7 @@ export default function TimelineStepper({ steps }: TimelineStepperProps) {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-5 sm:p-7 border border-sky-100 shadow-md">
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-sky-100 shadow-md">
       <div className="flex items-center justify-between mb-6 pb-3 border-b border-sky-50">
         <div>
           <h3 className="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">

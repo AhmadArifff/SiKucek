@@ -154,41 +154,41 @@ export default function AdminMarketingPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
-              Dashboard Marketing &amp; ROI Kampanye
+            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
+              Dashboard Marketing &amp; ROI
             </h1>
             <span className="text-[10px] font-bold uppercase tracking-wider bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full">
               Bab 12 PRD
             </span>
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-[11px] sm:text-xs text-slate-500">
             Pelacakan efisiensi biaya promosi, rasio ROI omzet, dan manajemen banner aplikasi
           </p>
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           {activeTab === 'campaigns' ? (
             <button
               type="button"
               onClick={() => setIsCampaignModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-2xl shadow-lg shadow-sky-200 transition active:scale-95"
+              className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-xl sm:rounded-2xl shadow-md shadow-sky-200 transition active:scale-95 w-full sm:w-auto"
             >
               <PlusCircle className="w-4 h-4" />
-              + Buat Kampanye
+              <span>+ Buat Kampanye</span>
             </button>
           ) : (
             <button
               type="button"
               onClick={() => setIsBannerModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-2xl shadow-lg shadow-sky-200 transition active:scale-95"
+              className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-xl sm:rounded-2xl shadow-md shadow-sky-200 transition active:scale-95 w-full sm:w-auto"
             >
               <PlusCircle className="w-4 h-4" />
-              + Tambah Banner
+              <span>+ Tambah Banner</span>
             </button>
           )}
         </div>
@@ -196,58 +196,58 @@ export default function AdminMarketingPage() {
 
       {/* Toast Alert */}
       {toastMessage && (
-        <div className="bg-emerald-100 border border-emerald-300 text-emerald-900 rounded-2xl p-4 shadow-sm flex items-center gap-2 text-xs font-bold animate-fadeIn">
+        <div className="bg-emerald-100 border border-emerald-300 text-emerald-900 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-2 text-xs font-bold animate-fadeIn">
           <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* Top ROI KPI Metrics Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            Total Anggaran Promosi
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 truncate block">
+            Anggaran Promosi
           </span>
-          <p className="text-xl sm:text-2xl font-black font-mono text-slate-900">
+          <p className="text-base sm:text-2xl font-black font-mono text-slate-900 truncate">
             {formatRupiah(totalBudget)}
           </p>
-          <p className="text-[10px] text-slate-500">Modal iklan &amp; event</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Modal iklan &amp; event</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            Total Diskon Diberikan
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 truncate block">
+            Diskon Diberikan
           </span>
-          <p className="text-xl sm:text-2xl font-black font-mono text-rose-600">
+          <p className="text-base sm:text-2xl font-black font-mono text-rose-600 truncate">
             {formatRupiah(totalDiscounts)}
           </p>
-          <p className="text-[10px] text-slate-500">Subsidi voucher promo</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Subsidi voucher promo</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            Omzet dari Kampanye
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 truncate block">
+            Omzet Kampanye
           </span>
-          <p className="text-xl sm:text-2xl font-black font-mono text-emerald-600">
+          <p className="text-base sm:text-2xl font-black font-mono text-emerald-600 truncate">
             {formatRupiah(totalRevenue)}
           </p>
-          <p className="text-[10px] text-slate-500">Pendapatan kotor laundry</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Pendapatan laundry</p>
         </div>
 
-        <div className="bg-gradient-to-br from-sky-500 to-sky-600 text-white p-4 rounded-3xl shadow-lg shadow-sky-200 space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-sky-100 flex items-center justify-between">
-            <span>Rasio ROI Keseluruhan</span>
-            <TrendingUp className="w-3.5 h-3.5 text-amber-300" />
+        <div className="bg-gradient-to-br from-sky-500 to-sky-600 text-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl shadow-md shadow-sky-200 space-y-1">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-sky-100 flex items-center justify-between">
+            <span className="truncate">Rasio ROI</span>
+            <TrendingUp className="w-3.5 h-3.5 text-amber-300 shrink-0" />
           </span>
-          <p className="text-2xl font-black font-mono">{overallRoiRatio}x ROI</p>
-          <p className="text-[10px] text-sky-100 font-medium">
-            Laba Bersih: {formatRupiah(netMarketingProfit)}
+          <p className="text-lg sm:text-2xl font-black font-mono truncate">{overallRoiRatio}x ROI</p>
+          <p className="text-[9px] sm:text-[10px] text-sky-100 font-medium truncate">
+            Laba: {formatRupiah(netMarketingProfit)}
           </p>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex border-b border-slate-200 gap-2 pb-1">
+      <div className="flex border-b border-slate-200 gap-1.5 sm:gap-2 pb-1 overflow-x-auto scrollbar-none">
         <button
           type="button"
           onClick={() => setActiveTab('campaigns')}

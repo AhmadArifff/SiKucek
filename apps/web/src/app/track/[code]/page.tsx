@@ -89,22 +89,22 @@ export default function TrackingPage({ params }: TrackingPageProps) {
     <div className="min-h-screen flex flex-col bg-slate-50/60 text-slate-900">
       <Navbar />
 
-      <main className="flex-1 py-8 sm:py-12">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-6">
+      <main className="flex-1 py-4 sm:py-12">
+        <div className="max-w-5xl mx-auto px-3 sm:px-6 space-y-4 sm:space-y-6">
           {/* Top Navigation & Fast Switch Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-600 hover:text-sky-600 transition"
+              className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-bold text-slate-600 hover:text-sky-600 transition self-start"
             >
               <ArrowLeft className="w-4 h-4" />
-              Kembali ke Beranda
+              <span>Kembali ke Beranda</span>
             </Link>
 
             {/* Quick Search Another Code */}
             <form
               onSubmit={handleSearchAnother}
-              className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-2xl border border-sky-200 shadow-sm max-w-sm w-full sm:w-auto"
+              className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl sm:rounded-2xl border border-sky-200 shadow-sm w-full sm:w-auto"
             >
               <Search className="w-4 h-4 text-sky-400 shrink-0" />
               <input
@@ -116,7 +116,7 @@ export default function TrackingPage({ params }: TrackingPageProps) {
               />
               <button
                 type="submit"
-                className="px-3 py-1 text-xs font-bold bg-sky-500 hover:bg-sky-600 text-white rounded-xl transition shrink-0"
+                className="px-3 py-1 text-xs font-bold bg-sky-500 hover:bg-sky-600 text-white rounded-lg sm:rounded-xl transition shrink-0"
               >
                 Cari
               </button>
@@ -125,30 +125,30 @@ export default function TrackingPage({ params }: TrackingPageProps) {
 
           {/* Simulation Notice if triggered via fallback simulator */}
           {order.isSimulation && (
-            <div className="bg-sky-100/70 border border-sky-300 rounded-2xl p-3.5 flex items-center justify-between text-xs text-sky-900">
+            <div className="bg-sky-100/70 border border-sky-300 rounded-xl sm:rounded-2xl p-3 sm:p-3.5 flex items-center justify-between text-xs text-sky-900">
               <div className="flex items-center gap-2">
                 <Info className="w-4 h-4 text-sky-600 shrink-0" />
-                <span>
-                  Menampilkan pratinjau dinamis untuk nomor resi{' '}
+                <span className="text-[11px] sm:text-xs">
+                  Pratinjau dinamis untuk nomor resi{' '}
                   <strong className="font-mono">{order.trackingCode}</strong>.
                 </span>
               </div>
-              <span className="text-[10px] font-bold bg-sky-200 px-2 py-0.5 rounded-full">
-                Simulasi Otomatis
+              <span className="text-[9px] sm:text-[10px] font-bold bg-sky-200 px-2 py-0.5 rounded-full shrink-0">
+                Simulasi
               </span>
             </div>
           )}
 
           {/* Main Order Identity Header Card */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-lg shadow-sky-100/60 relative overflow-hidden">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-sky-100 shadow-md sm:shadow-lg relative overflow-hidden">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 pb-4 sm:pb-6 border-b border-slate-100">
               <div>
-                <div className="flex flex-wrap items-center gap-2.5 mb-2">
-                  <span className="text-xs font-mono font-black text-sky-700 bg-sky-50 px-3 py-1 rounded-xl border border-sky-200">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <span className="text-xs font-mono font-black text-sky-700 bg-sky-50 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-lg sm:rounded-xl border border-sky-200">
                     {order.trackingCode}
                   </span>
                   <span
-                    className={`px-3 py-1 text-xs font-extrabold uppercase tracking-wider rounded-xl ${
+                    className={`px-2.5 py-0.5 sm:px-3 sm:py-1 text-[11px] sm:text-xs font-extrabold uppercase tracking-wider rounded-lg sm:rounded-xl ${
                       isCompleted
                         ? 'bg-slate-100 text-slate-700'
                         : isReady
@@ -160,12 +160,12 @@ export default function TrackingPage({ params }: TrackingPageProps) {
                   </span>
                 </div>
 
-                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-                  Cucian atas nama {order.customerName}
+                <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+                  Cucian an. {order.customerName}
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1 flex items-center gap-2">
-                  <User className="w-3.5 h-3.5 text-slate-400" />
-                  No. Telepon: {order.customerPhone}
+                <p className="text-[11px] sm:text-xs text-slate-500 mt-1 flex items-center gap-1.5 sm:gap-2">
+                  <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  <span>No. HP: {order.customerPhone}</span>
                 </p>
               </div>
 
@@ -174,7 +174,7 @@ export default function TrackingPage({ params }: TrackingPageProps) {
                 type="button"
                 onClick={handleRefresh}
                 disabled={isRefreshing}
-                className="self-start md:self-auto flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-600 hover:text-sky-600 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition"
+                className="self-start md:self-auto flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-bold text-slate-600 hover:text-sky-600 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition"
               >
                 <RefreshCw
                   className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-sky-500' : ''}`}

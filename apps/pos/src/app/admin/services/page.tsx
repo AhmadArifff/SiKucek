@@ -117,19 +117,19 @@ export default function AdminServicesPage() {
   const satuanCount = services.filter((s) => s.category === 'satuan').length;
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
               Master Katalog Layanan &amp; Tarif
             </h1>
             <span className="text-[10px] font-bold uppercase tracking-wider bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full">
               Khusus Owner
             </span>
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-[11px] sm:text-xs text-slate-500">
             Kelola harga cuci kiloan, pakaian satuan, durasi kerja, dan aturan berat minimal
           </p>
         </div>
@@ -137,45 +137,45 @@ export default function AdminServicesPage() {
         <button
           type="button"
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-2xl shadow-lg shadow-sky-200 transition active:scale-95 self-start sm:self-auto"
+          className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-xl sm:rounded-2xl shadow-md shadow-sky-200 transition active:scale-95 w-full sm:w-auto"
         >
           <PlusCircle className="w-4 h-4" />
-          + Tambah Layanan Baru
+          <span>+ Tambah Layanan Baru</span>
         </button>
       </div>
 
       {/* Toast Alert */}
       {toastMessage && (
-        <div className="bg-emerald-100 border border-emerald-300 text-emerald-900 rounded-2xl p-4 shadow-sm flex items-center gap-2 text-xs font-bold animate-fadeIn">
+        <div className="bg-emerald-100 border border-emerald-300 text-emerald-900 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-2 text-xs font-bold animate-fadeIn">
           <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 truncate block">
             Total Layanan Terdaftar
           </span>
-          <p className="text-2xl font-black font-mono text-slate-900">{services.length}</p>
-          <p className="text-[10px] text-slate-600">Katalog aktif &amp; arsip</p>
+          <p className="text-lg sm:text-2xl font-black font-mono text-slate-900">{services.length}</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-600">Katalog aktif &amp; arsip</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-bold uppercase tracking-wider">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
               Layanan Cuci Kiloan
             </span>
-            <Scale className="w-4 h-4 text-sky-500" />
+            <Scale className="w-3.5 h-3.5 text-sky-500 shrink-0" />
           </div>
-          <p className="text-2xl font-black font-mono text-sky-600">{kiloanCount}</p>
-          <p className="text-[10px] text-slate-600">Reguler, Express, Kilat</p>
+          <p className="text-lg sm:text-2xl font-black font-mono text-sky-600">{kiloanCount}</p>
+          <p className="text-[9px] sm:text-[10px] text-slate-600">Reguler, Express, Kilat</p>
         </div>
 
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+        <div className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-bold uppercase tracking-wider">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
               Layanan Pakaian Satuan
             </span>
             <Shirt className="w-4 h-4 text-amber-500" />

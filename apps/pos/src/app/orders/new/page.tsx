@@ -217,15 +217,15 @@ export default function NewOrderPage() {
         {/* Left Column (Inputs: Customer, Kiloan, Satuan, QC) */}
         <div className="lg:col-span-2 space-y-6">
           {/* Card 1: Data Pelanggan */}
-          <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
+            <h2 className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs shrink-0 font-bold">
                 1
               </span>
               Data Pelanggan
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label className="text-xs font-semibold text-slate-700 block mb-1">
                   Nomor WhatsApp <span className="text-rose-500">*</span>
@@ -235,7 +235,7 @@ export default function NewOrderPage() {
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
                   placeholder="081234567890"
-                  className="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:outline-none"
+                  className="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:outline-none"
                 />
               </div>
 
@@ -248,22 +248,22 @@ export default function NewOrderPage() {
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
                   placeholder="Nama lengkap atau panggilan"
-                  className="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:outline-none"
+                  className="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:outline-none"
                 />
               </div>
             </div>
           </div>
 
           {/* Card 2: Layanan Kiloan */}
-          <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs">
+              <h2 className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs shrink-0 font-bold">
                   2
                 </span>
                 Komponen Cucian Kiloan (Timbangan)
               </h2>
-              <Scale className="w-4 h-4 text-sky-500" />
+              <Scale className="w-4 h-4 text-sky-500 shrink-0" />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -272,14 +272,14 @@ export default function NewOrderPage() {
                   type="button"
                   key={service.id}
                   onClick={() => setSelectedKiloanServiceId(service.id)}
-                  className={`p-3 rounded-2xl border text-left transition ${
+                  className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border text-left transition ${
                     selectedKiloanServiceId === service.id
                       ? 'border-sky-500 bg-sky-50/60 ring-2 ring-sky-200'
                       : 'border-slate-200 hover:bg-slate-50'
                   }`}
                 >
-                  <p className="text-xs font-bold text-slate-900">{service.name}</p>
-                  <p className="text-xs text-sky-600 font-extrabold mt-1">
+                  <p className="text-xs font-bold text-slate-900 leading-tight">{service.name}</p>
+                  <p className="text-xs text-sky-600 font-extrabold mt-1 font-mono">
                     {formatRupiah(service.price_per_unit)}
                     <span className="text-[10px] text-slate-500 font-normal"> /kg</span>
                   </p>
@@ -287,7 +287,7 @@ export default function NewOrderPage() {
               ))}
             </div>
 
-            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="bg-slate-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div>
                 <label className="text-xs font-bold text-slate-700 block">
                   Input Berat Timbangan Riil (Kg):
@@ -296,7 +296,7 @@ export default function NewOrderPage() {
                   Minimal tagihan: {formatKg(minWeight)} (Bab 10.1 PRD)
                 </p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 self-end sm:self-auto">
                 <input
                   type="number"
                   step="0.05"
@@ -304,7 +304,7 @@ export default function NewOrderPage() {
                   value={kiloanWeight || ''}
                   onChange={(e) => setKiloanWeight(parseFloat(e.target.value) || 0)}
                   placeholder="0.00"
-                  className="w-28 px-3 py-2 text-base font-mono font-bold text-right border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:outline-none"
+                  className="w-24 sm:w-28 px-3 py-1.5 sm:py-2 text-sm sm:text-base font-mono font-bold text-right border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:outline-none"
                 />
                 <span className="text-xs font-bold text-slate-700">Kg</span>
               </div>
@@ -328,52 +328,54 @@ export default function NewOrderPage() {
           </div>
 
           {/* Card 3: Layanan Satuan */}
-          <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs">
+              <h2 className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-xs shrink-0 font-bold">
                   3
                 </span>
-                Komponen Cucian Satuan (Per Helai / Pasang)
+                Komponen Satuan (Per Helai / Pasang)
               </h2>
-              <Shirt className="w-4 h-4 text-sky-500" />
+              <Shirt className="w-4 h-4 text-sky-500 shrink-0" />
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5">
               {satuanServices.map((service) => {
                 const qty = satuanQuantities[service.id] || 0;
                 return (
                   <div
                     key={service.id}
-                    className={`p-3 rounded-2xl border transition flex flex-col justify-between ${
+                    className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border transition flex flex-col justify-between ${
                       qty > 0
-                        ? 'border-sky-500 bg-sky-50/40 ring-1 ring-sky-300'
-                        : 'border-slate-200 hover:bg-slate-50'
+                        ? 'border-sky-500 bg-sky-50/50 ring-1 ring-sky-300'
+                        : 'border-slate-200 hover:bg-slate-50 bg-white'
                     }`}
                   >
                     <div>
-                      <p className="text-xs font-bold text-slate-900 leading-tight">{service.name}</p>
-                      <p className="text-[11px] font-semibold text-slate-500 mt-0.5">
+                      <p className="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight line-clamp-2">
+                        {service.name}
+                      </p>
+                      <p className="text-[10px] sm:text-[11px] font-extrabold text-sky-600 mt-0.5 font-mono">
                         {formatRupiah(service.price_per_unit)}
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between mt-3 pt-2 border-t border-slate-100">
+                    <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-slate-100">
                       <button
                         type="button"
                         onClick={() => handleUpdateSatuanQty(service.id, -1)}
                         disabled={qty === 0}
-                        className="w-7 h-7 rounded-lg border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-slate-100 disabled:opacity-25 disabled:cursor-not-allowed transition active:scale-95 shrink-0"
                       >
-                        <Minus className="w-3.5 h-3.5" />
+                        <Minus className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                       </button>
-                      <span className="text-xs font-bold font-mono text-slate-900">{qty}</span>
+                      <span className="text-xs font-bold font-mono text-slate-900 w-6 text-center">{qty}</span>
                       <button
                         type="button"
                         onClick={() => handleUpdateSatuanQty(service.id, 1)}
-                        className="w-7 h-7 rounded-lg bg-sky-500 text-white flex items-center justify-center hover:bg-sky-600 transition shadow-sm"
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-sky-500 hover:bg-sky-600 text-white flex items-center justify-center transition shadow-sm active:scale-95 shrink-0"
                       >
-                        <Plus className="w-3.5 h-3.5" />
+                        <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                       </button>
                     </div>
                   </div>
@@ -383,37 +385,37 @@ export default function NewOrderPage() {
           </div>
 
           {/* Card 4: Quality Control (QC) Foto Cacat Awal */}
-          <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center text-xs">
+                <h2 className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center text-xs shrink-0 font-bold">
                     4
                   </span>
-                  Modul Quality Control (QC Foto Anti-Sengketa)
+                  Modul Quality Control (QC Foto Cacat)
                 </h2>
                 <p className="text-[11px] text-slate-500 mt-0.5">
-                  Potret baju yang robek, luntur, atau kancing copot sebelum masuk mesin cuci
+                  Potret baju bernoda, sobek, atau kancing copot sebelum masuk mesin cuci
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsCameraOpen(true)}
-                className="flex items-center gap-2 px-3.5 py-2 bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold rounded-xl shadow-md shadow-rose-200 transition"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-rose-500 hover:bg-rose-600 active:scale-98 text-white text-xs font-bold rounded-xl shadow-md shadow-rose-200 transition shrink-0 whitespace-nowrap"
               >
-                <Camera className="w-4 h-4" />
-                Ambil Foto QC
+                <Camera className="w-4 h-4 shrink-0" />
+                <span>Ambil Foto QC</span>
               </button>
             </div>
 
             {qcPhotos.length === 0 ? (
-              <div className="p-6 border border-dashed border-slate-200 rounded-2xl text-center bg-slate-50">
+              <div className="p-4 sm:p-6 border border-dashed border-slate-200 rounded-xl sm:rounded-2xl text-center bg-slate-50">
                 <p className="text-xs text-slate-500">
                   Belum ada foto cacat yang dilampirkan. Jika ada pakaian bermasalah, tekan tombol di atas.
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
                 {qcPhotos.map((photo) => (
                   <div
                     key={photo.id}
@@ -461,8 +463,8 @@ export default function NewOrderPage() {
 
         {/* Right Column: Live Hybrid Calculation & Payment Summary */}
         <div className="space-y-6">
-          <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-lg sticky top-20 space-y-5">
-            <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-md sticky top-20 space-y-4 sm:space-y-5">
+            <h3 className="text-xs sm:text-sm font-bold text-slate-900 border-b border-slate-100 pb-2.5">
               Ringkasan Tagihan (Hybrid)
             </h3>
 
@@ -490,21 +492,21 @@ export default function NewOrderPage() {
               )}
               <div className="pt-2 border-t border-slate-100 flex justify-between items-baseline">
                 <span className="font-bold text-slate-900">Total Tagihan Bersih:</span>
-                <span className="text-xl font-extrabold text-sky-600 font-mono">
+                <span className="text-lg sm:text-xl font-extrabold text-sky-600 font-mono">
                   {formatRupiah(totals.final_amount)}
                 </span>
               </div>
             </div>
 
             {/* Payment Method */}
-            <div className="space-y-3 pt-3 border-t border-slate-100">
+            <div className="space-y-2.5 pt-2 border-t border-slate-100">
               <label className="text-xs font-bold text-slate-700 block">Metode Pembayaran:</label>
 
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => setPaymentChannel('cash')}
-                  className={`p-3 rounded-2xl border text-left flex items-center gap-2 transition ${
+                  className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border text-left flex items-center gap-2 transition ${
                     paymentChannel === 'cash'
                       ? 'border-sky-500 bg-sky-50 text-sky-700 font-bold ring-2 ring-sky-200'
                       : 'border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -517,7 +519,7 @@ export default function NewOrderPage() {
                 <button
                   type="button"
                   onClick={() => setPaymentChannel('midtrans_qris')}
-                  className={`p-3 rounded-2xl border text-left flex items-center gap-2 transition ${
+                  className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border text-left flex items-center gap-2 transition ${
                     paymentChannel === 'midtrans_qris'
                       ? 'border-sky-500 bg-sky-50 text-sky-700 font-bold ring-2 ring-sky-200'
                       : 'border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -530,16 +532,16 @@ export default function NewOrderPage() {
 
               {/* Cash Change Calculation */}
               {paymentChannel === 'cash' && (
-                <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <label className="text-xs text-slate-600 font-medium">Uang Diterima:</label>
+                <div className="bg-slate-50 p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border border-slate-100 space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <label className="text-xs text-slate-600 font-medium shrink-0">Uang Diterima:</label>
                     <input
                       type="number"
                       step="1000"
                       value={cashReceived || ''}
                       onChange={(e) => setCashReceived(parseFloat(e.target.value) || 0)}
                       placeholder="Nominal tunai"
-                      className="w-32 px-2.5 py-1.5 text-xs text-right font-mono font-bold border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400"
+                      className="w-28 sm:w-32 px-2.5 py-1 text-xs text-right font-mono font-bold border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400"
                     />
                   </div>
                   <div className="flex justify-between items-center text-xs">
@@ -577,10 +579,10 @@ export default function NewOrderPage() {
               type="button"
               onClick={handleSubmitOrder}
               disabled={isSubmitting}
-              className="w-full py-3.5 bg-sky-500 hover:bg-sky-600 text-white font-bold text-sm rounded-2xl shadow-lg shadow-sky-200 transition flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-3 sm:py-3.5 bg-sky-500 hover:bg-sky-600 active:scale-98 text-white font-bold text-xs sm:text-sm rounded-xl sm:rounded-2xl shadow-md shadow-sky-200 transition flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              <CheckCircle2 className="w-5 h-5" />
-              {isSubmitting ? 'Memproses Pesanan...' : 'Simpan & Terbitkan Pesanan'}
+              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+              <span>{isSubmitting ? 'Memproses Pesanan...' : 'Simpan & Terbitkan Pesanan'}</span>
             </button>
           </div>
         </div>

@@ -431,33 +431,33 @@ export function AdminSidebarLayout({ children }: { children: React.ReactNode }) 
       {/* ========================================================================= */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header Bar */}
-        <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-slate-200 h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+        <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-slate-200 h-14 sm:h-16 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             {/* Mobile Hamburger Button */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
-              className="lg:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition"
+              className="lg:hidden p-1.5 sm:p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition shrink-0"
               title="Buka Menu"
             >
               <Menu className="w-5 h-5" />
             </button>
 
             {/* Breadcrumb / Current Route Title */}
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-1.5 text-slate-400 text-[11px] font-medium hidden sm:flex">
                 <span>SiKucek Admin</span>
                 <ChevronRight className="w-3 h-3" />
                 <span className="text-slate-700 font-bold">{getCurrentPageLabel()}</span>
               </div>
-              <h2 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">
+              <h2 className="text-xs sm:text-base font-extrabold text-slate-900 tracking-tight truncate max-w-[190px] sm:max-w-none">
                 {getCurrentPageLabel()}
               </h2>
             </div>
           </div>
 
           {/* Right Header Status & Actions */}
-          <div className="flex items-center gap-2.5 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             {/* Live Clock WIB */}
             {currentTime && (
               <div className="hidden md:flex items-center gap-1.5 px-3 py-1 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono font-bold text-slate-700">
@@ -476,17 +476,18 @@ export function AdminSidebarLayout({ children }: { children: React.ReactNode }) 
             {pathname !== '/orders/new' && (
               <Link
                 href="/orders/new"
-                className="px-3.5 sm:px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold rounded-xl shadow-md shadow-sky-200 transition flex items-center gap-1.5"
+                className="px-2.5 sm:px-4 py-1.5 sm:py-2 bg-sky-500 hover:bg-sky-600 active:scale-95 text-white text-xs font-bold rounded-xl shadow-sm shadow-sky-200 transition flex items-center gap-1.5 shrink-0"
               >
-                <PlusCircle className="w-4 h-4" />
+                <PlusCircle className="w-4 h-4 shrink-0" />
                 <span className="hidden sm:inline">Terima Cucian</span>
+                <span className="sm:hidden text-[11px]">Terima</span>
               </Link>
             )}
           </div>
         </header>
 
         {/* Main Content Area */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        <main className="flex-1 p-3 sm:p-6 lg:p-8 overflow-y-auto">
           {children}
         </main>
       </div>

@@ -46,17 +46,17 @@ export default function DigitalReceipt({ order }: DigitalReceiptProps) {
   const isPaid = order.paymentStatus === 'paid';
 
   return (
-    <div className="bg-white rounded-3xl p-5 sm:p-7 border border-sky-100 shadow-md">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-sky-50">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-sky-50 text-sky-600 border border-sky-200 flex items-center justify-center shrink-0">
-            <Receipt className="w-5 h-5" />
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-sky-100 shadow-md">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 sm:mb-6 pb-3 sm:pb-4 border-b border-sky-50">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-sky-50 text-sky-600 border border-sky-200 flex items-center justify-center shrink-0">
+            <Receipt className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <div>
             <h3 className="text-base sm:text-lg font-bold text-slate-800">
               Rincian Nota Transaksi
             </h3>
-            <p className="text-xs text-slate-500">
+            <p className="text-[11px] sm:text-xs text-slate-500">
               No. Invoice: <span className="font-mono font-semibold text-slate-700">{order.orderNumber}</span>
             </p>
           </div>
@@ -177,31 +177,31 @@ export default function DigitalReceipt({ order }: DigitalReceiptProps) {
       </div>
 
       {/* Action Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mt-5 sm:mt-6">
         <a
           href={getWaMessageUrl()}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-200 transition active:scale-95"
+          className="flex items-center justify-center gap-2 py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-sm transition active:scale-95"
         >
-          <MessageCircle className="w-4 h-4" />
-          Hubungi Kasir via WhatsApp
+          <MessageCircle className="w-4 h-4 shrink-0" />
+          <span>Hubungi Kasir via WhatsApp</span>
         </a>
 
         <button
           type="button"
           onClick={handleShare}
-          className="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 font-bold text-xs sm:text-sm transition active:scale-95"
+          className="flex items-center justify-center gap-2 py-2.5 sm:py-3 px-4 rounded-xl sm:rounded-2xl bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 font-bold text-xs sm:text-sm transition active:scale-95"
         >
           {copied ? (
             <>
-              <Check className="w-4 h-4 text-emerald-600" />
-              Tautan Berhasil Disalin!
+              <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>Tautan Berhasil Disalin!</span>
             </>
           ) : (
             <>
-              <Share2 className="w-4 h-4 text-sky-600" />
-              Bagikan / Salin Tautan Resi
+              <Share2 className="w-4 h-4 text-sky-600 shrink-0" />
+              <span>Bagikan Tautan Resi</span>
             </>
           )}
         </button>
