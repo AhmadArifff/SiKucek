@@ -43,7 +43,20 @@ SiKucek/
 
 - 📖 **[PRD.md](./PRD.md)**: Product Requirements Document lengkap mencakup 13 Bab spesifikasi bisnis, alur fitur, peta situs, dan skema database Supabase.
 - 🤖 **[AGENTS.md](./AGENTS.md)**: Pedoman tata kelola multi-agen, 22 peran spesialis, 14 expert personas DNA, dan aturan mutlak rekayasa.
+- 📘 **[DOC.md](./DOC.md)**: Panduan kolaborasi tim, branching Git dev/main, dan protokol sinkronisasi session state.
 - 🗺️ **[.agents/README.md](./.agents/README.md)**: Peta aturan kerja modular, SOP workflow, dan basis pengetahuan terverifikasi.
+
+---
+
+## 🚀 Cara Menjalankan Aplikasi (Windows Launcher)
+
+Tersedia berkas batch script (`.bat`) agar pengembang dapat menjalankan aplikasi dengan mudah di Windows cukup dengan klik dua kali (*double-click*):
+
+- **`run.bat`**: *Command Center* Interaktif (Pilih menu nomor [1-9] untuk jalankan aplikasi, bersihkan port macet, tes database, cek status sprint, dll).
+- **`start-all.bat`**: Menjalankan seluruh aplikasi sekaligus (`apps/web` + `apps/pos` + `apps/worker`) via Turborepo.
+- **`start-web.bat`**: Menjalankan Web Pelanggan & Public Tracking di `http://localhost:3000`.
+- **`start-pos.bat`**: Menjalankan Aplikasi Kasir & Operator POS di `http://localhost:3001`.
+- **`start-worker.bat`**: Menjalankan WhatsApp Automation Engine Worker.
 
 ---
 
