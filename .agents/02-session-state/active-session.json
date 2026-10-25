@@ -6,8 +6,8 @@
   "active_branch": "dev",
   "version": "1.0.0",
   "status": "COMPLETED",
-  "active_goal": "Penyediaan Berkas Batch Script Windows (.bat) Launcher Cepat dan Pembaruan Dokumentasi Ekosistem SiKucek",
-  "last_updated": "2026-10-24T22:40:00+07:00",
+  "active_goal": "Penyelesaian dan Proteksi Anti-Force-Close pada Seluruh Berkas Batch Script Windows (.bat)",
+  "last_updated": "2026-10-25T07:16:00+07:00",
   "current_sprint": "Sprint 5: Polishing, Mobile Responsiveness, & Production Deployment Parity",
   "completed_milestones": [
     {
@@ -184,7 +184,7 @@
       "prd_sections": ["Bab 3", "Bab 8"],
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-24",
-      "details": "Pembuatan launcher CLI interaktif Windows run.bat (menu nomor 1-9 untuk menjalankan monorepo, web 3000, pos 3001, worker, pembersihan port macet 3000/3001/4000, uji koneksi DB Supabase Cloud, cek session state, dan git sync) serta berkas shortcut langsung start-all.bat, start-web.bat, start-pos.bat, dan start-worker.bat. Seluruh berkas batch dioptimalkan bebas dari ampersand syntax error dan didokumentasikan di README.md."
+      "details": "Pembuatan launcher CLI interaktif Windows run.bat (menu nomor 1-9 untuk menjalankan monorepo, web 3000, pos 3001, worker, pembersihan port macet 3000/3001/4000, uji koneksi DB Supabase Cloud, cek session state, dan git sync) serta berkas shortcut langsung start-all.bat, start-web.bat, start-pos.bat, dan start-worker.bat. Seluruh berkas batch dilengkapi proteksi anti-force-close (cd /d %~dp0, pre-flight check Node.js dan auto-install dependensi monorepo, pemanggilan call npm, dan pause jika terjadi error)."
     }
   ],
   "in_progress_milestones": [],

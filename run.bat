@@ -1,7 +1,50 @@
 @echo off
-chcp 65001 > nul
 setlocal enabledelayedexpansion
+
+:: 1. Kunci direktori kerja ke folder tempat file .bat berada
+cd /d "%~dp0"
+
+:: 2. Gunakan UTF-8 untuk teks ramah Indonesia
+chcp 65001 > nul 2>&1
+
 title SiKucek - Launcher dan Command Center
+
+:: 3. Pre-flight Check: Pastikan Node.js terpasang
+where node >nul 2>nul
+if %errorlevel% neq 0 (
+    cls
+    echo ==============================================================================
+    echo [ERROR] Node.js tidak terdeteksi di komputer Anda!
+    echo ==============================================================================
+    echo SiKucek membutuhkan Node.js (v18 ke atas) untuk dapat berjalan.
+    echo Silakan unduh dan pasang Node.js dari: https://nodejs.org
+    echo ==============================================================================
+    echo.
+    pause
+    exit /b 1
+)
+
+:: 4. Pre-flight Check: Pastikan dependensi monorepo sudah terpasang
+if not exist "node_modules\.bin\turbo.cmd" (
+    cls
+    echo ==============================================================================
+    echo [INFORMASI] Dependensi monorepo belum terpasang atau baru pertama kali dibuka.
+    echo Memasang seluruh pustaka otomatis via 'npm install'... Mohon tunggu sejenak.
+    echo ==============================================================================
+    echo.
+    call npm install
+    if %errorlevel% neq 0 (
+        echo.
+        echo ==============================================================================
+        echo [ERROR] Gagal memasang dependensi! Pastikan koneksi internet Anda aktif.
+        echo ==============================================================================
+        pause
+        exit /b 1
+    )
+    echo.
+    echo [SUKSES] Seluruh dependensi berhasil terpasang!
+    timeout /t 2 > nul
+)
 
 :menu
 cls
@@ -24,7 +67,11 @@ echo.
 echo   [0] Keluar
 echo.
 echo ==============================================================================
-set /p choice="Pilih nomor menu [0-9] lalu tekan Enter: "
+set "choice="
+set /p "choice=Pilih nomor menu [0-9] lalu tekan Enter: "
+
+:: Hapus spasi jika ada
+set "choice=%choice: =%"
 
 if "%choice%"=="1" goto run_all
 if "%choice%"=="2" goto run_web
@@ -38,7 +85,7 @@ if "%choice%"=="9" goto install_deps
 if "%choice%"=="0" goto exit_app
 
 echo.
-echo Pilihan tidak valid. Silakan coba lagi.
+echo Pilihan tidak valid. Silakan masukkan angka antara 0 sampai 9.
 ping -n 2 127.0.0.1 > nul
 goto menu
 
@@ -47,10 +94,12 @@ cls
 title SiKucek - Menjalankan Semua Aplikasi (Dev)
 echo ==============================================================================
 echo Menjalankan Web Pelanggan (3000), POS Kasir (3001), dan Worker...
-echo Tekan Ctrl + C untuk menghentikan server kapan saja.
+echo Tekan Ctrl + C untuk menghentikan server.
 echo ==============================================================================
 echo.
-npm run dev
+call npm run dev
+echo.
+echo Server telah dihentikan.
 pause
 goto menu
 
@@ -62,7 +111,9 @@ echo Menjalankan Web Pelanggan dan Public Tracking di http://localhost:3000
 echo Tekan Ctrl + C untuk menghentikan server.
 echo ==============================================================================
 echo.
-npm run dev:web
+call npm run dev:web
+echo.
+echo Server telah dihentikan.
 pause
 goto menu
 
@@ -74,7 +125,9 @@ echo Menjalankan Aplikasi Kasir dan Operator POS di http://localhost:3001
 echo Tekan Ctrl + C untuk menghentikan server.
 echo ==============================================================================
 echo.
-npm run dev:pos
+call npm run dev:pos
+echo.
+echo Server telah dihentikan.
 pause
 goto menu
 
@@ -86,7 +139,9 @@ echo Menjalankan WhatsApp Automation Engine Worker...
 echo Tekan Ctrl + C untuk menghentikan worker.
 echo ==============================================================================
 echo.
-npm run dev:worker
+call npm run dev:worker
+echo.
+echo Worker telah dihentikan.
 pause
 goto menu
 
@@ -110,7 +165,7 @@ echo ===========================================================================
 echo Menguji koneksi ke Supabase PostgreSQL...
 echo ==============================================================================
 echo.
-node packages/database/scripts/test-connection.mjs
+call node packages/database/scripts/test-connection.mjs
 echo.
 pause
 goto menu
@@ -119,7 +174,7 @@ goto menu
 cls
 title SiKucek - Status Session State Multi-Agen
 echo.
-node .agents/02-session-state/session-manager.js
+call node .agents/02-session-state/session-manager.js
 echo.
 pause
 goto menu
@@ -131,7 +186,7 @@ echo ===========================================================================
 echo Menarik pembaruan terbaru dari branch dev (Pre-Dev Sync)...
 echo ==============================================================================
 echo.
-git pull --rebase origin dev
+call git pull --rebase origin dev
 echo.
 pause
 goto menu
@@ -140,11 +195,12 @@ goto menu
 cls
 title SiKucek - Install Dependencies
 echo ==============================================================================
-echo Memasang dependensi monorepo...
+echo Memasang ulang / update dependensi monorepo...
 echo ==============================================================================
 echo.
-npm install
+call npm install
 echo.
+echo Selesai!
 pause
 goto menu
 
