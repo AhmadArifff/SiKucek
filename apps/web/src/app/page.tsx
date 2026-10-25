@@ -57,11 +57,11 @@ export default function HomePage() {
           <div className="absolute bottom-6 left-1/3 w-72 h-72 bg-amber-200/25 rounded-full blur-3xl pointer-events-none animate-float-bubble" />
 
           <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Headline, Description, Quick Tracker */}
-              <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+              <div className="lg:col-span-7 space-y-5 text-center lg:text-left">
                 {/* Micro Badge */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-sky-200 shadow-sm shadow-sky-100 backdrop-blur-md">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-sky-200/80 shadow-xs shadow-sky-100 backdrop-blur-md">
                   <span className="flex h-2 w-2 rounded-full bg-sky-500 animate-ping" />
                   <span className="text-xs font-bold font-heading text-sky-800">
                     Sistem Operasi Laundry Generasi Baru
@@ -72,32 +72,32 @@ export default function HomePage() {
                 </div>
 
                 {/* Main Hero Headline */}
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-black text-slate-950 tracking-tight leading-[1.12]">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-black text-slate-950 tracking-tight leading-[1.16]">
                   Laundry Bersih, Higienis, &amp; <span className="text-shimmer">Transparan</span> Tanpa Drama
                 </h1>
 
                 {/* Subtitle */}
-                <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal">
+                <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal">
                   Pantau proses cucian secara real-time dari timbangan hingga nomor rak fisik. Dilengkapi bukti foto Quality Control (QC) anti-sengketa &amp; diskon loyalti stempel otomatis!
                 </p>
 
                 {/* Quick Tracking Search Bar */}
-                <div id="tracking-bar" className="pt-2">
-                  <div className="glass-panel p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl shadow-xl shadow-sky-200/50 max-w-xl mx-auto lg:mx-0 border border-white">
-                    <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
-                      <div className="relative flex-1">
-                        <Search className="w-5 h-5 text-sky-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <div id="tracking-bar" className="pt-1">
+                  <div className="bg-white/95 backdrop-blur-md p-1.5 sm:p-2 rounded-2xl sm:rounded-full border border-sky-200/90 shadow-lg shadow-sky-500/10 max-w-2xl mx-auto lg:mx-0 transition-all focus-within:border-sky-400 focus-within:ring-4 focus-within:ring-sky-100">
+                    <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-center gap-1.5">
+                      <div className="relative flex-1 w-full flex items-center">
+                        <Search className="w-5 h-5 text-sky-500 absolute left-3.5 shrink-0 pointer-events-none" />
                         <input
                           type="text"
                           value={trackingCode}
                           onChange={(e) => setTrackingCode(e.target.value)}
-                          placeholder="Masukkan No. Resi (cth: SKC-B8D02)"
-                          className="w-full pl-11 pr-4 py-3 text-sm sm:text-base font-bold text-slate-900 placeholder-slate-400 rounded-xl sm:rounded-2xl bg-white/80 border border-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white uppercase font-mono tracking-wider transition-all"
+                          placeholder="Ketik no. resi (contoh: SKC-B8D02)"
+                          className="w-full pl-10 pr-3 py-2.5 text-sm sm:text-base font-bold text-slate-900 placeholder:text-slate-400 placeholder:font-sans placeholder:font-normal placeholder:tracking-normal placeholder:normal-case placeholder:text-xs sm:placeholder:text-sm bg-transparent border-none focus:outline-none uppercase font-mono tracking-wider"
                         />
                       </div>
                       <button
                         type="submit"
-                        className="px-6 py-3.5 btn-tactile-cyan text-white text-xs sm:text-sm font-extrabold rounded-xl sm:rounded-2xl flex items-center justify-center gap-2 font-heading tracking-wide"
+                        className="w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-heading font-black text-white bg-gradient-to-r from-sky-500 to-teal-500 hover:from-sky-600 hover:to-teal-600 rounded-xl sm:rounded-full shadow-md shadow-sky-500/25 flex items-center justify-center gap-2 whitespace-nowrap shrink-0 transition active:scale-95 cursor-pointer"
                       >
                         <span>Lacak Sekarang</span>
                         <ArrowRight className="w-4 h-4" />
@@ -106,59 +106,59 @@ export default function HomePage() {
                   </div>
 
                   {/* Preset Demo Code Chips */}
-                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mt-3 text-xs text-slate-600">
-                    <span className="font-bold text-slate-500 text-[11px] uppercase tracking-wider">Coba Resi Demo:</span>
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 sm:gap-2 mt-2.5 text-xs text-slate-600">
+                    <span className="font-bold text-slate-400 text-[11px] uppercase tracking-wider shrink-0">Demo:</span>
                     <button
                       type="button"
                       onClick={() => setPresetCode('SKC-B8D02')}
-                      className="px-3 py-1 bg-white hover:bg-emerald-50 text-emerald-800 font-bold font-mono text-[11px] rounded-full border border-emerald-200 shadow-sm transition hover:scale-105 active:scale-95 flex items-center gap-1"
+                      className="px-2.5 py-1 bg-white hover:bg-emerald-50 text-emerald-800 font-semibold font-mono text-[11px] rounded-full border border-emerald-200/90 shadow-xs transition hover:scale-105 active:scale-95 flex items-center gap-1.5"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      SKC-B8D02 (Siap di Rak A2)
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                      <span>SKC-B8D02 (Rak A2)</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => setPresetCode('SKC-R4N1X')}
-                      className="px-3 py-1 bg-white hover:bg-sky-50 text-sky-800 font-bold font-mono text-[11px] rounded-full border border-sky-200 shadow-sm transition hover:scale-105 active:scale-95 flex items-center gap-1"
+                      className="px-2.5 py-1 bg-white hover:bg-sky-50 text-sky-800 font-semibold font-mono text-[11px] rounded-full border border-sky-200/90 shadow-xs transition hover:scale-105 active:scale-95 flex items-center gap-1.5"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
-                      SKC-R4N1X (Cuci &amp; Foto QC)
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500 shrink-0" />
+                      <span>SKC-R4N1X (Foto QC)</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => setPresetCode('SKC-DEMO01')}
-                      className="px-3 py-1 bg-white hover:bg-amber-50 text-amber-800 font-bold font-mono text-[11px] rounded-full border border-amber-200 shadow-sm transition hover:scale-105 active:scale-95 flex items-center gap-1"
+                      className="px-2.5 py-1 bg-white hover:bg-amber-50 text-amber-800 font-semibold font-mono text-[11px] rounded-full border border-amber-200/90 shadow-xs transition hover:scale-105 active:scale-95 flex items-center gap-1.5"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                      SKC-DEMO01 (Kupon 5 Kg)
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                      <span>SKC-DEMO01 (Kupon 5Kg)</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Key Metrics Stats */}
-                <div className="pt-4 grid grid-cols-3 gap-3 sm:gap-6 border-t border-sky-200/60 max-w-lg mx-auto lg:mx-0">
-                  <div className="glass-panel p-3 rounded-2xl text-center">
-                    <p className="text-xl sm:text-2xl font-black font-heading text-sky-600">100%</p>
-                    <p className="text-[10px] sm:text-xs font-bold text-slate-600 mt-0.5">Transparansi QC</p>
+                <div className="pt-3 grid grid-cols-3 gap-2.5 sm:gap-4 border-t border-sky-100/90 max-w-lg mx-auto lg:mx-0">
+                  <div className="glass-panel p-2.5 sm:p-3 rounded-2xl text-center border border-white">
+                    <p className="text-lg sm:text-xl font-black font-heading text-sky-600">100%</p>
+                    <p className="text-[10px] sm:text-[11px] font-bold text-slate-600 mt-0.5">Transparansi QC</p>
                   </div>
-                  <div className="glass-panel p-3 rounded-2xl text-center">
-                    <p className="text-xl sm:text-2xl font-black font-heading text-amber-500">5 Stempel</p>
-                    <p className="text-[10px] sm:text-xs font-bold text-slate-600 mt-0.5">Gratis 5 Kg</p>
+                  <div className="glass-panel p-2.5 sm:p-3 rounded-2xl text-center border border-white">
+                    <p className="text-lg sm:text-xl font-black font-heading text-amber-600">5 Stempel</p>
+                    <p className="text-[10px] sm:text-[11px] font-bold text-slate-600 mt-0.5">Gratis 5 Kg</p>
                   </div>
-                  <div className="glass-panel p-3 rounded-2xl text-center">
-                    <p className="text-xl sm:text-2xl font-black font-heading text-emerald-600">0 Biaya</p>
-                    <p className="text-[10px] sm:text-xs font-bold text-slate-600 mt-0.5">Pelacakan Publik</p>
+                  <div className="glass-panel p-2.5 sm:p-3 rounded-2xl text-center border border-white">
+                    <p className="text-lg sm:text-xl font-black font-heading text-emerald-600">0 Biaya</p>
+                    <p className="text-[10px] sm:text-[11px] font-bold text-slate-600 mt-0.5">Pelacakan Publik</p>
                   </div>
                 </div>
               </div>
 
               {/* Right Column: 3D Mascot Showcase Card */}
               <div className="lg:col-span-5 flex justify-center">
-                <div className="relative w-full max-w-md">
+                <div className="relative w-full max-w-xs sm:max-w-sm">
                   {/* Floating Mascot Card */}
-                  <div className="glass-panel rounded-3xl p-6 sm:p-7 shadow-2xl shadow-sky-300/40 relative z-10 text-center border-2 border-white/80 hover:shadow-glow-cyan transition-shadow duration-300">
+                  <div className="glass-panel rounded-3xl p-4 sm:p-5 shadow-xl shadow-sky-400/15 relative z-10 text-center border-2 border-white/90 hover:shadow-glow-cyan transition-shadow duration-300">
                     {/* Visual Mascot Container */}
-                    <div className="relative w-56 h-56 sm:w-64 sm:h-64 mx-auto rounded-3xl overflow-hidden border-4 border-white shadow-xl shadow-sky-100 mb-5 group">
+                    <div className="relative w-32 h-32 sm:w-36 sm:h-36 mx-auto rounded-2xl overflow-hidden border-2 border-white shadow-md shadow-sky-100 mb-2.5 group">
                       <Image
                         src="/logo-sikucek.jpg"
                         alt="Maskot Si Kucek"
@@ -169,36 +169,36 @@ export default function HomePage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-sky-950/20 via-transparent to-transparent pointer-events-none" />
                     </div>
 
-                    <div className="space-y-1.5">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-extrabold">
-                        <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    <div className="space-y-1">
+                      <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold">
+                        <Sparkles className="w-3 h-3 text-amber-500" />
                         Sahabat Pakaian Anda
                       </div>
-                      <h3 className="text-xl sm:text-2xl font-black font-heading text-slate-900">
+                      <h3 className="text-base sm:text-lg font-black font-heading text-slate-900">
                         Kenalkan Si Kucek!
                       </h3>
-                      <p className="text-xs text-slate-600 leading-relaxed px-2">
-                        Maskot ember ceria yang siap menyulap pakaian kotor Anda menjadi wangi lavender segar, bebas bakteri, dan kinclong rapi.
+                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed px-2 line-clamp-2">
+                        Maskot ceria yang siap menyulap pakaian kotor Anda menjadi wangi lavender segar, higienis, dan kinclong rapi.
                       </p>
                     </div>
 
-                    <div className="mt-5 pt-4 border-t border-slate-100/80 grid grid-cols-2 gap-2 text-xs text-slate-700">
-                      <div className="flex items-center gap-1.5 justify-center font-bold text-emerald-700 bg-emerald-50/80 p-2 rounded-xl">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                    <div className="mt-3 pt-2.5 border-t border-slate-100/80 grid grid-cols-2 gap-2 text-slate-700">
+                      <div className="flex items-center gap-1.5 justify-center font-bold text-emerald-700 bg-emerald-50/80 p-1.5 rounded-xl text-[10px] sm:text-[11px]">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" />
                         <span>Deterjen Higienis</span>
                       </div>
-                      <div className="flex items-center gap-1.5 justify-center font-bold text-sky-700 bg-sky-50/80 p-2 rounded-xl">
-                        <CheckCircle2 className="w-4 h-4 text-sky-500 flex-shrink-0" />
+                      <div className="flex items-center gap-1.5 justify-center font-bold text-sky-700 bg-sky-50/80 p-1.5 rounded-xl text-[10px] sm:text-[11px]">
+                        <CheckCircle2 className="w-3 h-3 text-sky-500 flex-shrink-0" />
                         <span>Setrika Uap Presisi</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Playful Floating Badges */}
-                  <div className="absolute -top-3 -right-3 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black text-xs px-4 py-2 rounded-2xl shadow-xl shadow-amber-300/50 border-2 border-white rotate-6 z-20 animate-pulse">
+                  <div className="absolute -top-2 -right-2 sm:-right-3 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black text-[10px] sm:text-[11px] px-2.5 py-1 rounded-full shadow-md shadow-amber-300/40 border-2 border-white rotate-3 z-20 animate-pulse">
                     🎁 Gratis Cuci 5 Kg!
                   </div>
-                  <div className="absolute -bottom-3 -left-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black text-xs px-4 py-2 rounded-2xl shadow-xl shadow-emerald-300/50 border-2 border-white -rotate-6 z-20">
+                  <div className="absolute -bottom-2 -left-2 sm:-left-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black text-[10px] sm:text-[11px] px-2.5 py-1 rounded-full shadow-md shadow-emerald-300/40 border-2 border-white -rotate-3 z-20">
                     📍 Cek Nomor Rak Instan
                   </div>
                 </div>

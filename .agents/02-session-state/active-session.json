@@ -193,6 +193,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-25",
       "details": "Implementasi menyeluruh panduan skill paint, cast, antislop-ui, antislop-human, dan antislop-layoutmobile. Integrasi Google Fonts (Plus Jakarta Sans, Inter, JetBrains Mono) di apps/web dan apps/pos. Perombakan total halaman landing page (/), navbar floating pill, hero radiant mesh, bento grid 4 pilar asimetris, kalkulator estimator biaya hybrid, footer modern deep navy, halaman pelacakan resi publik (/track/[code]) dengan liquid stepper 7 tahap, banner rak fisik bercahaya, kartu PWA loyalti customer (/app) dengan 5-slot stamp card koin emas 3D, serta perombakan antarmuka POS kasir (/ dan /orders/new) dengan KPI luminous cards dan tombol aksi tactile. Terverifikasi 100% lulus turbo type-check 0 error dan patuh aturan anti-slop R-02."
+    },
+    {
+      "id": "M24_VISUAL_PROPORTIONS_AND_SEARCH_REFINEMENT",
+      "title": "Penyempurnaan Proporsi Elemen terhadap Teks: Navbar Capsule Balance, Anti-Clipping Search Bar, & Balanced Mascot Card",
+      "prd_sections": ["Bab 2", "Bab 6", "Bab 9", "Bab 10.3"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-25",
+      "details": "Penyelarasan proporsi elemen terhadap teks (container-to-text ratio). Perbaikan Navbar: nav links tengah dibuat ringkas proporsional, right actions tombol Cek Cucian tidak meluap keluar pill capsule (muat 100% di semua viewport). Perbaikan Quick Tracking Search Bar: container max-w-2xl rounded-full, placeholder normal-case font sans bebas terpotong, tombol Lacak Sekarang kokoh berimbang. Penyelarasan Kartu Maskot Si Kucek: ukuran visual 36x36 (w-32/36), tinggi kartu simetris sejajar dengan kolom kiri tanpa melorot keluar layar."
     }
   ],
   "in_progress_milestones": [],

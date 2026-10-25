@@ -33,6 +33,7 @@ Thumbs.db
 test-results/
 playwright-report/
 blob-report/
+.playwright-mcp/
 
 # Scratch & Temporary Logs
 scratch/
