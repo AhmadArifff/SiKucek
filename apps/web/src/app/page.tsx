@@ -28,6 +28,31 @@ import {
 export default function HomePage() {
   const router = useRouter();
   const [trackingCode, setTrackingCode] = useState<string>('');
+  const [isCinematicActive, setIsCinematicActive] = useState<boolean>(false);
+  const [isCinematicLocked, setIsCinematicLocked] = useState<boolean>(false);
+  const idleTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleHeroMouseMove = () => {
+    if (isCinematicLocked) return;
+    // Saat kursor bergerak di hero: teks memudar transparan, video di-highlight penuh
+    setIsCinematicActive(true);
+
+    // Jika kursor diam selama 2.5 detik, kembalikan teks normal
+    if (idleTimerRef.current) {
+      clearTimeout(idleTimerRef.current);
+    }
+    idleTimerRef.current = setTimeout(() => {
+      setIsCinematicActive(false);
+    }, 2500);
+  };
+
+  const handleHeroMouseLeave = () => {
+    if (isCinematicLocked) return;
+    if (idleTimerRef.current) {
+      clearTimeout(idleTimerRef.current);
+    }
+    setIsCinematicActive(false);
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,9 +73,13 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* ========================================================================= */}
-        {/* 1. HERO SECTION DENGAN LATAR VIDEO REMOTION                               */}
+        {/* 1. HERO SECTION DENGAN LATAR VIDEO REMOTION & INTERACTIVE CINEMATIC FOCUS  */}
         {/* ========================================================================= */}
-        <section className="relative pt-6 sm:pt-12 pb-16 sm:pb-24 overflow-hidden bg-slate-50 border-b border-sky-100/80">
+        <section
+          onMouseMove={handleHeroMouseMove}
+          onMouseLeave={handleHeroMouseLeave}
+          className="relative pt-6 sm:pt-12 pb-16 sm:pb-24 overflow-hidden bg-slate-50 transition-colors duration-500"
+        >
           {/* Background Video Layer (Rendered with Remotion) */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
             <video
@@ -59,12 +88,18 @@ export default function HomePage() {
               muted
               playsInline
               poster="/videos/hero-poster.jpg"
-              className="w-full h-full object-cover opacity-75"
+              className={`w-full h-full object-cover transition-all duration-700 ${
+                isCinematicActive || isCinematicLocked ? 'opacity-100 scale-[1.01]' : 'opacity-85'
+              }`}
             >
               <source src="/videos/hero-loop.mp4" type="video/mp4" />
             </video>
-            {/* Latar Overlay Halus Penjamin Keterbacaan & Kontras Teks WCAG AA */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/92 via-sky-50/80 to-white/88 backdrop-blur-[0.5px]" />
+            {/* Latar Overlay Halus: memudar saat kursor bergerak sehingga video ter-highlight penuh */}
+            <div
+              className={`absolute inset-0 bg-gradient-to-r from-white/92 via-sky-50/80 to-white/88 backdrop-blur-[0.5px] transition-opacity duration-700 ${
+                isCinematicActive || isCinematicLocked ? 'opacity-0' : 'opacity-100'
+              }`}
+            />
           </div>
 
           {/* Animated Ambient Floating Accents */}
@@ -72,7 +107,36 @@ export default function HomePage() {
           <div className="absolute top-1/2 right-10 w-80 h-80 bg-purple-300/15 rounded-full blur-3xl pointer-events-none z-0" />
           <div className="absolute bottom-6 left-1/3 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl pointer-events-none z-0" />
 
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+          {/* Floating Cinematic Badge Toggle */}
+          <div className="absolute top-4 right-4 sm:right-8 z-30">
+            <button
+              type="button"
+              onClick={() => setIsCinematicLocked(!isCinematicLocked)}
+              className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-heading font-black transition-all shadow-md flex items-center gap-1.5 cursor-pointer backdrop-blur-md ${
+                isCinematicActive || isCinematicLocked
+                  ? 'bg-sky-500/90 text-white border border-sky-400 shadow-sky-500/25'
+                  : 'bg-white/85 text-slate-700 hover:bg-white border border-slate-200/90 shadow-xs'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>
+                {isCinematicLocked
+                  ? 'Video Penuh Terkunci'
+                  : isCinematicActive
+                  ? 'Video Sedang Disorot'
+                  : 'Sorot Video (Gerakkan Kursor)'}
+              </span>
+            </button>
+          </div>
+
+          {/* Content Hero Section: Transparan saat kursor aktif bergerak */}
+          <div
+            className={`max-w-6xl mx-auto px-4 sm:px-6 relative z-10 transition-all duration-700 ${
+              isCinematicActive || isCinematicLocked
+                ? 'opacity-0 pointer-events-none scale-98 translate-y-1'
+                : 'opacity-100 pointer-events-auto scale-100 translate-y-0'
+            }`}
+          >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Headline, Description, Quick Tracker */}
               <div className="lg:col-span-7 space-y-5 text-center lg:text-left">
@@ -221,6 +285,9 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
+          {/* Seamless Bottom Gradient Blend: Menjamin air menyatu alami ke section berikutnya tanpa garis potong kotak */}
+          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-slate-50 via-slate-50/70 to-transparent pointer-events-none z-10" />
         </section>
 
         {/* ========================================================================= */}

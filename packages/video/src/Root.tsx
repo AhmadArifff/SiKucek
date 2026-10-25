@@ -6,15 +6,15 @@ export const Root: React.FC = () => {
   return (
     <>
       {/* 
-        Komposisi Latar Belakang Hero SiKucek:
+        Komposisi Latar Belakang Hero SiKucek Storytelling:
         - 1920x1080 Full HD
         - 30 fps
-        - 180 frame = 6 detik durasi loop sempurna
+        - 300 frame = 10 detik durasi loop 3 babak (Cuci -> Kering -> Siap di Rak)
       */}
       <Composition
         id="HeroBackground"
         component={HeroBackground}
-        durationInFrames={180}
+        durationInFrames={300}
         fps={30}
         width={1920}
         height={1080}

@@ -209,6 +209,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-25",
       "details": "Setup modul packages/video (@sikucek/video) berbasis Remotion React. Komposisi HeroBackground 1920x1080 30fps 180 frame (6s seamless infinite loop) dengan 24 gelembung sabun iridescent transparan, pantulan kilau pelangi, gelombang air SVG dinamis, partikel kilau bintang emas-amber, dan radiant ambient aura. Dirender secara headless dengan isolasi port 3050 menjadi apps/web/public/videos/hero-loop.mp4 (2.6 MB) dan hero-poster.jpg (32 KB). Diintegrasikan ke Hero section apps/web/src/app/page.tsx dengan lapisan transparan overlay penjamin kontras teks tajam (WCAG AA). 100% lulus turbo type-check 5/5 packages."
+    },
+    {
+      "id": "M26_STORYTELLING_VIDEO_AND_CINEMATIC_CURSOR_INSPECTION",
+      "title": "Full-Bleed Seamless Waves & Mode Interaksi Sinematik Kursor: Video Highlight & Teks Transparan",
+      "prd_sections": ["Bab 2", "Bab 6", "Bab 10.1", "Bab 10.2", "Bab 10.5"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-25",
+      "details": "Pemberantasan batas potongan samping/bawah video dengan gelombang air full-bleed viewBox -120 s.d 2160 dan gradien transisi lembut menyatu ke section bawah. Pembaruan video Remotion 300 frames (10s @ 30fps) dengan 3 babak storytelling siklus laundry (Tahap 1: Pencucian & QC WebRTC, Tahap 2: Pengeringan & Setrika Uap, Tahap 3: Alokasi Rak & Notifikasi WA). Fitur interaktif Cinematic Cursor Inspection: saat kursor bergerak di hero, teks/search bar/kartu otomatis memudar transparan (opacity-0) dan video latar ter-highlight penuh 100% jernih, serta otomatis kembali normal saat kursor diam (idle 2.5s) atau keluar. Tersedia juga tombol toggle mode sinematik di pojok hero."
     }
   ],
   "in_progress_milestones": [],
