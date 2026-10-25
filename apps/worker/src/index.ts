@@ -16,16 +16,24 @@ import {
 
 dotenv.config();
 
-const logger = pino({
-  level: process.env.LOG_LEVEL || 'info',
-  transport: {
+let transportConfig: any = undefined;
+try {
+  require.resolve('pino-pretty');
+  transportConfig = {
     target: 'pino-pretty',
     options: {
       colorize: true,
       translateTime: 'HH:MM:ss Z',
       ignore: 'pid,hostname',
     },
-  },
+  };
+} catch {
+  // Graceful fallback to standard JSON logger if pino-pretty is not resolved
+}
+
+const logger = pino({
+  level: process.env.LOG_LEVEL || 'info',
+  ...(transportConfig ? { transport: transportConfig } : {}),
 });
 
 export interface WorkerConfig {
