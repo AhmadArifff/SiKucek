@@ -48,13 +48,29 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* ========================================================================= */}
-        {/* 1. HERO SECTION                                                          */}
+        {/* 1. HERO SECTION DENGAN LATAR VIDEO REMOTION                               */}
         {/* ========================================================================= */}
-        <section className="relative pt-6 sm:pt-12 pb-16 sm:pb-24 overflow-hidden bg-mesh-cyan border-b border-sky-100/80">
-          {/* Animated Ambient Floating Bubbles */}
-          <div className="absolute top-12 left-8 w-64 h-64 bg-sky-300/25 rounded-full blur-3xl pointer-events-none animate-float-bubble" />
-          <div className="absolute top-1/2 right-10 w-80 h-80 bg-rose-300/20 rounded-full blur-3xl pointer-events-none animate-float-bubble-delayed" />
-          <div className="absolute bottom-6 left-1/3 w-72 h-72 bg-amber-200/25 rounded-full blur-3xl pointer-events-none animate-float-bubble" />
+        <section className="relative pt-6 sm:pt-12 pb-16 sm:pb-24 overflow-hidden bg-slate-50 border-b border-sky-100/80">
+          {/* Background Video Layer (Rendered with Remotion) */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="/videos/hero-poster.jpg"
+              className="w-full h-full object-cover opacity-75"
+            >
+              <source src="/videos/hero-loop.mp4" type="video/mp4" />
+            </video>
+            {/* Latar Overlay Halus Penjamin Keterbacaan & Kontras Teks WCAG AA */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/92 via-sky-50/80 to-white/88 backdrop-blur-[0.5px]" />
+          </div>
+
+          {/* Animated Ambient Floating Accents */}
+          <div className="absolute top-12 left-8 w-64 h-64 bg-sky-300/20 rounded-full blur-3xl pointer-events-none z-0" />
+          <div className="absolute top-1/2 right-10 w-80 h-80 bg-purple-300/15 rounded-full blur-3xl pointer-events-none z-0" />
+          <div className="absolute bottom-6 left-1/3 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl pointer-events-none z-0" />
 
           <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">

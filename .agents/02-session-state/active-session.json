@@ -201,6 +201,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-25",
       "details": "Penyelarasan proporsi elemen terhadap teks (container-to-text ratio). Perbaikan Navbar: nav links tengah dibuat ringkas proporsional, right actions tombol Cek Cucian tidak meluap keluar pill capsule (muat 100% di semua viewport). Perbaikan Quick Tracking Search Bar: container max-w-2xl rounded-full, placeholder normal-case font sans bebas terpotong, tombol Lacak Sekarang kokoh berimbang. Penyelarasan Kartu Maskot Si Kucek: ukuran visual 36x36 (w-32/36), tinggi kartu simetris sejajar dengan kolom kiri tanpa melorot keluar layar."
+    },
+    {
+      "id": "M25_REMOTION_VIDEO_BACKGROUND_HERO",
+      "title": "Pola Startup Dunia: Latar Belakang Video Hero Seamless Loop Dirender via React Remotion",
+      "prd_sections": ["Bab 2", "Bab 6", "Bab 10.3", "Bab 11.1"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-25",
+      "details": "Setup modul packages/video (@sikucek/video) berbasis Remotion React. Komposisi HeroBackground 1920x1080 30fps 180 frame (6s seamless infinite loop) dengan 24 gelembung sabun iridescent transparan, pantulan kilau pelangi, gelombang air SVG dinamis, partikel kilau bintang emas-amber, dan radiant ambient aura. Dirender secara headless dengan isolasi port 3050 menjadi apps/web/public/videos/hero-loop.mp4 (2.6 MB) dan hero-poster.jpg (32 KB). Diintegrasikan ke Hero section apps/web/src/app/page.tsx dengan lapisan transparan overlay penjamin kontras teks tajam (WCAG AA). 100% lulus turbo type-check 5/5 packages."
     }
   ],
   "in_progress_milestones": [],

@@ -1,0 +1,24 @@
+{
+  "name": "@sikucek/video",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "preview": "remotion preview src/index.ts",
+    "render": "node scripts/render.mjs",
+    "render:cli": "remotion render HeroBackground ../../apps/web/public/videos/hero-loop.mp4",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.250"
+  },
+  "devDependencies": {
+    "@remotion/cli": "^4.0.250",
+    "@remotion/bundler": "^4.0.250",
+    "@remotion/renderer": "^4.0.250",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "typescript": "^5.7.3"
+  }
+}
