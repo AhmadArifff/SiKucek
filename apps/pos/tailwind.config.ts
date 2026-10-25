@@ -9,6 +9,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        heading: ['var(--font-heading)', 'Plus Jakarta Sans', 'sans-serif'],
+        sans: ['var(--font-body)', 'Inter', 'sans-serif'],
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
+      },
       colors: {
         kucek: {
           cyan: '#0EA5E9',
@@ -23,6 +28,10 @@ const config: Config = {
       },
       borderRadius: {
         bubble: '1.25rem',
+      },
+      boxShadow: {
+        'glow-cyan': '0 0 24px -4px rgba(14, 165, 233, 0.35)',
+        'glow-emerald': '0 0 24px -4px rgba(16, 185, 129, 0.35)',
       },
     },
   },

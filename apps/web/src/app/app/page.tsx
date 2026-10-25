@@ -83,16 +83,20 @@ export default function CustomerDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50/70 text-slate-900 pb-16 sm:pb-0">
+    <div className="min-h-screen flex flex-col bg-mesh-cyan text-slate-900 pb-16 sm:pb-0">
       <CustomerAppNav />
 
-      <main className="flex-1 py-8 sm:py-12">
-        <div className="max-w-4xl mx-auto px-3 sm:px-6 space-y-5 sm:space-y-8">
+      <main className="flex-1 py-6 sm:py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6 sm:space-y-8">
           {/* Top Profile Header */}
-          <div className="bg-gradient-to-r from-sky-600 via-sky-500 to-sky-700 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-xl shadow-sky-600/20 relative overflow-hidden">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 relative z-10">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl overflow-hidden border-2 border-white/50 shadow-md shrink-0">
+          <div className="relative bg-gradient-to-br from-slate-900 via-sky-950 to-slate-900 text-white rounded-3xl sm:rounded-4xl p-5 sm:p-8 shadow-2xl shadow-sky-950/25 overflow-hidden border border-white/10">
+            {/* Ambient bubble glows */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-coral-500/15 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-5 sm:gap-6">
+              <div className="flex items-center gap-4">
+                <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden border-2 border-white/40 shadow-lg shadow-sky-500/20 shrink-0">
                   <Image
                     src="/logo-sikucek.jpg"
                     alt="Maskot Profil"
@@ -101,56 +105,57 @@ export default function CustomerDashboardPage() {
                   />
                 </div>
                 <div>
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    <h1 className="text-lg sm:text-2xl font-black">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h1 className="text-xl sm:text-2xl font-heading font-black tracking-tight">
                       Halo, {session?.name || 'Rani Maharani'}!
                     </h1>
-                    <span className="px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-wider bg-amber-400 text-slate-900 shadow-sm">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-xs">
                       Tier: {session?.tierLabel || 'Wangi Segar'}
                     </span>
                   </div>
-                  <p className="text-[11px] sm:text-sm text-sky-100 mt-0.5">
-                    {session?.phone || '0812-3456-7890'} &bull; Referral: <span className="font-mono font-bold">{session?.referralCode || 'RANI-KUCEK'}</span>
+                  <p className="text-xs sm:text-sm text-sky-200 mt-1 font-sans">
+                    {session?.phone || '0812-3456-7890'} &bull; Kode Referral: <span className="font-mono font-bold text-amber-300">{session?.referralCode || 'RANI-KUCEK'}</span>
                   </p>
                 </div>
               </div>
 
               {/* Point Balance Badge */}
-              <div className="bg-white/20 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-4 border border-white/30 text-left sm:text-right self-start sm:self-auto">
-                <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-sky-100 font-bold block">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 border border-white/15 text-left sm:text-right self-start sm:self-auto shadow-inner">
+                <span className="text-[10px] uppercase tracking-wider text-sky-300 font-heading font-black block">
                   Saldo Koin Loyalti
                 </span>
-                <div className="flex items-center gap-1.5 justify-start sm:justify-end mt-0.5 sm:mt-1">
-                  <Coins className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300 animate-pulse" />
-                  <span className="text-lg sm:text-2xl font-black font-mono text-white">
-                    {pointsBalance} Poin
+                <div className="flex items-center gap-2 justify-start sm:justify-end mt-1">
+                  <Coins className="w-5 h-5 text-amber-300 animate-pulse" />
+                  <span className="text-2xl sm:text-3xl font-black font-mono text-white tracking-tight">
+                    {pointsBalance}
                   </span>
+                  <span className="text-xs text-amber-300 font-bold">Poin</span>
                 </div>
               </div>
             </div>
 
             {/* Quick Links Nav */}
-            <div className="mt-4 sm:mt-6 pt-3 sm:pt-5 border-t border-white/20 flex flex-wrap gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-bold">
-              <span className="bg-white text-sky-700 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl shadow-sm">
+            <div className="relative z-10 mt-6 pt-4 border-t border-white/15 flex flex-wrap gap-2 text-xs font-heading font-bold">
+              <span className="bg-white text-sky-800 px-3.5 py-1.5 rounded-xl shadow-xs">
                 Loyalti &amp; Stamp
               </span>
               <Link
                 href="/app/orders"
-                className="bg-white/20 hover:bg-white/30 text-white px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl transition flex items-center gap-1"
+                className="bg-white/10 hover:bg-white/20 text-white px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5 border border-white/10"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
                 Pesanan Saya
               </Link>
               <Link
                 href="/app/coupons"
-                className="bg-white/20 hover:bg-white/30 text-white px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl transition flex items-center gap-1"
+                className="bg-white/10 hover:bg-white/20 text-white px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5 border border-white/10"
               >
                 <Ticket className="w-3.5 h-3.5" />
                 Dompet Kupon
               </Link>
               <Link
                 href="/app/profile"
-                className="bg-white/20 hover:bg-white/30 text-white px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl transition flex items-center gap-1"
+                className="bg-white/10 hover:bg-white/20 text-white px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5 border border-white/10"
               >
                 <User className="w-3.5 h-3.5" />
                 Profil &amp; Referral
@@ -160,38 +165,38 @@ export default function CustomerDashboardPage() {
 
           {/* Toast / Celebration Alert */}
           {celebrationMessage && (
-            <div className="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 shadow-lg flex items-center gap-2.5 sm:gap-3 animate-bounce">
-              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 shrink-0" />
-              <p className="text-xs sm:text-sm font-bold leading-snug">
+            <div className="bg-amber-100/90 border-2 border-amber-300 text-amber-950 rounded-2xl p-4 shadow-lg flex items-center gap-3 animate-bounce">
+              <Sparkles className="w-6 h-6 text-amber-600 shrink-0" />
+              <p className="text-xs sm:text-sm font-heading font-bold leading-snug">
                 {celebrationMessage}
               </p>
             </div>
           )}
 
           {/* 1. Stamp Card Digital (Bab 10.4) */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-sky-100 shadow-md">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-sky-50">
-              <div className="flex items-center gap-2.5 sm:gap-3">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center shrink-0">
-                  <Gift className="w-4 h-4 sm:w-5 sm:h-5" />
+          <div className="glass-panel rounded-3xl sm:rounded-4xl p-5 sm:p-8 border border-sky-100/90 shadow-xl shadow-sky-500/5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-sky-100/80">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center shrink-0 shadow-xs">
+                  <Gift className="w-5 h-5" />
                 </div>
                 <div>
-                  <h2 className="text-base sm:text-lg font-bold text-slate-800">
+                  <h2 className="text-base sm:text-lg font-heading font-black text-slate-900">
                     Stamp Card Digital (5 Slot)
                   </h2>
-                  <p className="text-[11px] sm:text-xs text-slate-500">
-                    Setiap cucian selesai otomatis menambah 1 stempel. Kumpulkan 5 untuk cuci gratis 5 kg!
+                  <p className="text-xs text-slate-500 mt-0.5 font-sans">
+                    Kumpulkan 5 stempel cucian untuk klaim kupon cuci kiloan gratis hingga 5 kg
                   </p>
                 </div>
               </div>
 
-              <span className="text-xs font-bold px-3 py-1 bg-amber-50 text-amber-700 rounded-full border border-amber-200 self-start sm:self-auto">
+              <span className="text-xs font-heading font-black px-3.5 py-1.5 bg-amber-100 text-amber-900 rounded-full border border-amber-300/80 self-start sm:self-auto shadow-xs">
                 Progres: {stampsCount} / 5 Stempel
               </span>
             </div>
 
             {/* Stamp Slots Grid */}
-            <div className="grid grid-cols-5 gap-1.5 sm:gap-4 my-4 sm:my-6">
+            <div className="grid grid-cols-5 gap-2 sm:gap-4 my-5 sm:my-7">
               {[1, 2, 3, 4, 5].map((slotNumber) => {
                 const isFilled = slotNumber <= stampsCount;
                 const isRewardSlot = slotNumber === 5;
@@ -199,36 +204,36 @@ export default function CustomerDashboardPage() {
                 return (
                   <div
                     key={slotNumber}
-                    className={`aspect-square rounded-xl sm:rounded-3xl border-2 flex flex-col items-center justify-center p-1 sm:p-2 text-center transition-all relative ${
+                    className={`aspect-square rounded-2xl sm:rounded-3xl border-2 flex flex-col items-center justify-center p-2 text-center transition-all relative ${
                       isFilled
-                        ? 'border-amber-400 bg-gradient-to-br from-amber-50 to-amber-100/60 shadow-sm sm:shadow-md'
+                        ? 'border-amber-400 bg-gradient-to-br from-amber-50 to-amber-100/80 shadow-md shadow-amber-400/20 scale-102'
                         : isRewardSlot
-                        ? 'border-dashed border-rose-300 bg-rose-50/40 text-rose-600'
+                        ? 'border-dashed border-coral-400 bg-coral-50/50 text-coral-600 shadow-sm'
                         : 'border-dashed border-slate-200 bg-slate-50/50 text-slate-400'
                     }`}
                   >
                     {isFilled ? (
                       <>
-                        <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-amber-400 text-slate-900 font-black flex items-center justify-center shadow-inner text-[10px] sm:text-base">
+                        <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 font-black flex items-center justify-center shadow-md shadow-amber-500/30 text-sm sm:text-lg">
                           🪙
                         </div>
-                        <span className="text-[9px] sm:text-xs font-black text-amber-800 mt-0.5 sm:mt-1 truncate max-w-full">
+                        <span className="text-[10px] sm:text-xs font-heading font-black text-amber-900 mt-1">
                           #{slotNumber}
                         </span>
                       </>
                     ) : isRewardSlot ? (
                       <>
-                        <Gift className="w-5 h-5 sm:w-8 sm:h-8 text-rose-500 animate-pulse" />
-                        <span className="text-[8px] sm:text-[11px] font-extrabold text-rose-600 mt-0.5 sm:mt-1 leading-tight">
+                        <Gift className="w-6 h-6 sm:w-9 sm:h-9 text-coral-500 animate-pulse" />
+                        <span className="text-[9px] sm:text-xs font-heading font-black text-coral-600 mt-1 leading-tight">
                           Gratis 5Kg
                         </span>
                       </>
                     ) : (
                       <>
-                        <span className="text-[11px] sm:text-sm font-bold font-mono text-slate-300">
+                        <span className="text-xs sm:text-base font-black font-mono text-slate-300">
                           #{slotNumber}
                         </span>
-                        <span className="text-[8px] sm:text-[9px] text-slate-400 mt-0.5 hidden sm:block">
+                        <span className="text-[9px] text-slate-400 mt-0.5 hidden sm:block font-sans">
                           Kosong
                         </span>
                       </>
@@ -239,20 +244,20 @@ export default function CustomerDashboardPage() {
             </div>
 
             {/* Rule Callout & Simulation Action */}
-            <div className="bg-sky-50 rounded-2xl p-4 border border-sky-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="text-xs text-slate-600 space-y-1">
-                <p className="font-bold text-sky-900">
-                  Aturan Diskon Parsial Kupon (Bab 10.4):
+            <div className="bg-sky-50/80 rounded-2xl p-4 sm:p-5 border border-sky-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="text-xs text-slate-600 space-y-1 font-sans">
+                <p className="font-heading font-black text-sky-950">
+                  Aturan Diskon Parsial Kupon (Bab 10.4 PRD):
                 </p>
                 <p>
-                  Kupon hadiah stempel <strong>hanya memotong tagihan porsi kiloan</strong> hingga maksimal 5.00 kg. Porsi cucian satuan tetap ditagih normal tanpa diskon.
+                  Kupon hadiah stempel <strong>hanya memotong tagihan porsi kiloan</strong> hingga maksimal 5.00 kg. Porsi cucian satuan tetap ditagih normal tanpa potongan.
                 </p>
               </div>
 
               <button
                 type="button"
                 onClick={handleSimulateAddStamp}
-                className="px-4 py-2.5 text-xs font-bold text-sky-700 bg-white hover:bg-sky-100 border border-sky-200 rounded-xl shadow-sm transition active:scale-95 shrink-0"
+                className="px-4 py-2.5 text-xs font-heading font-black text-sky-700 bg-white hover:bg-sky-50 border border-sky-200 rounded-xl shadow-xs transition active:scale-95 shrink-0 cursor-pointer"
               >
                 + Simulasi Tambah Stempel
               </button>
@@ -260,29 +265,29 @@ export default function CustomerDashboardPage() {
           </div>
 
           {/* 2. Daily Check-in Streak Reward (Bab 10.4) */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-sky-100 shadow-md">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-sky-50">
-              <div className="flex items-center gap-2.5 sm:gap-3">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-teal-50 text-teal-600 border border-teal-200 flex items-center justify-center shrink-0">
-                  <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
+          <div className="glass-panel rounded-3xl sm:rounded-4xl p-5 sm:p-8 border border-sky-100/90 shadow-xl shadow-sky-500/5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-sky-100/80">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-teal-50 text-teal-600 border border-teal-200 flex items-center justify-center shrink-0 shadow-xs">
+                  <Calendar className="w-5 h-5" />
                 </div>
                 <div>
-                  <h2 className="text-base sm:text-lg font-bold text-slate-800">
+                  <h2 className="text-base sm:text-lg font-heading font-black text-slate-900">
                     Daily Check-in Streak
                   </h2>
-                  <p className="text-[11px] sm:text-xs text-slate-500">
+                  <p className="text-xs text-slate-500 mt-0.5 font-sans">
                     Buka PWA setiap hari dan klaim bonus koin streak berturut-turut
                   </p>
                 </div>
               </div>
 
-              <span className="text-xs font-bold px-3 py-1 bg-teal-50 text-teal-700 rounded-full border border-teal-200 self-start sm:self-auto">
+              <span className="text-xs font-heading font-black px-3.5 py-1.5 bg-teal-100 text-teal-900 rounded-full border border-teal-300/80 self-start sm:self-auto shadow-xs">
                 Streak: Hari ke-{streakDay}
               </span>
             </div>
 
             {/* 7-Day Streak Road */}
-            <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-4 sm:mb-6">
+            <div className="grid grid-cols-7 gap-1.5 sm:gap-3 mb-6">
               {[
                 { day: 1, pts: 10 },
                 { day: 2, pts: 15 },
@@ -298,23 +303,23 @@ export default function CustomerDashboardPage() {
                 return (
                   <div
                     key={st.day}
-                    className={`rounded-xl sm:rounded-2xl p-1.5 sm:p-3 text-center border transition ${
+                    className={`rounded-2xl p-2 sm:p-3 text-center border transition-all ${
                       isPassed
                         ? 'border-teal-300 bg-teal-50 text-teal-800'
                         : isCurrent
-                        ? 'border-sky-500 bg-sky-500 text-white shadow-md shadow-sky-200 ring-2 ring-sky-200'
-                        : 'border-slate-200 bg-slate-50 text-slate-400'
+                        ? 'border-sky-500 bg-gradient-to-br from-sky-500 to-teal-500 text-white shadow-lg shadow-sky-500/25 ring-2 ring-sky-300/40 scale-102'
+                        : 'border-slate-200 bg-slate-50/70 text-slate-400'
                     }`}
                   >
-                    <p className="text-[9px] sm:text-[10px] font-bold uppercase">
+                    <p className="text-[10px] font-heading font-black uppercase">
                       H-{st.day}
                     </p>
-                    <p className="text-[11px] sm:text-sm font-black mt-0.5 sm:mt-1 font-mono">
+                    <p className="text-xs sm:text-base font-black mt-1 font-mono">
                       +{st.pts}
                     </p>
                     {st.bonus && (
-                      <span className="text-[8px] sm:text-[9px] font-extrabold text-amber-300 block">
-                        Bonus!
+                      <span className="text-[9px] font-black text-amber-300 block mt-0.5">
+                        Super!
                       </span>
                     )}
                   </div>
@@ -328,10 +333,10 @@ export default function CustomerDashboardPage() {
                 type="button"
                 onClick={handleClaimDaily}
                 disabled={hasClaimedToday}
-                className={`w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm transition shadow-md sm:shadow-lg ${
+                className={`w-full sm:w-auto px-8 py-3.5 rounded-2xl font-heading font-black text-xs sm:text-sm transition-all shadow-md active:scale-95 cursor-pointer ${
                   hasClaimedToday
                     ? 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none'
-                    : 'bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white shadow-teal-200 active:scale-95'
+                    : 'bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white shadow-teal-500/25'
                 }`}
               >
                 {hasClaimedToday ? (
@@ -350,27 +355,27 @@ export default function CustomerDashboardPage() {
           </div>
 
           {/* Active Order Widget Card */}
-          <div className="bg-white rounded-3xl p-6 border border-sky-100 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 border border-sky-200 flex items-center justify-center shrink-0">
+          <div className="glass-panel rounded-3xl p-6 border border-sky-100/90 shadow-xl shadow-sky-500/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-13 h-13 rounded-2xl bg-gradient-to-br from-sky-500 to-teal-500 text-white flex items-center justify-center shrink-0 shadow-md shadow-sky-500/20">
                 <ShoppingBag className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full">
-                  Cucian Aktif
+                <span className="text-[10px] font-heading font-black uppercase tracking-wider text-sky-700 bg-sky-100/80 px-2.5 py-0.5 rounded-full border border-sky-200">
+                  Cucian Sedang Berjalan
                 </span>
-                <h3 className="text-base font-bold text-slate-800 mt-1">
+                <h3 className="text-base font-heading font-black text-slate-900 mt-1">
                   Pesanan #SKC-261009-0001 (Kode: SKC-R4N1X)
                 </h3>
-                <p className="text-xs text-slate-500">
-                  Status: <strong>Sedang Cuci</strong> &bull; Total: Rp 32.400
+                <p className="text-xs text-slate-500 font-sans">
+                  Status: <strong className="text-slate-800">Sedang Cuci</strong> &bull; Total: <span className="font-mono font-bold text-slate-800">Rp 32.400</span>
                 </p>
               </div>
             </div>
 
             <Link
               href="/track/SKC-R4N1X"
-              className="px-5 py-2.5 text-xs font-bold text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-xl transition flex items-center gap-2 self-start sm:self-auto"
+              className="px-5 py-2.5 text-xs font-heading font-black text-white bg-gradient-to-r from-sky-500 to-teal-500 hover:from-sky-600 hover:to-teal-600 rounded-xl transition shadow-sm shadow-sky-500/20 flex items-center gap-2 self-start sm:self-auto active:scale-95"
             >
               Lihat Progres &amp; Foto QC
               <ArrowRight className="w-4 h-4" />
@@ -383,3 +388,4 @@ export default function CustomerDashboardPage() {
     </div>
   );
 }
+

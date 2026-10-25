@@ -1,11 +1,33 @@
 import type { Metadata } from 'next';
+import { Plus_Jakarta_Sans, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { AdminSidebarLayout } from '../components/layout/AdminSidebarLayout';
 import { AuthGuard } from '../components/auth/AuthGuard';
 
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['600', '700', '800'],
+  variable: '--font-heading',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['500', '700'],
+  variable: '--font-mono',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
-  title: 'SiKucek POS - Kasir & Operator Laundry',
-  description: 'Aplikasi Kasir & Operator Laundry Pintar SiKucek: Order Hybrid, QC Kamera, & Alokasi Rak',
+  title: 'SiKucek POS - Kasir & Operator Laundry Pintar',
+  description: 'Aplikasi Kasir & Operator Laundry Pintar SiKucek: Order Hybrid Kiloan + Satuan, QC Kamera, & Alokasi Rak Fisik',
 };
 
 export default function RootLayout({
@@ -14,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">
-      <body className="antialiased min-h-screen bg-slate-100 text-slate-900">
+    <html lang="id" className={`${plusJakarta.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="antialiased min-h-screen bg-slate-900/5 text-slate-900 font-sans selection:bg-sky-500 selection:text-white">
         <AuthGuard>
           <AdminSidebarLayout>{children}</AdminSidebarLayout>
         </AuthGuard>

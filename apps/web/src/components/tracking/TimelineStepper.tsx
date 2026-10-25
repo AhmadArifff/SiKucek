@@ -45,33 +45,39 @@ export default function TimelineStepper({ steps }: TimelineStepperProps) {
   };
 
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-sky-100 shadow-md">
-      <div className="flex items-center justify-between mb-6 pb-3 border-b border-sky-50">
+    <div className="glass-panel rounded-3xl sm:rounded-4xl p-5 sm:p-8 border border-sky-100/90 shadow-xl shadow-sky-500/5 relative overflow-hidden">
+      {/* Decorative ambient background */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-sky-200/20 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative z-10 flex items-center justify-between mb-7 pb-4 border-b border-sky-100/80">
         <div>
-          <h3 className="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+          <h3 className="text-base sm:text-lg font-heading font-black text-slate-900 flex items-center gap-2">
             <span>Linimasa Pengerjaan Cucian (7 Tahap)</span>
           </h3>
-          <p className="text-xs text-slate-600">
+          <p className="text-xs text-slate-500 mt-0.5 font-sans">
             Pelacakan akurat proses laundry pakaian Anda secara real-time
           </p>
         </div>
-        <span className="text-xs font-semibold px-2.5 py-1 bg-sky-50 text-sky-700 rounded-full border border-sky-200">
+        <span className="text-[11px] font-bold px-3 py-1 bg-sky-100/80 text-sky-800 rounded-full border border-sky-200/80 shadow-xs flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           Proses Otomatis
         </span>
       </div>
 
       {/* Desktop Stepper */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block relative z-10">
         <div className="relative flex justify-between items-start">
           {/* Connecting Background Line */}
-          <div className="absolute top-5 left-6 right-6 h-1 bg-slate-100 -z-0" />
+          <div className="absolute top-6 left-8 right-8 h-1 bg-slate-200/80 rounded-full -z-0 overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-emerald-500 via-sky-500 to-slate-200 w-full" />
+          </div>
 
           {steps.map((step, idx) => {
-            let circleBg = 'bg-slate-200 text-slate-400';
+            let circleBg = 'bg-slate-100 text-slate-400 border border-slate-200';
             if (step.isCompleted) {
-              circleBg = 'bg-emerald-500 text-white shadow-md shadow-emerald-200';
+              circleBg = 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25 border border-emerald-400';
             } else if (step.isCurrent) {
-              circleBg = 'bg-sky-500 text-white ring-4 ring-sky-100 shadow-lg shadow-sky-300 animate-pulse';
+              circleBg = 'bg-gradient-to-br from-sky-500 to-teal-500 text-white ring-4 ring-sky-300/40 shadow-xl shadow-sky-500/35 animate-pulse border border-sky-300';
             }
 
             return (
@@ -81,33 +87,33 @@ export default function TimelineStepper({ steps }: TimelineStepperProps) {
               >
                 {/* Step Circle */}
                 <div
-                  className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all ${circleBg}`}
+                  className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${circleBg}`}
                 >
                   {getStageIcon(step.status, step.isCompleted, step.isCurrent)}
                 </div>
 
                 {/* Stage Info */}
                 <p
-                  className={`text-xs font-bold mt-2.5 leading-snug ${
+                  className={`text-xs font-heading font-black mt-3 leading-snug ${
                     step.isCurrent
-                      ? 'text-sky-600 font-extrabold'
+                      ? 'text-sky-600'
                       : step.isCompleted
-                      ? 'text-slate-800'
-                      : 'text-slate-500'
+                      ? 'text-slate-900'
+                      : 'text-slate-400'
                   }`}
                 >
                   {step.label}
                 </p>
 
                 {step.timestamp && (
-                  <span className="text-[10px] text-slate-500 mt-0.5 font-mono">
+                  <span className="text-[10px] text-slate-500 mt-1 font-mono font-medium">
                     {step.timestamp}
                   </span>
                 )}
 
                 {step.isCurrent && (
-                  <span className="mt-1.5 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide bg-sky-100 text-sky-700 rounded-full border border-sky-300 animate-bounce">
-                    Sedang Proses
+                  <span className="mt-2 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider bg-sky-100 text-sky-800 rounded-full border border-sky-300 shadow-xs">
+                    Sedang Dikerjakan
                   </span>
                 )}
               </div>
@@ -117,17 +123,14 @@ export default function TimelineStepper({ steps }: TimelineStepperProps) {
       </div>
 
       {/* Mobile / Tablet Vertical Stepper */}
-      <div className="lg:hidden space-y-4">
+      <div className="lg:hidden space-y-3 relative z-10">
         {steps.map((step, idx) => {
           let badgeBg = 'bg-slate-100 text-slate-400 border-slate-200';
-          let borderLeft = 'border-slate-200';
 
           if (step.isCompleted) {
-            badgeBg = 'bg-emerald-500 text-white border-emerald-500 shadow-sm';
-            borderLeft = 'border-emerald-500';
+            badgeBg = 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white border-emerald-400 shadow-md shadow-emerald-500/20';
           } else if (step.isCurrent) {
-            badgeBg = 'bg-sky-500 text-white border-sky-500 ring-2 ring-sky-200';
-            borderLeft = 'border-sky-500 bg-sky-50/50';
+            badgeBg = 'bg-gradient-to-br from-sky-500 to-teal-500 text-white border-sky-300 ring-2 ring-sky-300/40 shadow-lg shadow-sky-500/25';
           }
 
           return (
@@ -135,26 +138,26 @@ export default function TimelineStepper({ steps }: TimelineStepperProps) {
               key={step.status}
               className={`p-3.5 rounded-2xl border transition-all flex items-start gap-3.5 ${
                 step.isCurrent
-                  ? 'border-sky-300 bg-sky-50/60 shadow-sm shadow-sky-100 ring-1 ring-sky-200'
-                  : 'border-slate-100 bg-white'
+                  ? 'border-sky-300 bg-sky-50/70 shadow-sm shadow-sky-200/50 ring-1 ring-sky-300/40'
+                  : 'border-slate-200/70 bg-white/80'
               }`}
             >
               {/* Step Icon */}
               <div
-                className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${badgeBg}`}
+                className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border ${badgeBg}`}
               >
                 {getStageIcon(step.status, step.isCompleted, step.isCurrent)}
               </div>
 
               {/* Step Content */}
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 font-sans">
                 <div className="flex items-center justify-between gap-2">
                   <p
-                    className={`text-xs sm:text-sm font-bold ${
+                    className={`text-xs sm:text-sm font-heading font-black ${
                       step.isCurrent
                         ? 'text-sky-700'
                         : step.isCompleted
-                        ? 'text-slate-800'
+                        ? 'text-slate-900'
                         : 'text-slate-500'
                     }`}
                   >
@@ -162,7 +165,7 @@ export default function TimelineStepper({ steps }: TimelineStepperProps) {
                   </p>
 
                   {step.isCurrent && (
-                    <span className="px-2 py-0.5 text-[10px] font-bold bg-sky-100 text-sky-700 rounded-full shrink-0">
+                    <span className="px-2 py-0.5 text-[9px] font-black uppercase tracking-wider bg-sky-500 text-white rounded-full shrink-0 shadow-xs">
                       Aktif
                     </span>
                   )}
@@ -173,7 +176,7 @@ export default function TimelineStepper({ steps }: TimelineStepperProps) {
                 </p>
 
                 {step.timestamp && (
-                  <p className="text-[10px] font-mono text-slate-500 mt-1">
+                  <p className="text-[10px] font-mono font-medium text-slate-500 mt-1">
                     {step.timestamp}
                   </p>
                 )}
@@ -185,3 +188,4 @@ export default function TimelineStepper({ steps }: TimelineStepperProps) {
     </div>
   );
 }
+

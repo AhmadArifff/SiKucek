@@ -19,7 +19,10 @@ import {
   Shirt,
   Tag,
   Sparkles,
-  Smartphone,
+  Zap,
+  Clock,
+  ChevronRight,
+  Check,
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -40,51 +43,61 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-sky-50/60 via-white to-sky-50/40 text-slate-900">
+    <div className="min-h-screen flex flex-col bg-slate-50/70 text-slate-900 overflow-x-hidden">
       <Navbar />
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden pt-10 sm:pt-16 pb-16 sm:pb-24 border-b border-sky-100">
-          {/* Decorative Background Bubbles */}
-          <div className="absolute top-10 left-10 w-72 h-72 bg-sky-200/40 rounded-full blur-3xl pointer-events-none animate-float-bubble" />
-          <div className="absolute bottom-10 right-10 w-80 h-80 bg-amber-200/30 rounded-full blur-3xl pointer-events-none" />
+        {/* ========================================================================= */}
+        {/* 1. HERO SECTION                                                          */}
+        {/* ========================================================================= */}
+        <section className="relative pt-6 sm:pt-12 pb-16 sm:pb-24 overflow-hidden bg-mesh-cyan border-b border-sky-100/80">
+          {/* Animated Ambient Floating Bubbles */}
+          <div className="absolute top-12 left-8 w-64 h-64 bg-sky-300/25 rounded-full blur-3xl pointer-events-none animate-float-bubble" />
+          <div className="absolute top-1/2 right-10 w-80 h-80 bg-rose-300/20 rounded-full blur-3xl pointer-events-none animate-float-bubble-delayed" />
+          <div className="absolute bottom-6 left-1/3 w-72 h-72 bg-amber-200/25 rounded-full blur-3xl pointer-events-none animate-float-bubble" />
 
           <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              {/* Hero Text & Search Bar */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+              {/* Left Column: Headline, Description, Quick Tracker */}
               <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-                {/* Pill Badge */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100/90 text-sky-800 text-xs font-bold border border-sky-200/80 shadow-sm">
-                  <Sparkles className="w-4 h-4 text-amber-500 animate-spin" />
-                  <span>Sistem Operasi Laundry Generasi Baru</span>
+                {/* Micro Badge */}
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-sky-200 shadow-sm shadow-sky-100 backdrop-blur-md">
+                  <span className="flex h-2 w-2 rounded-full bg-sky-500 animate-ping" />
+                  <span className="text-xs font-bold font-heading text-sky-800">
+                    Sistem Operasi Laundry Generasi Baru
+                  </span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-sky-100 text-sky-700">
+                    v1.0 Live
+                  </span>
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-                  Laundry Bersih, Higienis, &amp; Transparan Tanpa Drama
+                {/* Main Hero Headline */}
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-black text-slate-950 tracking-tight leading-[1.12]">
+                  Laundry Bersih, Higienis, &amp; <span className="text-shimmer">Transparan</span> Tanpa Drama
                 </h1>
 
-                <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  Pantau progres cucian secara real-time dari timbangan hingga rak penyimpanan. Dilengkapi foto Quality Control (QC) anti-sengketa &amp; diskon loyalti stempel otomatis!
+                {/* Subtitle */}
+                <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal">
+                  Pantau proses cucian secara real-time dari timbangan hingga nomor rak fisik. Dilengkapi bukti foto Quality Control (QC) anti-sengketa &amp; diskon loyalti stempel otomatis!
                 </p>
 
                 {/* Quick Tracking Search Bar */}
                 <div id="tracking-bar" className="pt-2">
-                  <div className="bg-white p-2.5 sm:p-3 rounded-3xl shadow-xl shadow-sky-200/50 border border-sky-200 max-w-xl mx-auto lg:mx-0">
+                  <div className="glass-panel p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl shadow-xl shadow-sky-200/50 max-w-xl mx-auto lg:mx-0 border border-white">
                     <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
                       <div className="relative flex-1">
-                        <Search className="w-5 h-5 text-sky-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                        <Search className="w-5 h-5 text-sky-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                         <input
                           type="text"
                           value={trackingCode}
                           onChange={(e) => setTrackingCode(e.target.value)}
                           placeholder="Masukkan No. Resi (cth: SKC-B8D02)"
-                          className="w-full pl-11 pr-4 py-3 text-sm sm:text-base font-semibold text-slate-800 placeholder-slate-400 rounded-2xl border-none focus:outline-none focus:ring-2 focus:ring-sky-400 uppercase font-mono"
+                          className="w-full pl-11 pr-4 py-3 text-sm sm:text-base font-bold text-slate-900 placeholder-slate-400 rounded-xl sm:rounded-2xl bg-white/80 border border-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:bg-white uppercase font-mono tracking-wider transition-all"
                         />
                       </div>
                       <button
                         type="submit"
-                        className="px-6 py-3 bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white text-sm font-black rounded-2xl shadow-md shadow-sky-300 transition active:scale-95 flex items-center justify-center gap-2"
+                        className="px-6 py-3.5 btn-tactile-cyan text-white text-xs sm:text-sm font-extrabold rounded-xl sm:rounded-2xl flex items-center justify-center gap-2 font-heading tracking-wide"
                       >
                         <span>Lacak Sekarang</span>
                         <ArrowRight className="w-4 h-4" />
@@ -93,89 +106,100 @@ export default function HomePage() {
                   </div>
 
                   {/* Preset Demo Code Chips */}
-                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mt-3 text-xs text-slate-500">
-                    <span className="font-semibold text-slate-600">Coba Resi Demo:</span>
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mt-3 text-xs text-slate-600">
+                    <span className="font-bold text-slate-500 text-[11px] uppercase tracking-wider">Coba Resi Demo:</span>
                     <button
                       type="button"
                       onClick={() => setPresetCode('SKC-B8D02')}
-                      className="px-2.5 py-1 bg-white hover:bg-emerald-50 text-emerald-700 font-bold font-mono rounded-lg border border-emerald-200 shadow-sm transition"
+                      className="px-3 py-1 bg-white hover:bg-emerald-50 text-emerald-800 font-bold font-mono text-[11px] rounded-full border border-emerald-200 shadow-sm transition hover:scale-105 active:scale-95 flex items-center gap-1"
                     >
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       SKC-B8D02 (Siap di Rak A2)
                     </button>
                     <button
                       type="button"
                       onClick={() => setPresetCode('SKC-R4N1X')}
-                      className="px-2.5 py-1 bg-white hover:bg-sky-50 text-sky-700 font-bold font-mono rounded-lg border border-sky-200 shadow-sm transition"
+                      className="px-3 py-1 bg-white hover:bg-sky-50 text-sky-800 font-bold font-mono text-[11px] rounded-full border border-sky-200 shadow-sm transition hover:scale-105 active:scale-95 flex items-center gap-1"
                     >
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
                       SKC-R4N1X (Cuci &amp; Foto QC)
                     </button>
                     <button
                       type="button"
                       onClick={() => setPresetCode('SKC-DEMO01')}
-                      className="px-2.5 py-1 bg-white hover:bg-amber-50 text-amber-700 font-bold font-mono rounded-lg border border-amber-200 shadow-sm transition"
+                      className="px-3 py-1 bg-white hover:bg-amber-50 text-amber-800 font-bold font-mono text-[11px] rounded-full border border-amber-200 shadow-sm transition hover:scale-105 active:scale-95 flex items-center gap-1"
                     >
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
                       SKC-DEMO01 (Kupon 5 Kg)
                     </button>
                   </div>
                 </div>
 
-                {/* Key Metrics */}
-                <div className="pt-4 grid grid-cols-3 gap-4 border-t border-sky-100 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
-                  <div>
-                    <p className="text-xl sm:text-2xl font-black text-sky-600">100%</p>
-                    <p className="text-[11px] font-semibold text-slate-500">Transparansi QC</p>
+                {/* Key Metrics Stats */}
+                <div className="pt-4 grid grid-cols-3 gap-3 sm:gap-6 border-t border-sky-200/60 max-w-lg mx-auto lg:mx-0">
+                  <div className="glass-panel p-3 rounded-2xl text-center">
+                    <p className="text-xl sm:text-2xl font-black font-heading text-sky-600">100%</p>
+                    <p className="text-[10px] sm:text-xs font-bold text-slate-600 mt-0.5">Transparansi QC</p>
                   </div>
-                  <div>
-                    <p className="text-xl sm:text-2xl font-black text-amber-500">5 Stempel</p>
-                    <p className="text-[11px] font-semibold text-slate-500">Gratis 5 Kg</p>
+                  <div className="glass-panel p-3 rounded-2xl text-center">
+                    <p className="text-xl sm:text-2xl font-black font-heading text-amber-500">5 Stempel</p>
+                    <p className="text-[10px] sm:text-xs font-bold text-slate-600 mt-0.5">Gratis 5 Kg</p>
                   </div>
-                  <div>
-                    <p className="text-xl sm:text-2xl font-black text-emerald-600">0 Biaya</p>
-                    <p className="text-[11px] font-semibold text-slate-500">Pelacakan Publik</p>
+                  <div className="glass-panel p-3 rounded-2xl text-center">
+                    <p className="text-xl sm:text-2xl font-black font-heading text-emerald-600">0 Biaya</p>
+                    <p className="text-[10px] sm:text-xs font-bold text-slate-600 mt-0.5">Pelacakan Publik</p>
                   </div>
                 </div>
               </div>
 
-              {/* Mascot & Brand Showcase Card */}
+              {/* Right Column: 3D Mascot Showcase Card */}
               <div className="lg:col-span-5 flex justify-center">
-                <div className="relative w-full max-w-sm">
+                <div className="relative w-full max-w-md">
                   {/* Floating Mascot Card */}
-                  <div className="bg-white rounded-3xl p-6 shadow-2xl shadow-sky-200/60 border border-sky-100 relative z-10 text-center">
-                    <div className="relative w-56 h-56 mx-auto rounded-3xl overflow-hidden border-4 border-sky-100 shadow-inner mb-4">
+                  <div className="glass-panel rounded-3xl p-6 sm:p-7 shadow-2xl shadow-sky-300/40 relative z-10 text-center border-2 border-white/80 hover:shadow-glow-cyan transition-shadow duration-300">
+                    {/* Visual Mascot Container */}
+                    <div className="relative w-56 h-56 sm:w-64 sm:h-64 mx-auto rounded-3xl overflow-hidden border-4 border-white shadow-xl shadow-sky-100 mb-5 group">
                       <Image
                         src="/logo-sikucek.jpg"
-                        alt="Karakter Maskot Si Kucek"
+                        alt="Maskot Si Kucek"
                         fill
-                        className="object-cover"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                         priority
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-sky-950/20 via-transparent to-transparent pointer-events-none" />
                     </div>
 
-                    <h3 className="text-xl font-black text-sky-800">
-                      Kenalkan Si Kucek!
-                    </h3>
-                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                      Maskot ember ceria yang siap menyulap pakaian kotor Anda menjadi bersih, wangi lavender, dan kinclong berseri.
-                    </p>
+                    <div className="space-y-1.5">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-extrabold">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                        Sahabat Pakaian Anda
+                      </div>
+                      <h3 className="text-xl sm:text-2xl font-black font-heading text-slate-900">
+                        Kenalkan Si Kucek!
+                      </h3>
+                      <p className="text-xs text-slate-600 leading-relaxed px-2">
+                        Maskot ember ceria yang siap menyulap pakaian kotor Anda menjadi wangi lavender segar, bebas bakteri, dan kinclong rapi.
+                      </p>
+                    </div>
 
-                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
-                      <span className="flex items-center gap-1 font-semibold text-emerald-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                        Pewangi Premium
-                      </span>
-                      <span className="flex items-center gap-1 font-semibold text-sky-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-sky-500" />
-                        Setrika Uap Presisi
-                      </span>
+                    <div className="mt-5 pt-4 border-t border-slate-100/80 grid grid-cols-2 gap-2 text-xs text-slate-700">
+                      <div className="flex items-center gap-1.5 justify-center font-bold text-emerald-700 bg-emerald-50/80 p-2 rounded-xl">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                        <span>Deterjen Higienis</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 justify-center font-bold text-sky-700 bg-sky-50/80 p-2 rounded-xl">
+                        <CheckCircle2 className="w-4 h-4 text-sky-500 flex-shrink-0" />
+                        <span>Setrika Uap Presisi</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Decorative Elements */}
-                  <div className="absolute -top-4 -right-4 bg-amber-400 text-slate-900 font-extrabold text-xs px-3.5 py-1.5 rounded-2xl shadow-lg border-2 border-white rotate-6 z-20">
-                    Gratis Cuci 5 Kg!
+                  {/* Playful Floating Badges */}
+                  <div className="absolute -top-3 -right-3 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black text-xs px-4 py-2 rounded-2xl shadow-xl shadow-amber-300/50 border-2 border-white rotate-6 z-20 animate-pulse">
+                    🎁 Gratis Cuci 5 Kg!
                   </div>
-                  <div className="absolute -bottom-4 -left-4 bg-sky-500 text-white font-extrabold text-xs px-3.5 py-1.5 rounded-2xl shadow-lg border-2 border-white -rotate-6 z-20">
-                    Cek Rak Instan
+                  <div className="absolute -bottom-3 -left-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black text-xs px-4 py-2 rounded-2xl shadow-xl shadow-emerald-300/50 border-2 border-white -rotate-6 z-20">
+                    📍 Cek Nomor Rak Instan
                   </div>
                 </div>
               </div>
@@ -183,89 +207,201 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Why SiKucek Section (4 Pilar Keunggulan) */}
-        <section id="keunggulan" className="py-16 sm:py-20 bg-white border-b border-sky-100">
+        {/* ========================================================================= */}
+        {/* 2. REALTIME SOCIAL PROOF TICKER                                           */}
+        {/* ========================================================================= */}
+        <section className="bg-white/80 border-b border-sky-100/60 py-3.5 backdrop-blur-sm">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-xs font-bold text-sky-600 uppercase tracking-widest bg-sky-50 px-3 py-1 rounded-full border border-sky-200">
-                Keunggulan Layanan
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 mt-3">
-                Mengapa Memilih SiKucek?
+            <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-semibold text-slate-600">
+              <div className="flex items-center gap-2">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+                <span className="text-slate-800 font-bold">Live Status Outlet Sleman:</span>
+                <span className="text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-full font-bold">
+                  Buka • 07.00 - 21.00 WIB
+                </span>
+              </div>
+              <div className="hidden md:flex items-center gap-6 text-[11px] text-slate-500">
+                <span className="flex items-center gap-1">
+                  <Check className="w-3.5 h-3.5 text-sky-500" /> 18+ Cucian Selesai Hari Ini
+                </span>
+                <span className="flex items-center gap-1">
+                  <Check className="w-3.5 h-3.5 text-amber-500" /> 140+ Member Stamp Card
+                </span>
+                <span className="flex items-center gap-1">
+                  <Check className="w-3.5 h-3.5 text-rose-500" /> 0 Sengketa Pakaian
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* 3. BENTO GRID KEUNGGULAN (4 PILAR SIKUCEK)                                 */}
+        {/* ========================================================================= */}
+        <section id="keunggulan" className="py-16 sm:py-24 bg-slate-50/50 border-b border-sky-100/80 relative">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            {/* Section Header */}
+            <div className="text-center max-w-2xl mx-auto mb-14">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold uppercase tracking-widest border border-sky-200">
+                <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
+                Standar Higienis &amp; Transparan
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-heading font-black text-slate-950 mt-3">
+                Mengapa Pelanggan Memilih SiKucek?
               </h2>
-              <p className="text-sm text-slate-600 mt-2">
-                Kami memahami kekhawatiran Anda seputar pakaian hilang, luntur, atau tertukar. SiKucek menghadirkan standar operasional higienis dan transparan.
+              <p className="text-sm sm:text-base text-slate-600 mt-2.5">
+                Kami menghilangkan drama pakaian tertukar, luntur, dan robek dengan standardisasi alur digital modern.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Pilar 1 */}
-              <div className="bg-sky-50/50 rounded-3xl p-6 border border-sky-100 hover:shadow-lg hover:border-sky-300 transition group">
-                <div className="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center shadow-md shadow-rose-200 mb-4 group-hover:scale-105 transition-transform">
-                  <Camera className="w-6 h-6" />
+            {/* Asymmetric Bento Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+              {/* Bento 1: Large Card - Foto QC Kamera Anti-Sengketa */}
+              <div className="md:col-span-7 glass-panel glass-card-hover rounded-3xl p-6 sm:p-8 flex flex-col justify-between border border-white">
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500 to-rose-600 text-white flex items-center justify-center shadow-lg shadow-rose-200 mb-5">
+                    <Camera className="w-6 h-6" />
+                  </div>
+                  <span className="text-xs font-bold text-rose-600 uppercase tracking-wider">
+                    Pilar Anti-Sengketa
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-heading font-black text-slate-900 mt-1">
+                    Foto Kondisi Awal Kain (QC WebRTC)
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed max-w-lg">
+                    Jika ada kancing lepas, noda luntur, atau sobek sebelum dicuci, kasir langsung memotretnya via kamera WebRTC. Foto tersimpan transparan di link pelacakan Anda.
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-800">
-                  Foto QC Anti-Sengketa
-                </h3>
-                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Pakaian robek, berjamur, atau kancing copot dipotret kasir saat awal masuk dan dapat dilihat di link pelacakan Anda.
-                </p>
+
+                {/* Simulated Camera Viewfinder UI */}
+                <div className="mt-6 bg-slate-950/90 rounded-2xl p-4 text-white relative overflow-hidden border border-slate-800 shadow-inner">
+                  <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-2">
+                    <span className="flex items-center gap-1.5 text-rose-400">
+                      <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                      REC • WEBRTC QC CAM
+                    </span>
+                    <span>1200x800 WEBP</span>
+                  </div>
+                  <div className="h-28 sm:h-36 rounded-xl bg-slate-900 relative flex items-center justify-center border border-slate-800/80">
+                    {/* Viewfinder Crosshair */}
+                    <div className="w-16 h-16 border-2 border-dashed border-rose-400/60 rounded-xl flex items-center justify-center">
+                      <div className="w-2 h-2 bg-rose-500 rounded-full" />
+                    </div>
+                    <div className="absolute bottom-2 left-3 bg-rose-500/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
+                      Deteksi: Sobek Saku Celana (3cm)
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Pilar 2 */}
-              <div className="bg-sky-50/50 rounded-3xl p-6 border border-sky-100 hover:shadow-lg hover:border-sky-300 transition group">
-                <div className="w-12 h-12 rounded-2xl bg-teal-500 text-white flex items-center justify-center shadow-md shadow-teal-200 mb-4 group-hover:scale-105 transition-transform">
-                  <MapPin className="w-6 h-6" />
+              {/* Bento 2: Medium Card - Nomor Rak Fisik Tertera */}
+              <div className="md:col-span-5 glass-panel glass-card-hover rounded-3xl p-6 sm:p-8 flex flex-col justify-between border border-white">
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white flex items-center justify-center shadow-lg shadow-teal-200 mb-5">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                  <span className="text-xs font-bold text-teal-600 uppercase tracking-wider">
+                    Pengambilan Cepat
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-heading font-black text-slate-900 mt-1">
+                    Alokasi Rak Fisik Presisi
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                    Saat cucian selesai dipacking, sistem kasir wajib menempatkan pakaian ke rak bernomor (misal: RAK-B02). Anda tinggal sebut nomor rak saat mengambil.
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-800">
-                  Nomor Rak Fisik Tertera
-                </h3>
-                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Saat cucian siap, sistem langsung menampilkan nomor rak penyimpanan. Kasir tidak perlu membongkar tumpukan plastik.
-                </p>
+
+                {/* Visual Rack Preview Box */}
+                <div className="mt-6 bg-emerald-50 rounded-2xl p-4 border border-emerald-200/80 flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] uppercase font-bold text-emerald-800 tracking-wider">Lokasi Rak Ambil</p>
+                    <p className="text-2xl font-black font-mono text-emerald-700">RAK B-02</p>
+                  </div>
+                  <div className="px-3 py-1.5 bg-emerald-600 text-white text-xs font-bold rounded-xl shadow-md shadow-emerald-200 flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Siap Diambil</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Pilar 3 */}
-              <div className="bg-sky-50/50 rounded-3xl p-6 border border-sky-100 hover:shadow-lg hover:border-sky-300 transition group">
-                <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-200 mb-4 group-hover:scale-105 transition-transform">
-                  <Gift className="w-6 h-6" />
+              {/* Bento 3: Medium Card - Stamp Card 5 Slot */}
+              <div className="md:col-span-5 glass-panel glass-card-hover rounded-3xl p-6 sm:p-8 flex flex-col justify-between border border-white">
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-white flex items-center justify-center shadow-lg shadow-amber-200 mb-5">
+                    <Gift className="w-6 h-6" />
+                  </div>
+                  <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">
+                    Gamifikasi Retensi
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-heading font-black text-slate-900 mt-1">
+                    Stamp Card (5 Stempel = Gratis 5 Kg)
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                    Setiap transaksi selesai otomatis menambah 1 stempel digital. Kumpulkan 5 stempel untuk klaim kupon cuci kiloan gratis hingga 5 kg!
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-800">
-                  Stamp Card 5-Slot
-                </h3>
-                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Kumpulkan 5 stempel cucian untuk mendapatkan voucher gratis cuci kiloan maksimal 5 kg tanpa diundi!
-                </p>
+
+                {/* Stamp Card Visual Slots */}
+                <div className="mt-6 bg-amber-50/80 rounded-2xl p-4 border border-amber-200/80">
+                  <div className="flex items-center justify-between gap-1.5">
+                    {[1, 2, 3, 4].map((slot) => (
+                      <div key={slot} className="w-10 h-10 rounded-full bg-amber-400 border-2 border-white shadow-md flex items-center justify-center text-xs font-black text-slate-900">
+                        ✓
+                      </div>
+                    ))}
+                    <div className="w-11 h-11 rounded-full bg-amber-200 border-2 border-dashed border-amber-500 flex items-center justify-center text-xs font-bold text-amber-800 animate-pulse">
+                      🎁 5Kg
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Pilar 4 */}
-              <div className="bg-sky-50/50 rounded-3xl p-6 border border-sky-100 hover:shadow-lg hover:border-sky-300 transition group">
-                <div className="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center shadow-md shadow-sky-200 mb-4 group-hover:scale-105 transition-transform">
-                  <MessageCircle className="w-6 h-6" />
+              {/* Bento 4: Wide Card - Otomasi WhatsApp Baileys Engine */}
+              <div className="md:col-span-7 glass-panel glass-card-hover rounded-3xl p-6 sm:p-8 flex flex-col justify-between border border-white">
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-500 to-sky-700 text-white flex items-center justify-center shadow-lg shadow-sky-200 mb-5">
+                    <MessageCircle className="w-6 h-6" />
+                  </div>
+                  <span className="text-xs font-bold text-sky-600 uppercase tracking-wider">
+                    Tanpa Wajib Download Aplikasi
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-heading font-black text-slate-900 mt-1">
+                    Notifikasi WhatsApp Otomatis
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed max-w-lg">
+                    Nota digital saat cucian masuk dan kabar gembira saat pakaian siap di rak otomatis terkirim ke WhatsApp Anda tanpa jeda waktu.
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-800">
-                  Notifikasi WA Otomatis
-                </h3>
-                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Nota digital dan kabar cucian selesai langsung mampir ke nomor WhatsApp Anda tanpa perlu download aplikasi rumit.
-                </p>
+
+                {/* Simulated WhatsApp Chat Bubble */}
+                <div className="mt-6 bg-[#EFEAE2] rounded-2xl p-4 border border-[#DAD3C8] max-w-md">
+                  <div className="bg-white rounded-xl p-3 shadow-sm text-xs text-slate-800 space-y-1 relative">
+                    <p className="font-bold text-sky-800">SiKucek Laundry Sleman</p>
+                    <p>Halo Kak! Pakaian Anda di order <strong>#SKC-B8D02</strong> sudah SELESAI di <strong>RAK B-02</strong>. Bersih, wangi, dan rapi dipacking!</p>
+                    <p className="text-[10px] text-sky-600 underline font-mono">https://sikucek.app/track/SKC-B8D02</p>
+                    <span className="text-[9px] text-slate-400 float-right">14:30 ✓✓</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Live Estimator Section */}
-        <section id="kalkulator" className="py-16 sm:py-20 bg-sky-50/50 border-b border-sky-100">
+        {/* ========================================================================= */}
+        {/* 4. LIVE INTERACTIVE COST ESTIMATOR                                        */}
+        {/* ========================================================================= */}
+        <section id="kalkulator" className="py-16 sm:py-24 bg-white border-b border-sky-100/80">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <span className="text-xs font-bold text-amber-700 uppercase tracking-widest bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-                Kalkulator Transparan
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 mt-3">
-                Hitung Estimasi Biaya Cucian
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-widest border border-amber-200">
+                <Tag className="w-3.5 h-3.5 text-amber-600" />
+                Transparansi Biaya
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-heading font-black text-slate-950 mt-3">
+                Kalkulator Estimasi Biaya Cucian
               </h2>
-              <p className="text-sm text-slate-600 mt-2">
-                Geser slider kiloan dan tambahkan pakaian satuan untuk mengetahui estimasi harga sebelum mengantar cucian ke outlet.
+              <p className="text-sm sm:text-base text-slate-600 mt-2.5">
+                Geser timbangan kiloan dan tambahkan pakaian satuan untuk mengetahui estimasi pengeluaran Anda secara instan.
               </p>
             </div>
 
@@ -273,53 +409,60 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Service Price Catalog */}
-        <section id="layanan" className="py-16 sm:py-20 bg-white border-b border-sky-100">
+        {/* ========================================================================= */}
+        {/* 5. TARIF RESMI LAYANAN KILOAN & SATUAN                                   */}
+        {/* ========================================================================= */}
+        <section id="layanan" className="py-16 sm:py-24 bg-slate-50/50 border-b border-sky-100/80">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-xs font-bold text-sky-600 uppercase tracking-widest bg-sky-50 px-3 py-1 rounded-full border border-sky-200">
-                Daftar Tarif Resmi
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 mt-3">
-                Layanan Kiloan &amp; Satuan
+            <div className="text-center max-w-2xl mx-auto mb-14">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold uppercase tracking-widest border border-sky-200">
+                <Shirt className="w-3.5 h-3.5 text-sky-600" />
+                Daftar Harga Transparan
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-heading font-black text-slate-950 mt-3">
+                Tarif Kiloan &amp; Satuan Resmi
               </h2>
-              <p className="text-sm text-slate-600 mt-2">
-                Tarif bersahabat mahasiswa dan keluarga dengan garansi kebersihan optimal
+              <p className="text-sm sm:text-base text-slate-600 mt-2.5">
+                Bersahabat untuk mahasiswa, kos, dan keluarga dengan garansi pewangi tahan lama.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Kategori Kiloan */}
-              <div className="bg-sky-50/40 rounded-3xl p-6 sm:p-7 border border-sky-100">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-2xl bg-sky-500 text-white flex items-center justify-center">
-                    <Shirt className="w-5 h-5" />
+              {/* Box Kiloan */}
+              <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-white shadow-xl shadow-sky-100">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center shadow-md shadow-sky-200">
+                      <Shirt className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-heading font-black text-slate-900">
+                        Paket Cuci Kiloan
+                      </h3>
+                      <p className="text-xs text-slate-500">Min. order 2.0 kg • Cuci, Kering &amp; Setrika Uap</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-800">
-                      Layanan Cuci Kiloan
-                    </h3>
-                    <p className="text-xs text-slate-500">
-                      Minimum order 2.00 kg. Sudah termasuk cuci, kering, dan setrika uap.
-                    </p>
-                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold font-mono">
+                    Populer
+                  </span>
                 </div>
 
                 <div className="space-y-3">
                   {[
-                    { name: 'Cuci Kering Setrika Reguler', duration: '48 Jam (2 Hari)', price: 'Rp 7.000 / kg' },
-                    { name: 'Cuci Kering Setrika Express', duration: '24 Jam (1 Hari)', price: 'Rp 10.000 / kg' },
-                    { name: 'Cuci Kering Setrika Kilat', duration: '6 Jam', price: 'Rp 15.000 / kg' },
+                    { name: 'Cuci Kering Setrika Reguler', duration: '48 Jam (2 Hari)', price: 'Rp 7.000 / kg', desc: 'Pilihan hemat harian pakaian santai' },
+                    { name: 'Cuci Kering Setrika Express', duration: '24 Jam (1 Hari)', price: 'Rp 10.000 / kg', desc: 'Prioritas pengerjaan 1 hari selesai' },
+                    { name: 'Cuci Kering Lipat Saja', duration: '48 Jam (2 Hari)', price: 'Rp 5.000 / kg', desc: 'Cocok untuk handuk, sprei, selimut tipis' },
+                    { name: 'Setrika Uap Saja', duration: '48 Jam (2 Hari)', price: 'Rp 4.500 / kg', desc: 'Pakaian sudah dicuci sendiri di kos/rumah' },
                   ].map((srv, idx) => (
                     <div
                       key={idx}
-                      className="bg-white p-3.5 rounded-2xl border border-sky-100 flex items-center justify-between"
+                      className="p-4 rounded-2xl bg-white border border-sky-100/80 hover:border-sky-300 transition-all flex items-center justify-between"
                     >
                       <div>
-                        <p className="text-xs sm:text-sm font-bold text-slate-800">{srv.name}</p>
-                        <p className="text-[11px] text-slate-500">{srv.duration}</p>
+                        <p className="text-sm font-bold text-slate-900 font-heading">{srv.name}</p>
+                        <p className="text-xs text-slate-500">{srv.desc} • <span className="text-sky-700 font-semibold">{srv.duration}</span></p>
                       </div>
-                      <span className="text-xs sm:text-sm font-extrabold font-mono text-sky-700 bg-sky-50 px-2.5 py-1 rounded-xl">
+                      <span className="text-sm font-black font-mono text-sky-700 bg-sky-50 px-3 py-1.5 rounded-xl border border-sky-200">
                         {srv.price}
                       </span>
                     </div>
@@ -327,39 +470,42 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Kategori Satuan */}
-              <div className="bg-amber-50/40 rounded-3xl p-6 sm:p-7 border border-amber-100">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center">
-                    <Tag className="w-5 h-5" />
+              {/* Box Satuan */}
+              <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-white shadow-xl shadow-amber-100">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-200">
+                      <Tag className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-heading font-black text-slate-900">
+                        Perawatan Pakaian Satuan
+                      </h3>
+                      <p className="text-xs text-slate-500">Kain formal, bed cover, tas &amp; alas kaki</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-800">
-                      Layanan Pakaian Satuan
-                    </h3>
-                    <p className="text-xs text-slate-500">
-                      Perawatan khusus kain tebal, formal, sprei, dan alas kaki.
-                    </p>
-                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold font-mono">
+                    Spesial
+                  </span>
                 </div>
 
                 <div className="space-y-3">
                   {[
-                    { name: 'Kemeja / Blouse Formal', unit: 'per pcs', price: 'Rp 5.000' },
-                    { name: 'Celana Jeans / Bahan Panjang', unit: 'per pcs', price: 'Rp 7.000' },
-                    { name: 'Jas / Blazer Eksekutif', unit: 'per pcs', price: 'Rp 20.000' },
-                    { name: 'Bed Cover King Size', unit: 'per pcs', price: 'Rp 25.000' },
-                    { name: 'Sepatu Sneakers / Canvas', unit: 'per pasang', price: 'Rp 25.000' },
+                    { name: 'Kemeja Formal / Blus', unit: 'per pcs', price: 'Rp 6.000', desc: 'Kerah kaku rapi, hanger khusus' },
+                    { name: 'Celana Jeans / Bahan Panjang', unit: 'per pcs', price: 'Rp 7.000', desc: 'Anti kusut & lipatan presisi' },
+                    { name: 'Jas / Blazer Eksekutif', unit: 'per pcs', price: 'Rp 25.000', desc: 'Perawatan dry-clean steam halus' },
+                    { name: 'Bed Cover King / Jumbo', unit: 'per pcs', price: 'Rp 30.000', desc: 'Pengeringan total anti bau apek' },
+                    { name: 'Sepatu Sneakers / Canvas', unit: 'per pasang', price: 'Rp 25.000', desc: 'Deep cleaning sol & deep deodorizer' },
                   ].map((srv, idx) => (
                     <div
                       key={idx}
-                      className="bg-white p-3.5 rounded-2xl border border-amber-100 flex items-center justify-between"
+                      className="p-4 rounded-2xl bg-white border border-amber-100/80 hover:border-amber-300 transition-all flex items-center justify-between"
                     >
                       <div>
-                        <p className="text-xs sm:text-sm font-bold text-slate-800">{srv.name}</p>
-                        <p className="text-[11px] text-slate-500">{srv.unit}</p>
+                        <p className="text-sm font-bold text-slate-900 font-heading">{srv.name}</p>
+                        <p className="text-xs text-slate-500">{srv.desc} • <span className="text-amber-700 font-semibold">{srv.unit}</span></p>
                       </div>
-                      <span className="text-xs sm:text-sm font-extrabold font-mono text-amber-700 bg-amber-50 px-2.5 py-1 rounded-xl">
+                      <span className="text-sm font-black font-mono text-amber-700 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
                         {srv.price}
                       </span>
                     </div>
@@ -370,35 +516,38 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Gamification & PWA Banner Callout */}
-        <section className="py-14 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-700 text-white">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-              <div className="space-y-2 max-w-xl">
-                <span className="text-xs font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full text-white">
-                  Program Retensi Pelanggan
+        {/* ========================================================================= */}
+        {/* 6. CALLOUT RETENSI & GAMIFIKASI PWA                                      */}
+        {/* ========================================================================= */}
+        <section className="py-16 sm:py-20 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-700 text-white relative overflow-hidden">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
+              <div className="space-y-3 max-w-xl">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  Program Retensi Pelanggan Setia
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-black">
-                  Kumpulkan 5 Stempel &amp; Check-in Harian
+                <h3 className="text-2xl sm:text-4xl font-heading font-black leading-tight">
+                  Kumpulkan 5 Stempel &amp; Klaim Hadiah Gratis 5 Kg
                 </h3>
-                <p className="text-xs sm:text-sm text-sky-100 leading-relaxed">
-                  Cukup login ke PWA SiKucek untuk klaim koin harian streak dan cap stempel cucian otomatis. Dapatkan hadiah cuci kiloan gratis 5 kg!
+                <p className="text-xs sm:text-sm text-sky-100 leading-relaxed font-normal">
+                  Cukup login dengan nomor WhatsApp Anda di PWA SiKucek. Dapatkan poin streak harian, stempel otomatis saat cucian selesai, dan penukaran kupon diskon langsung.
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap items-center justify-center gap-3">
                 <Link
                   href="/app"
-                  className="px-6 py-3 bg-white hover:bg-sky-50 text-sky-700 font-extrabold text-xs sm:text-sm rounded-2xl shadow-lg transition active:scale-95 flex items-center gap-2"
+                  className="px-6 py-3.5 bg-white hover:bg-sky-50 text-sky-800 font-heading font-extrabold text-xs sm:text-sm rounded-2xl shadow-xl shadow-sky-900/30 transition hover:scale-105 active:scale-95 flex items-center gap-2"
                 >
                   <Gift className="w-4 h-4 text-amber-500" />
                   Buka Stamp Card PWA
                 </Link>
                 <Link
                   href="/track/SKC-DEMO01"
-                  className="px-5 py-3 bg-white/20 hover:bg-white/30 text-white font-bold text-xs sm:text-sm rounded-2xl transition border border-white/30"
+                  className="px-5 py-3.5 bg-white/15 hover:bg-white/25 text-white font-bold text-xs sm:text-sm rounded-2xl transition border border-white/30 backdrop-blur-md"
                 >
-                  Lihat Contoh Kupon Terpasang
+                  Lihat Nota Kupon Demo
                 </Link>
               </div>
             </div>
