@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -28,6 +28,55 @@ import {
 export default function HomePage() {
   const router = useRouter();
   const [trackingCode, setTrackingCode] = useState<string>('');
+  
+  // Deteksi kursor aktif vs kursor diam (idle)
+  const [isUserActive, setIsUserActive] = useState<boolean>(true);
+  const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
+  const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Menangani pergerakan kursor di hero section
+  const handleHeroMouseMove = () => {
+    setIsUserActive(true);
+
+    if (idleTimerRef.current) {
+      clearTimeout(idleTimerRef.current);
+    }
+
+    // Jika input tidak sedang aktif diketik, sembunyikan teks setelah 2.2 detik diam
+    if (!isInputFocused) {
+      idleTimerRef.current = setTimeout(() => {
+        setIsUserActive(false);
+      }, 2200);
+    }
+  };
+
+  // Saat kursor meninggalkan area hero section
+  const handleHeroMouseLeave = () => {
+    if (!isInputFocused) {
+      if (idleTimerRef.current) {
+        clearTimeout(idleTimerRef.current);
+      }
+      idleTimerRef.current = setTimeout(() => {
+        setIsUserActive(false);
+      }, 1000);
+    }
+  };
+
+  // Timer awal: beri waktu 3.2 detik bagi pengunjung membaca headline saat pertama kali buka,
+  // lalu otomatis memudarkan teks ke mode film animasi jika mouse didiamkan.
+  useEffect(() => {
+    idleTimerRef.current = setTimeout(() => {
+      if (!isInputFocused) {
+        setIsUserActive(false);
+      }
+    }, 3200);
+
+    return () => {
+      if (idleTimerRef.current) {
+        clearTimeout(idleTimerRef.current);
+      }
+    };
+  }, [isInputFocused]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +99,11 @@ export default function HomePage() {
         {/* ========================================================================= */}
         {/* 1. HERO SECTION DENGAN LATAR VIDEO REMOTION FILM ANIMASI SINEMATIK        */}
         {/* ========================================================================= */}
-        <section className="relative pt-8 sm:pt-14 pb-20 sm:pb-28 min-h-[660px] sm:min-h-[720px] flex flex-col justify-center overflow-hidden bg-slate-50 transition-colors duration-500">
+        <section
+          onMouseMove={handleHeroMouseMove}
+          onMouseLeave={handleHeroMouseLeave}
+          className="relative pt-8 sm:pt-14 pb-20 sm:pb-28 min-h-[660px] sm:min-h-[720px] flex flex-col justify-center overflow-hidden bg-slate-950 transition-colors duration-700"
+        >
           {/* Background Video Layer (Rendered with Remotion) */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
             <video
@@ -59,12 +112,20 @@ export default function HomePage() {
               muted
               playsInline
               poster="/videos/hero-poster.jpg"
-              className="w-full h-full object-cover opacity-80 filter brightness-105 saturate-110"
+              className={`w-full h-full object-cover transition-all duration-700 ease-in-out ${
+                isUserActive
+                  ? 'opacity-75 filter brightness-105 saturate-110 scale-100'
+                  : 'opacity-100 filter brightness-110 saturate-125 scale-102'
+              }`}
             >
               <source src="/videos/hero-loop.mp4" type="video/mp4" />
             </video>
-            {/* Latar Overlay Halus Menjamin Kontras Teks Bersih WCAG AA */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/94 via-sky-50/82 to-white/90 backdrop-blur-[0.5px]" />
+            {/* Latar Overlay Putih: Solid saat kursor aktif, menghilang 100% transparan saat kursor diam */}
+            <div
+              className={`absolute inset-0 bg-gradient-to-r from-white/95 via-sky-50/85 to-white/90 backdrop-blur-[0.5px] transition-opacity duration-700 ease-in-out ${
+                isUserActive ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
           </div>
 
           {/* Animated Ambient Floating Accents */}
@@ -72,8 +133,14 @@ export default function HomePage() {
           <div className="absolute top-1/2 right-10 w-80 h-80 bg-purple-300/15 rounded-full blur-3xl pointer-events-none z-0" />
           <div className="absolute bottom-6 left-1/3 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl pointer-events-none z-0" />
 
-          {/* Content Hero Section: Selalu Tampil Prima & Interaktif */}
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+          {/* Content Hero Section: Tampil saat aktif, memudar saat kursor diam agar film animasi terlihat utuh */}
+          <div
+            className={`max-w-6xl mx-auto px-4 sm:px-6 relative z-10 transition-all duration-700 ease-out ${
+              isUserActive
+                ? 'opacity-100 scale-100 blur-none pointer-events-auto'
+                : 'opacity-0 scale-[0.98] blur-[2px] pointer-events-none'
+            }`}
+          >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Headline, Description, Quick Tracker */}
               <div className="lg:col-span-7 space-y-5 text-center lg:text-left">
@@ -107,6 +174,13 @@ export default function HomePage() {
                         <input
                           type="text"
                           value={trackingCode}
+                          onFocus={() => {
+                            setIsInputFocused(true);
+                            setIsUserActive(true);
+                          }}
+                          onBlur={() => {
+                            setIsInputFocused(false);
+                          }}
                           onChange={(e) => setTrackingCode(e.target.value)}
                           placeholder="Ketik no. resi (contoh: SKC-B8D02)"
                           className="w-full pl-10 pr-3 py-2.5 text-sm sm:text-base font-bold text-slate-900 placeholder:text-slate-400 placeholder:font-sans placeholder:font-normal placeholder:tracking-normal placeholder:normal-case placeholder:text-xs sm:placeholder:text-sm bg-transparent border-none focus:outline-none uppercase font-mono tracking-wider"

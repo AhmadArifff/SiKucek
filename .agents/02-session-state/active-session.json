@@ -6,8 +6,8 @@
   "active_branch": "dev",
   "version": "1.0.0",
   "status": "COMPLETED",
-  "active_goal": "Film Animasi Sinematik 4 Babak SiKucek (Remotion 360 Frame / 12 Detik) & Pembersihan Total Kursor Diam",
-  "last_updated": "2026-10-26T08:19:00+07:00",
+  "active_goal": "Film Animasi Sinematik 4 Babak SiKucek (Remotion 360 Frame / 12 Detik) & Mode Kursor Sinematik Alami",
+  "last_updated": "2026-10-26T09:42:00+07:00",
   "current_sprint": "Sprint 5: Polishing, Mobile Responsiveness, & Production Deployment Parity",
   "completed_milestones": [
     {
@@ -236,11 +236,11 @@
     },
     {
       "id": "M29_CINEMATIC_ANIMATED_SHORT_FILM_REMOTION",
-      "title": "Film Animasi Sinematik 4 Babak SiKucek (Remotion) & Penghapusan Total Kursor Diam",
+      "title": "Film Animasi Sinematik 4 Babak SiKucek (Remotion) & Mode Kursor Sinematik Alami",
       "prd_sections": ["Bab 2", "Bab 6", "Bab 10.1", "Bab 10.2", "Bab 10.3", "Bab 10.4", "Bab 10.5", "Bab 10.6"],
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-26",
-      "details": "1) Penghapusan total logika kursor diam, idle timer, dan pill controller dari apps/web/src/app/page.tsx sehingga teks headline, subtitle, form lacak, dan chip demo selalu tampil stabil, tajam, dan kontras (WCAG AA). 2) Transformasi video latar belakang Remotion dari presentasi teknis statis menjadi film animasi sinematik berbasis karakter hidup berdurasi 12 detik (360 frames @ 30fps) dengan 4 babak naratif: Babak 1 (Kedatangan Kiko si Kaos & Scan WebRTC QC Cam), Babak 2 (Pusaran Air Sabun 1200 RPM, Si Kucek berselancar & noda rontok), Babak 3 (Spa Setrika Uap Lavender hangat & licin berkilau), Babak 4 (Alokasi Rak A-02, stempel 5/5 selesai, & notifikasi WhatsApp otomatis meluncur). 3) Subtitle ribbon sinematik penjelas cerita di bagian bawah kanvas. 4) Dirender sukses 100% ke apps/web/public/videos/hero-loop.mp4 (3.97 MB) dan hero-poster.jpg (70.8 KB). 5) Lulus turbo type-check 5/5 packages dengan 0 error."
+      "details": "1) Implementasi interaksi sinematik alami tanpa badge/tombol pengontrol: Saat kursor diam (idle 2.2s), seluruh teks hero dan overlay memudar halus (fade-out 100% transparan) sehingga film animasi 4 babak SiKucek tersorot jernih dan utuh tanpa tertutup teks. Saat kursor digerakkan kembali, teks langsung muncul (fade-in) secara responsif. Dilengkapi input focus safety guard agar teks tidak hilang saat mengetik resi. 2) Film animasi sinematik Remotion 4 babak berdurasi 12 detik (360 frames @ 30fps) dengan karakter hidup (Kiko & Si Kucek), subtitle ribbon sinematik, dirender ke apps/web/public/videos/hero-loop.mp4 (3.97 MB) dan hero-poster.jpg (70.8 KB). 3) Lulus turbo type-check 5/5 packages dengan 0 error."
     }
   ],
   "in_progress_milestones": [],
