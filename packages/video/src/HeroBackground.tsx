@@ -4,7 +4,6 @@ import {
   useVideoConfig,
   AbsoluteFill,
   interpolate,
-  spring,
   random,
 } from 'remotion';
 
@@ -151,12 +150,12 @@ const MascotSiKucek: React.FC<MascotProps> = ({
 };
 
 // =============================================================================
-// 3. TABLET POS FRAME (PERANGKAT KASIR BUDI DI SISI KANAN)
+// 3. TABLET POS FRAME (KASIR BUDI DI SISI KANAN)
 // =============================================================================
 const TabletFrame: React.FC<{ children: React.ReactNode; width?: number; height?: number }> = ({
   children,
   width = 820,
-  height = 540,
+  height = 510,
 }) => {
   return (
     <div
@@ -208,7 +207,7 @@ const TabletFrame: React.FC<{ children: React.ReactNode; width?: number; height?
 const PhoneFrame: React.FC<{ children: React.ReactNode; width?: number; height?: number }> = ({
   children,
   width = 360,
-  height = 640,
+  height = 570,
 }) => {
   return (
     <div
@@ -232,7 +231,7 @@ const PhoneFrame: React.FC<{ children: React.ReactNode; width?: number; height?:
           left: '50%',
           transform: 'translateX(-50%)',
           width: 90,
-          height: 22,
+          height: 20,
           background: '#000000',
           borderRadius: 12,
           zIndex: 40,
@@ -264,12 +263,118 @@ const PhoneFrame: React.FC<{ children: React.ReactNode; width?: number; height?:
 };
 
 // =============================================================================
-// 5. KOMPONEN UTAMA: HERO BACKGROUND PANORAMIK SEIMBANG (1920x1080)
+// 5. DATA PENJELAS INTERAKTIF (PER SCENE CONTEXT & EXPLANATIONS)
+// =============================================================================
+interface SceneMeta {
+  badge: string;
+  badgeBg: string;
+  badgeColor: string;
+  title: string;
+  description: string;
+  benefit: string;
+  leftCallout: string;
+  rightCallout: string;
+}
+
+const SCENE_INFO: Record<number, SceneMeta> = {
+  1: {
+    badge: 'TAHAP 1 / 8 • INTAKE INITIATION',
+    badgeBg: '#e0f2fe',
+    badgeColor: '#0369a1',
+    title: 'Penerimaan Cucian di Meja Kasir',
+    description: 'Pelanggan Rani Kusuma tiba di outlet. Sistem POS SiKucek siap menerima cucian kiloan dan satuan tanpa formulir kertas.',
+    benefit: 'Pelayanan kasir 3x lebih cepat, data pelanggan terekam otomatis.',
+    leftCallout: '📌 Meja Kasir Fisik: Timbangan digital sensor Load Cell siap 0.00 KG',
+    rightCallout: '📌 Tablet POS Kasir: Siap input order baru dalam 1 ketukan',
+  },
+  2: {
+    badge: 'TAHAP 2 / 8 • FITUR INTAKE HYBRID (PRD 10.1)',
+    badgeBg: '#fef3c7',
+    badgeColor: '#92400e',
+    title: 'Kombinasi Kiloan & Satuan Otomatis dalam 1 Nota',
+    description: 'Timbangan digital otomatis mengisi berat (3.20 Kg = Rp22.400). Kasir cukup tap 2 kemeja (@ Rp5.000 = Rp10.000). Total bersih Rp32.400 dihitung otomatis!',
+    benefit: 'Bebas salah hitung kasir & nota transparan bagi pelanggan.',
+    leftCallout: '📌 Timbangan Cerdas: Sinkron data 3.20 KG otomatis ke POS kasir',
+    rightCallout: '📌 Validasi Zod: Mencegah salah harga & menghitung otomatis Rp32.400',
+  },
+  3: {
+    badge: 'TAHAP 3 / 8 • FOTO QC WEBRTC (PRD 10.2)',
+    badgeBg: '#ffe4e6',
+    badgeColor: '#be123c',
+    title: 'Kamera WebRTC Rekam Bukti Cacat Awal Pakaian',
+    description: 'Sebelum dicuci, kamera tablet memotret sobekan 3 cm pada kerah kemeja. Foto otomatis terkompresi WebP 412 KB & diunggah ke storage cloud bucket qc-photos.',
+    benefit: 'Nol sengketa (Zero-Defect Dispute) saat pakaian selesai diambil!',
+    leftCallout: '📌 Pindaian Laser WebRTC: Sobekan 3 cm terdeteksi & ditandai awal',
+    rightCallout: '📌 Cloud Evidence: Foto terkompresi WebP 412 KB tersimpan aman',
+  },
+  4: {
+    badge: 'TAHAP 4 / 8 • INTEGRASI QRIS (PRD 10.1)',
+    badgeBg: '#dcfce7',
+    badgeColor: '#15803d',
+    title: 'Pembayaran Digital QRIS Seketika Lunas',
+    description: 'Kasir menerbitkan kode QRIS dinamis senilai Rp32.400. Pelanggan memindai via HP dan status pesanan otomatis berubah LUNAS tanpa ribet uang kembalian.',
+    benefit: 'Kasir tidak perlu uang receh & kas outlet terlacak rapi.',
+    leftCallout: '📌 QRIS Dinamis: Terbit otomatis sesuai pesanan SKC-261026-0042',
+    rightCallout: '📌 Instant Webhook: Notifikasi pembayaran lunas diterima real-time',
+  },
+  5: {
+    badge: 'TAHAP 5 / 8 • AUTOMATION ENGINE (PRD 10.6)',
+    badgeBg: '#ede9fe',
+    badgeColor: '#5b21b6',
+    title: 'Nota & Link Lacak Terkirim via WhatsApp dalam 6 Detik',
+    description: 'Saat order disimpan, trigger database Supabase memasukkan pesan ke antrean whatsapp_queue. Worker Baileys mengirim pesan resmi ke Rani hanya dalam 6 detik!',
+    benefit: 'Pelanggan langsung menerima bukti transaksi tanpa boros kertas struk.',
+    leftCallout: '📌 Database Supabase: RLS Policy mengunci keamanan data pesanan',
+    rightCallout: '📌 Worker Baileys: Kirim pesan WhatsApp otomatis tanpa biaya SMS',
+  },
+  6: {
+    badge: 'TAHAP 6 / 8 • PUBLIC TRACKING PWA (PRD 10.3)',
+    badgeBg: '#e0f2fe',
+    badgeColor: '#0284c7',
+    title: 'Pelacakan 7 Tahap Cucian & Cek Foto QC Tanpa Login',
+    description: 'Rani cukup klik tautan dari pesan WhatsApp, halaman pelacakan publik PWA langsung terbuka. Stepper 7 tahap bergerak live dari Cuci, Kering, hingga Setrika!',
+    benefit: 'Pelanggan tenang memantau progres kapan saja dari rumah tanpa aplikasi.',
+    leftCallout: '📌 Mesin Cuci 1200 RPM: Sanitasi ozon higienis & suhu 40°C optimal',
+    rightCallout: '📌 PWA Tracking: Tautan publik tanpa perlu download atau daftar akun',
+  },
+  7: {
+    badge: 'TAHAP 7 / 8 • PHYSICAL RACK LOCATOR (PRD 10.5)',
+    badgeBg: '#ecfdf5',
+    badgeColor: '#047857',
+    title: 'Wajib Alokasi Nomor Rak Sebelum Pakaian Diambil',
+    description: 'Sistem melarang kasir mengubah status jadi Ready sebelum mengisi nomor rak. Slot RAK B-02 dialokasikan, pesan WhatsApp otomatis memberi tahu lokasi rak ke Rani.',
+    benefit: 'Pakaian tertata rapi, anti-tertukar, dan proses serah terima cepat!',
+    leftCallout: '📌 Slot Rak Fisik B-02: Rak modular outlet menyala lampu LED hijau',
+    rightCallout: '📌 Notifikasi Siap Ambil: Rani tahu persis cuciannya ada di Rak B-02',
+  },
+  8: {
+    badge: 'TAHAP 8 / 8 • LOYALTY STAMP CARD (PRD 10.4)',
+    badgeBg: '#fef3c7',
+    badgeColor: '#b45309',
+    title: 'Kumpul 5 Stempel Jadi Kupon Gratis Cuci 5 Kg',
+    description: 'Setiap cucian selesai otomatis menambah 1 stempel loyalti. Di stempel ke-5, kupon Gratis Cuci Kiloan 5 Kg terbit! Plus Daily Check-in bertambah +20 poin setiap hari.',
+    benefit: 'Mendorong pelanggan datang mencuci kembali secara loyal dan puas.',
+    leftCallout: '📌 Kupon Gratis 5 Kg: Otomatis memotong porsi kiloan berikutnya',
+    rightCallout: '📌 PWA Member Club: Daily Check-in menjaga interaksi aktif pelanggan',
+  },
+  9: {
+    badge: 'KESIMPULAN SISTEM • SIKUCEK V1.0',
+    badgeBg: '#e0f2fe',
+    badgeColor: '#0284c7',
+    title: 'SiKucek: Laundry Pintar, Cepat, Higienis, & Transparan',
+    description: 'Satu sistem terintegrasi dari timbangan meja kasir, kamera WebRTC, otomasi WhatsApp, hingga tangan pelanggan. Bebas drama, bebas sengketa!',
+    benefit: 'Sistem Operasi Laundry Modern Generasi Baru.',
+    leftCallout: '📌 Outlet Modern: Operasional higienis, terorganisir & serba otomatis',
+    rightCallout: '📌 Kepuasan Pelanggan: Transparan, tepat waktu & banjir hadiah loyalti',
+  },
+};
+
+// =============================================================================
+// 6. KOMPONEN UTAMA: HERO BACKGROUND DENGAN PENJELAS INTERAKTIF LENGKAP
 // =============================================================================
 export const HeroBackground: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Current Scene Index (1 - 9)
   let currentScene = 1;
   if (frame >= 90 && frame < 300) currentScene = 2;
   else if (frame >= 300 && frame < 510) currentScene = 3;
@@ -280,6 +385,8 @@ export const HeroBackground: React.FC = () => {
   else if (frame >= 1200 && frame < 1380) currentScene = 8;
   else if (frame >= 1380) currentScene = 9;
 
+  const currentInfo = SCENE_INFO[currentScene];
+
   return (
     <AbsoluteFill
       style={{
@@ -289,7 +396,7 @@ export const HeroBackground: React.FC = () => {
       }}
     >
       {/* Gelembung Sabun Ambient di Seluruh Layar */}
-      <BubbleField count={50} seed="sikucek-main-loop" />
+      <BubbleField count={45} seed="sikucek-main-loop" />
 
       {/* Radiant Glowing Orbs di Kiri dan Kanan */}
       <div
@@ -320,7 +427,62 @@ export const HeroBackground: React.FC = () => {
       />
 
       {/* ======================================================================= */}
-      {/* KANVAS PANORAMIK 2 ZONA: KIRI (FISIK/OUTLET) & KANAN (DIGITAL/DEVICE)    */}
+      {/* A. TOP FEATURE EXPLAINER BANNER (PENJELAS INTERAKTIF UTAMA DI ATAS)     */}
+      {/* ======================================================================= */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 20,
+          left: 50,
+          right: 50,
+          background: 'rgba(15, 23, 42, 0.92)',
+          backdropFilter: 'blur(16px)',
+          borderRadius: 24,
+          padding: '12px 28px',
+          border: '1.5px solid rgba(56, 189, 248, 0.4)',
+          boxShadow: '0 15px 40px rgba(15, 23, 42, 0.25)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          zIndex: 35,
+        }}
+      >
+        {/* Sisi Kiri: Badge & Nama Fitur */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <span
+            style={{
+              background: currentInfo.badgeBg,
+              color: currentInfo.badgeColor,
+              fontSize: 11,
+              fontWeight: 900,
+              padding: '6px 14px',
+              borderRadius: 10,
+              letterSpacing: 0.5,
+              textTransform: 'uppercase',
+            }}
+          >
+            {currentInfo.badge}
+          </span>
+          <div>
+            <h2 style={{ fontSize: 18, fontWeight: 900, color: '#ffffff', margin: 0, letterSpacing: -0.3 }}>
+              {currentInfo.title}
+            </h2>
+            <div style={{ fontSize: 12, color: '#38bdf8', fontWeight: 700, marginTop: 2 }}>
+              💡 {currentInfo.benefit}
+            </div>
+          </div>
+        </div>
+
+        {/* Sisi Kanan: Deskripsi Fungsi Bisnis & Sistem */}
+        <div style={{ maxWidth: 650, textAlign: 'right' }}>
+          <p style={{ fontSize: 12, color: '#cbd5e1', margin: 0, lineHeight: 1.45, fontWeight: 500 }}>
+            {currentInfo.description}
+          </p>
+        </div>
+      </div>
+
+      {/* ======================================================================= */}
+      {/* B. KANVAS PANORAMIK 2 ZONA: KIRI (FISIK/OUTLET) & KANAN (DIGITAL/DEVICE) */}
       {/* ======================================================================= */}
       <div
         style={{
@@ -328,8 +490,8 @@ export const HeroBackground: React.FC = () => {
           inset: 0,
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          padding: '40px 60px 100px 60px',
-          gap: 40,
+          padding: '95px 50px 75px 50px',
+          gap: 36,
           alignItems: 'center',
           zIndex: 10,
         }}
@@ -347,31 +509,51 @@ export const HeroBackground: React.FC = () => {
             position: 'relative',
           }}
         >
+          {/* Explainer Tag Fisik Mengambang di Atas Zona Kiri */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 10,
+              left: 20,
+              background: 'rgba(255, 255, 255, 0.95)',
+              color: '#0369a1',
+              padding: '6px 16px',
+              borderRadius: 14,
+              fontSize: 11,
+              fontWeight: 800,
+              boxShadow: '0 8px 20px rgba(14, 165, 233, 0.2)',
+              border: '1.5px solid #bae6fd',
+              zIndex: 30,
+            }}
+          >
+            {currentInfo.leftCallout}
+          </div>
+
           {/* SCENE 1: Meja Kasir & Timbangan Awal */}
           {frame < 90 && (
             <div
               style={{
                 width: '100%',
                 maxWidth: 620,
-                background: 'rgba(255, 255, 255, 0.9)',
+                background: 'rgba(255, 255, 255, 0.92)',
                 backdropFilter: 'blur(16px)',
                 borderRadius: 28,
-                padding: 30,
+                padding: 28,
                 boxShadow: '0 20px 50px rgba(15, 23, 42, 0.12)',
                 border: '2px solid rgba(255, 255, 255, 0.95)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 20,
+                gap: 18,
                 opacity: interpolate(frame, [0, 15, 75, 90], [0, 1, 1, 0]),
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: 32 }}>🏪</span>
                 <div>
-                  <h3 style={{ fontSize: 20, fontWeight: 900, color: '#0f172a' }}>
+                  <h3 style={{ fontSize: 20, fontWeight: 900, color: '#0f172a', margin: 0 }}>
                     Meja Kasir SiKucek Sukolilo
                   </h3>
-                  <p style={{ fontSize: 13, color: '#64748b' }}>
+                  <p style={{ fontSize: 13, color: '#64748b', margin: '3px 0 0 0' }}>
                     Pelanggan <strong>Rani Kusuma</strong> tiba membawa cucian
                   </p>
                 </div>
@@ -382,30 +564,30 @@ export const HeroBackground: React.FC = () => {
                 style={{
                   background: '#0f172a',
                   borderRadius: 20,
-                  padding: 24,
+                  padding: 22,
                   textAlign: 'center',
                   boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.6)',
                 }}
               >
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#94a3b8', letterSpacing: 1 }}>
+                <div style={{ fontSize: 11, fontWeight: 800, color: '#94a3b8', letterSpacing: 1 }}>
                   TIMBANGAN DIGITAL RESMI OUTLET
                 </div>
-                <div style={{ fontSize: 52, fontWeight: 900, fontFamily: 'monospace', color: '#38bdf8', margin: '8px 0' }}>
-                  0.00 <span style={{ fontSize: 24 }}>KG</span>
+                <div style={{ fontSize: 50, fontWeight: 900, fontFamily: 'monospace', color: '#38bdf8', margin: '6px 0' }}>
+                  0.00 <span style={{ fontSize: 22 }}>KG</span>
                 </div>
-                <div style={{ fontSize: 12, color: '#10b981', fontWeight: 800 }}>
+                <div style={{ fontSize: 11, color: '#10b981', fontWeight: 800 }}>
                   ● STATUS TARE: SIAP TERIMA CUCIAN
                 </div>
               </div>
 
               <div style={{ display: 'flex', gap: 14 }}>
-                <div style={{ flex: 1, background: '#f1f5f9', padding: 14, borderRadius: 14, textAlign: 'center' }}>
+                <div style={{ flex: 1, background: '#f1f5f9', padding: 12, borderRadius: 14, textAlign: 'center' }}>
                   <div style={{ fontSize: 24 }}>🧺</div>
                   <div style={{ fontSize: 12, fontWeight: 800, color: '#1e293b', marginTop: 4 }}>
                     1 Tas Laundry Kiloan
                   </div>
                 </div>
-                <div style={{ flex: 1, background: '#f1f5f9', padding: 14, borderRadius: 14, textAlign: 'center' }}>
+                <div style={{ flex: 1, background: '#f1f5f9', padding: 12, borderRadius: 14, textAlign: 'center' }}>
                   <div style={{ fontSize: 24 }}>👔</div>
                   <div style={{ fontSize: 12, fontWeight: 800, color: '#1e293b', marginTop: 4 }}>
                     2 Pcs Kemeja Satuan
@@ -421,15 +603,15 @@ export const HeroBackground: React.FC = () => {
               style={{
                 width: '100%',
                 maxWidth: 620,
-                background: 'rgba(255, 255, 255, 0.92)',
+                background: 'rgba(255, 255, 255, 0.94)',
                 backdropFilter: 'blur(16px)',
                 borderRadius: 28,
-                padding: 30,
+                padding: 28,
                 boxShadow: '0 20px 50px rgba(15, 23, 42, 0.12)',
                 border: '2px solid rgba(255, 255, 255, 0.95)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 20,
+                gap: 18,
                 opacity: interpolate(frame, [90, 105, 285, 300], [0, 1, 1, 0]),
               }}
             >
@@ -438,7 +620,7 @@ export const HeroBackground: React.FC = () => {
                   ⚖️ PROSES PENIMBANGAN FISIK
                 </span>
                 <span style={{ background: '#dcfce7', color: '#15803d', fontSize: 11, fontWeight: 800, padding: '4px 10px', borderRadius: 8 }}>
-                  Akurat Sensor Load Cell
+                  Sensor Load Cell Akurat
                 </span>
               </div>
 
@@ -447,24 +629,24 @@ export const HeroBackground: React.FC = () => {
                 style={{
                   background: '#0f172a',
                   borderRadius: 20,
-                  padding: 24,
+                  padding: 22,
                   textAlign: 'center',
                   boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.6)',
                 }}
               >
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#94a3b8' }}>BERAT RIIL PAKAIAN</div>
-                <div style={{ fontSize: 60, fontWeight: 900, fontFamily: 'monospace', color: '#38bdf8', margin: '6px 0' }}>
-                  {frame > 140 ? '3.20' : '1.45'} <span style={{ fontSize: 26 }}>KG</span>
+                <div style={{ fontSize: 11, fontWeight: 800, color: '#94a3b8' }}>BERAT RIIL PAKAIAN</div>
+                <div style={{ fontSize: 56, fontWeight: 900, fontFamily: 'monospace', color: '#38bdf8', margin: '4px 0' }}>
+                  {frame > 140 ? '3.20' : '1.45'} <span style={{ fontSize: 24 }}>KG</span>
                 </div>
-                <div style={{ fontSize: 12, color: '#38bdf8', fontWeight: 800 }}>
+                <div style={{ fontSize: 11, color: '#38bdf8', fontWeight: 800 }}>
                   Cuci Kering Setrika 2 Hari @ Rp7.000 = Rp22.400
                 </div>
               </div>
 
               {/* Satuan Kemeja Fisik */}
-              <div style={{ background: '#f8fafc', padding: 16, borderRadius: 16, border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ background: '#f8fafc', padding: 14, borderRadius: 16, border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ fontSize: 32 }}>👔</span>
+                  <span style={{ fontSize: 30 }}>👔</span>
                   <div>
                     <div style={{ fontSize: 14, fontWeight: 900, color: '#0f172a' }}>2 Kemeja Satuan</div>
                     <div style={{ fontSize: 12, color: '#64748b' }}>Rp5.000 x 2 = Rp10.000</div>
@@ -477,7 +659,7 @@ export const HeroBackground: React.FC = () => {
 
               {/* Total Nota Fisik */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#f0f9ff', borderRadius: 14, border: '1px solid #bae6fd' }}>
-                <span style={{ fontSize: 14, fontWeight: 800, color: '#0369a1' }}>TOTAL NOTA:</span>
+                <span style={{ fontSize: 13, fontWeight: 800, color: '#0369a1' }}>TOTAL NOTA HYBRID:</span>
                 <span style={{ fontSize: 24, fontWeight: 900, color: '#0284c7', fontFamily: 'monospace' }}>
                   Rp32.400
                 </span>
@@ -494,11 +676,11 @@ export const HeroBackground: React.FC = () => {
                 background: 'rgba(15, 23, 42, 0.95)',
                 color: '#ffffff',
                 borderRadius: 28,
-                padding: 30,
+                padding: 28,
                 boxShadow: '0 25px 60px rgba(15, 23, 42, 0.3)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 20,
+                gap: 18,
                 position: 'relative',
                 overflow: 'hidden',
                 opacity: interpolate(frame, [300, 315, 495, 510], [0, 1, 1, 0]),
@@ -516,7 +698,7 @@ export const HeroBackground: React.FC = () => {
               {/* Visual Kemeja dengan Sobek Kerah */}
               <div
                 style={{
-                  height: 240,
+                  height: 220,
                   background: '#1e293b',
                   borderRadius: 20,
                   display: 'flex',
@@ -527,8 +709,8 @@ export const HeroBackground: React.FC = () => {
                   border: '2px dashed rgba(56, 189, 248, 0.4)',
                 }}
               >
-                <span style={{ fontSize: 80 }}>👔</span>
-                <div style={{ background: '#f43f5e', color: '#ffffff', fontSize: 12, fontWeight: 900, padding: '6px 14px', borderRadius: 20, marginTop: 8 }}>
+                <span style={{ fontSize: 76 }}>👔</span>
+                <div style={{ background: '#f43f5e', color: '#ffffff', fontSize: 12, fontWeight: 900, padding: '6px 14px', borderRadius: 20, marginTop: 6 }}>
                   ⚠️ Kerah Kanan Sobek 3 cm
                 </div>
 
@@ -536,7 +718,7 @@ export const HeroBackground: React.FC = () => {
                 <div
                   style={{
                     position: 'absolute',
-                    top: `${40 + Math.sin(frame * 0.1) * 30}%`,
+                    top: `${35 + Math.sin(frame * 0.1) * 30}%`,
                     left: '15%',
                     width: '70%',
                     height: 2,
@@ -546,15 +728,15 @@ export const HeroBackground: React.FC = () => {
                 />
               </div>
 
-              <div style={{ background: 'rgba(255, 255, 255, 0.08)', padding: 14, borderRadius: 14, fontSize: 12, color: '#94a3b8' }}>
-                📸 Foto otomatis diunggah ke cloud bucket <strong>qc-photos</strong> (WebP 412 KB). Mencegah sengketa ganti rugi!
+              <div style={{ background: 'rgba(255, 255, 255, 0.08)', padding: 12, borderRadius: 14, fontSize: 11, color: '#94a3b8' }}>
+                📸 Foto otomatis diunggah ke cloud bucket <strong>qc-photos</strong> (WebP 412 KB). Melindungi kasir &amp; pelanggan dari tuduhan sengketa!
               </div>
 
               <MascotSiKucek x={520} y={100} scale={0.7} action="magnify" />
             </div>
           )}
 
-          {/* SCENE 4: Kasir QRIS & Pembayaran Lunas */}
+          {/* SCENE 4: Barcode QRIS & Pembayaran Lunas */}
           {frame >= 510 && frame < 630 && (
             <div
               style={{
@@ -562,7 +744,7 @@ export const HeroBackground: React.FC = () => {
                 maxWidth: 620,
                 background: '#ffffff',
                 borderRadius: 28,
-                padding: 32,
+                padding: 28,
                 boxShadow: '0 25px 60px rgba(15, 23, 42, 0.18)',
                 textAlign: 'center',
                 opacity: interpolate(frame, [510, 525, 615, 630], [0, 1, 1, 0]),
@@ -571,16 +753,16 @@ export const HeroBackground: React.FC = () => {
               <div style={{ fontSize: 13, fontWeight: 900, color: '#0ea5e9' }}>
                 PEMBAYARAN RESMI QRIS
               </div>
-              <div style={{ fontSize: 32, fontWeight: 900, color: '#0f172a', fontFamily: 'monospace', margin: '10px 0' }}>
+              <div style={{ fontSize: 32, fontWeight: 900, color: '#0f172a', fontFamily: 'monospace', margin: '8px 0' }}>
                 Rp32.400
               </div>
 
               {/* Barcode Box */}
               <div
                 style={{
-                  width: 220,
-                  height: 220,
-                  margin: '16px auto',
+                  width: 210,
+                  height: 210,
+                  margin: '14px auto',
                   background: '#f8fafc',
                   border: '2px solid #0f172a',
                   borderRadius: 20,
@@ -590,7 +772,7 @@ export const HeroBackground: React.FC = () => {
                   position: 'relative',
                 }}
               >
-                <span style={{ fontSize: 110 }}>🏁</span>
+                <span style={{ fontSize: 100 }}>🏁</span>
                 {frame > 565 && (
                   <div
                     style={{
@@ -605,13 +787,13 @@ export const HeroBackground: React.FC = () => {
                       color: '#ffffff',
                     }}
                   >
-                    <span style={{ fontSize: 54 }}>✓</span>
+                    <span style={{ fontSize: 50 }}>✓</span>
                     <strong style={{ fontSize: 22, fontWeight: 900 }}>LUNAS</strong>
                   </div>
                 )}
               </div>
 
-              <div style={{ fontSize: 13, color: '#64748b' }}>
+              <div style={{ fontSize: 12, color: '#64748b' }}>
                 No. Order: <strong style={{ color: '#0284c7' }}>SKC-261026-0042</strong>
               </div>
             </div>
@@ -626,43 +808,43 @@ export const HeroBackground: React.FC = () => {
                 background: 'rgba(255, 255, 255, 0.94)',
                 backdropFilter: 'blur(16px)',
                 borderRadius: 28,
-                padding: 26,
+                padding: 24,
                 boxShadow: '0 25px 60px rgba(15, 23, 42, 0.15)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 12,
+                gap: 10,
                 opacity: interpolate(frame, [630, 645, 825, 840], [0, 1, 1, 0]),
               }}
             >
-              <div style={{ fontSize: 14, fontWeight: 900, color: '#0ea5e9', marginBottom: 6 }}>
+              <div style={{ fontSize: 13, fontWeight: 900, color: '#0ea5e9', marginBottom: 4 }}>
                 ⚡ DI BALIK LAYAR: AUTOMATION PIPELINE
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f8fafc', padding: 12, borderRadius: 14 }}>
-                <span style={{ fontSize: 24 }}>🖥️</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f8fafc', padding: 10, borderRadius: 12 }}>
+                <span style={{ fontSize: 22 }}>🖥️</span>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 900 }}>1. Kasir POS Simpan Order</div>
-                  <div style={{ fontSize: 11, color: '#64748b' }}>Data tervalidasi Zod Schema</div>
+                  <div style={{ fontSize: 10, color: '#64748b' }}>Data tervalidasi Zod Schema</div>
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f8fafc', padding: 12, borderRadius: 14 }}>
-                <span style={{ fontSize: 24 }}>🗄️</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f8fafc', padding: 10, borderRadius: 12 }}>
+                <span style={{ fontSize: 22 }}>🗄️</span>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 900 }}>2. Database Supabase PostgreSQL</div>
-                  <div style={{ fontSize: 11, color: '#10b981' }}>RLS Policy • Storage Bucket qc-photos</div>
+                  <div style={{ fontSize: 10, color: '#10b981' }}>RLS Policy • Storage Bucket qc-photos</div>
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f8fafc', padding: 12, borderRadius: 14 }}>
-                <span style={{ fontSize: 24 }}>⚡</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f8fafc', padding: 10, borderRadius: 12 }}>
+                <span style={{ fontSize: 22 }}>⚡</span>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 900 }}>3. Database Trigger Antrean WA</div>
-                  <div style={{ fontSize: 11, color: '#64748b' }}>Tabel public.whatsapp_queue</div>
+                  <div style={{ fontSize: 10, color: '#64748b' }}>Tabel public.whatsapp_queue</div>
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#ecfdf5', padding: 12, borderRadius: 14, border: '1.5px solid #a7f3d0' }}>
-                <span style={{ fontSize: 24 }}>🤖</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#ecfdf5', padding: 10, borderRadius: 12, border: '1.5px solid #a7f3d0' }}>
+                <span style={{ fontSize: 22 }}>🤖</span>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 900, color: '#047857' }}>4. Worker Baileys Terkirim Otomatis</div>
-                  <div style={{ fontSize: 11, color: '#059669', fontWeight: 700 }}>Terkirim dalam 6 detik ke ponsel pelanggan!</div>
+                  <div style={{ fontSize: 10, color: '#059669', fontWeight: 700 }}>Terkirim dalam 6 detik ke ponsel pelanggan!</div>
                 </div>
               </div>
             </div>
@@ -674,16 +856,16 @@ export const HeroBackground: React.FC = () => {
               style={{
                 width: '100%',
                 maxWidth: 620,
-                background: 'rgba(255, 255, 255, 0.92)',
+                background: 'rgba(255, 255, 255, 0.94)',
                 backdropFilter: 'blur(16px)',
                 borderRadius: 28,
-                padding: 30,
+                padding: 26,
                 boxShadow: '0 25px 60px rgba(15, 23, 42, 0.15)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center',
-                gap: 16,
+                gap: 14,
                 opacity: interpolate(frame, [840, 855, 1035, 1050], [0, 1, 1, 0]),
               }}
             >
@@ -699,8 +881,8 @@ export const HeroBackground: React.FC = () => {
               {/* Drum Mesin Cuci Berputar */}
               <div
                 style={{
-                  width: 200,
-                  height: 200,
+                  width: 190,
+                  height: 190,
                   borderRadius: '50%',
                   background: 'radial-gradient(circle, #38bdf8 0%, #0284c7 100%)',
                   border: '8px solid #e2e8f0',
@@ -711,13 +893,13 @@ export const HeroBackground: React.FC = () => {
                   transform: `rotate(${frame * 12}deg)`,
                 }}
               >
-                <span style={{ fontSize: 72 }}>👕</span>
+                <span style={{ fontSize: 68 }}>👕</span>
               </div>
 
               <div style={{ fontSize: 14, fontWeight: 800, color: '#1e293b' }}>
                 Ozon Higienis &amp; Setrika Uap Lavender
               </div>
-              <p style={{ fontSize: 12, color: '#64748b', maxWidth: 420 }}>
+              <p style={{ fontSize: 11, color: '#64748b', maxWidth: 420, margin: 0 }}>
                 Status di PWA bergerak maju secara sinkron dengan mesin di outlet tanpa perlu refresh halaman.
               </p>
             </div>
@@ -731,11 +913,11 @@ export const HeroBackground: React.FC = () => {
                 maxWidth: 620,
                 background: '#ffffff',
                 borderRadius: 28,
-                padding: 30,
+                padding: 26,
                 boxShadow: '0 25px 60px rgba(15, 23, 42, 0.18)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 16,
+                gap: 14,
                 opacity: interpolate(frame, [1050, 1065, 1185, 1200], [0, 1, 1, 0]),
               }}
             >
@@ -749,42 +931,41 @@ export const HeroBackground: React.FC = () => {
               </div>
 
               {/* Grid 4 Slot Rak Fisik */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-                <div style={{ background: '#f8fafc', padding: 18, borderRadius: 16, border: '1.5px solid #e2e8f0', textAlign: 'center' }}>
-                  <div style={{ fontSize: 12, color: '#64748b', fontWeight: 800 }}>SLOT RAK A-01</div>
-                  <div style={{ fontSize: 16, fontWeight: 900, color: '#94a3b8', marginTop: 4 }}>Tersedia</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div style={{ background: '#f8fafc', padding: 16, borderRadius: 16, border: '1.5px solid #e2e8f0', textAlign: 'center' }}>
+                  <div style={{ fontSize: 11, color: '#64748b', fontWeight: 800 }}>SLOT RAK A-01</div>
+                  <div style={{ fontSize: 15, fontWeight: 900, color: '#94a3b8', marginTop: 3 }}>Tersedia</div>
                 </div>
 
-                {/* RAK B-02 Terpilih & Menyala Hijau */}
                 <div
                   style={{
                     background: '#ecfdf5',
-                    padding: 18,
+                    padding: 16,
                     borderRadius: 16,
                     border: '2.5px solid #10b981',
                     textAlign: 'center',
                     boxShadow: '0 10px 25px rgba(16, 185, 129, 0.25)',
                   }}
                 >
-                  <div style={{ fontSize: 12, color: '#047857', fontWeight: 800 }}>SLOT RAK B-02</div>
-                  <div style={{ fontSize: 20, fontWeight: 900, color: '#047857', marginTop: 4 }}>
+                  <div style={{ fontSize: 11, color: '#047857', fontWeight: 800 }}>SLOT RAK B-02</div>
+                  <div style={{ fontSize: 18, fontWeight: 900, color: '#047857', marginTop: 3 }}>
                     ✓ CUCIAN RANI
                   </div>
                   <div style={{ fontSize: 10, color: '#059669', marginTop: 2 }}>Siap Ambil (Packing Rapi)</div>
                 </div>
 
-                <div style={{ background: '#f8fafc', padding: 18, borderRadius: 16, border: '1.5px solid #e2e8f0', textAlign: 'center' }}>
-                  <div style={{ fontSize: 12, color: '#64748b', fontWeight: 800 }}>SLOT RAK B-03</div>
-                  <div style={{ fontSize: 16, fontWeight: 900, color: '#94a3b8', marginTop: 4 }}>Tersedia</div>
+                <div style={{ background: '#f8fafc', padding: 16, borderRadius: 16, border: '1.5px solid #e2e8f0', textAlign: 'center' }}>
+                  <div style={{ fontSize: 11, color: '#64748b', fontWeight: 800 }}>SLOT RAK B-03</div>
+                  <div style={{ fontSize: 15, fontWeight: 900, color: '#94a3b8', marginTop: 3 }}>Tersedia</div>
                 </div>
-                <div style={{ background: '#f8fafc', padding: 18, borderRadius: 16, border: '1.5px solid #e2e8f0', textAlign: 'center' }}>
-                  <div style={{ fontSize: 12, color: '#64748b', fontWeight: 800 }}>SLOT RAK C-01</div>
-                  <div style={{ fontSize: 16, fontWeight: 900, color: '#94a3b8', marginTop: 4 }}>Tersedia</div>
+                <div style={{ background: '#f8fafc', padding: 16, borderRadius: 16, border: '1.5px solid #e2e8f0', textAlign: 'center' }}>
+                  <div style={{ fontSize: 11, color: '#64748b', fontWeight: 800 }}>SLOT RAK C-01</div>
+                  <div style={{ fontSize: 15, fontWeight: 900, color: '#94a3b8', marginTop: 3 }}>Tersedia</div>
                 </div>
               </div>
 
-              <div style={{ fontSize: 12, color: '#64748b', textAlign: 'center' }}>
-                Wajib input lokasi rak sebelum status berubah jadi <strong>Ready</strong> (PRD Bab 10.5).
+              <div style={{ fontSize: 11, color: '#64748b', textAlign: 'center' }}>
+                Kasir wajib input lokasi rak sebelum status cucian berubah jadi <strong>Ready</strong> (PRD Bab 10.5).
               </div>
             </div>
           )}
@@ -799,13 +980,13 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [1200, 1215, 1365, 1380], [0, 1, 1, 0]),
               }}
             >
-              <MascotSiKucek x={310} y={160} scale={1.3} action="jump" />
+              <MascotSiKucek x={310} y={150} scale={1.3} action="jump" />
               <div
                 style={{
-                  marginTop: 180,
+                  marginTop: 170,
                   background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
                   color: '#ffffff',
-                  padding: 24,
+                  padding: 22,
                   borderRadius: 24,
                   boxShadow: '0 20px 50px rgba(245, 158, 11, 0.35)',
                 }}
@@ -813,10 +994,10 @@ export const HeroBackground: React.FC = () => {
                 <div style={{ fontSize: 13, fontWeight: 900, letterSpacing: 0.5 }}>
                   🎉 5 STEMPEL LENGKAP TERCAPAI!
                 </div>
-                <h3 style={{ fontSize: 24, fontWeight: 900, margin: '8px 0' }}>
+                <h3 style={{ fontSize: 22, fontWeight: 900, margin: '6px 0' }}>
                   Gratis Cuci Kiloan Maksimal 5 Kg
                 </h3>
-                <p style={{ fontSize: 12, opacity: 0.9 }}>
+                <p style={{ fontSize: 11, opacity: 0.9, margin: 0 }}>
                   Otomatis memotong porsi kiloan pesanan berikutnya (PRD 10.4).
                 </p>
               </div>
@@ -849,6 +1030,26 @@ export const HeroBackground: React.FC = () => {
             position: 'relative',
           }}
         >
+          {/* Explainer Tag Digital Mengambang di Atas Zona Kanan */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 20,
+              background: 'rgba(15, 23, 42, 0.9)',
+              color: '#38bdf8',
+              padding: '6px 16px',
+              borderRadius: 14,
+              fontSize: 11,
+              fontWeight: 800,
+              boxShadow: '0 8px 20px rgba(15, 23, 42, 0.25)',
+              border: '1.5px solid rgba(56, 189, 248, 0.4)',
+              zIndex: 30,
+            }}
+          >
+            {currentInfo.rightCallout}
+          </div>
+
           {/* SCENE 1 & 2: Tablet POS Kasir Budi */}
           {frame < 300 && (
             <div
@@ -856,9 +1057,9 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [0, 15, 285, 300], [0, 1, 1, 0]),
               }}
             >
-              <TabletFrame width={820} height={530}>
+              <TabletFrame width={820} height={510}>
                 {/* Header POS */}
-                <div style={{ padding: '14px 20px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ padding: '12px 18px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#0ea5e9' }} />
                     <span style={{ fontSize: 14, fontWeight: 900, color: '#0f172a' }}>
@@ -871,11 +1072,11 @@ export const HeroBackground: React.FC = () => {
                 </div>
 
                 {/* Form Intake Hybrid */}
-                <div style={{ padding: 20, display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 18 }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    <div style={{ background: '#f0f9ff', padding: 12, borderRadius: 14, border: '1px solid #bae6fd' }}>
+                <div style={{ padding: 18, display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 16 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <div style={{ background: '#f0f9ff', padding: 10, borderRadius: 12, border: '1px solid #bae6fd' }}>
                       <div style={{ fontSize: 10, fontWeight: 800, color: '#0284c7' }}>PELANGGAN:</div>
-                      <div style={{ fontSize: 15, fontWeight: 900, color: '#0f172a' }}>
+                      <div style={{ fontSize: 14, fontWeight: 900, color: '#0f172a' }}>
                         {frame > 30 ? 'Rani Kusuma (0857 1122 3345)' : 'Ketik nomor WA...'}
                       </div>
                       <span style={{ background: '#fef3c7', color: '#92400e', fontSize: 10, fontWeight: 800, padding: '2px 6px', borderRadius: 4 }}>
@@ -883,39 +1084,39 @@ export const HeroBackground: React.FC = () => {
                       </span>
                     </div>
 
-                    <div style={{ background: '#ffffff', padding: 12, borderRadius: 14, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ background: '#ffffff', padding: 10, borderRadius: 12, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div>
-                        <div style={{ fontSize: 13, fontWeight: 900 }}>Cuci Kering Setrika 2 Hari</div>
-                        <div style={{ fontSize: 11, color: '#64748b' }}>Rp7.000 / Kg</div>
+                        <div style={{ fontSize: 12, fontWeight: 900 }}>Cuci Kering Setrika 2 Hari</div>
+                        <div style={{ fontSize: 10, color: '#64748b' }}>Rp7.000 / Kg</div>
                       </div>
-                      <span style={{ background: '#0f172a', color: '#38bdf8', padding: '6px 12px', borderRadius: 8, fontFamily: 'monospace', fontWeight: 900 }}>
+                      <span style={{ background: '#0f172a', color: '#38bdf8', padding: '5px 10px', borderRadius: 8, fontFamily: 'monospace', fontWeight: 900, fontSize: 14 }}>
                         {frame > 140 ? '3.20' : '0.00'} KG
                       </span>
                     </div>
 
-                    <div style={{ background: '#ffffff', padding: 12, borderRadius: 14, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ background: '#ffffff', padding: 10, borderRadius: 12, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div>
-                        <div style={{ fontSize: 13, fontWeight: 900 }}>Kemeja (Satuan)</div>
-                        <div style={{ fontSize: 11, color: '#64748b' }}>Rp5.000 / Pcs</div>
+                        <div style={{ fontSize: 12, fontWeight: 900 }}>Kemeja (Satuan)</div>
+                        <div style={{ fontSize: 10, color: '#64748b' }}>Rp5.000 / Pcs</div>
                       </div>
-                      <span style={{ background: '#f1f5f9', padding: '4px 10px', borderRadius: 8, fontWeight: 900 }}>
+                      <span style={{ background: '#f1f5f9', padding: '3px 8px', borderRadius: 6, fontWeight: 900, fontSize: 13 }}>
                         {frame > 180 ? '2' : '0'} pcs
                       </span>
                     </div>
                   </div>
 
                   {/* Panel Total */}
-                  <div style={{ background: '#f8fafc', padding: 18, borderRadius: 16, border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div style={{ background: '#f8fafc', padding: 16, borderRadius: 14, border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div>
                       <div style={{ fontSize: 11, fontWeight: 800, color: '#64748b' }}>TOTAL PEMBAYARAN:</div>
-                      <div style={{ fontSize: 28, fontWeight: 900, color: '#0284c7', fontFamily: 'monospace', margin: '10px 0' }}>
+                      <div style={{ fontSize: 26, fontWeight: 900, color: '#0284c7', fontFamily: 'monospace', margin: '8px 0' }}>
                         Rp32.400
                       </div>
                       <div style={{ fontSize: 11, color: '#475569' }}>
                         Kiloan Rp22.400 + Satuan Rp10.000
                       </div>
                     </div>
-                    <div style={{ background: '#0ea5e9', color: '#ffffff', textAlign: 'center', padding: 10, borderRadius: 10, fontWeight: 900, fontSize: 13 }}>
+                    <div style={{ background: '#0ea5e9', color: '#ffffff', textAlign: 'center', padding: 10, borderRadius: 10, fontWeight: 900, fontSize: 12 }}>
                       Lanjut ke Foto QC WebRTC ➔
                     </div>
                   </div>
@@ -931,8 +1132,8 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [300, 315, 495, 510], [0, 1, 1, 0]),
               }}
             >
-              <TabletFrame width={820} height={530}>
-                <div style={{ padding: '14px 20px', background: '#0f172a', color: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <TabletFrame width={820} height={510}>
+                <div style={{ padding: '12px 18px', background: '#0f172a', color: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: 13, fontWeight: 900, color: '#38bdf8' }}>
                     📸 Viewfinder Kamera QC WebRTC
                   </span>
@@ -940,11 +1141,11 @@ export const HeroBackground: React.FC = () => {
                     Cacat Terdeteksi
                   </span>
                 </div>
-                <div style={{ padding: 20, display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 18, flex: 1 }}>
+                <div style={{ padding: 18, display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 16, flex: 1 }}>
                   <div style={{ background: '#1e293b', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', position: 'relative' }}>
                     <div style={{ textAlign: 'center' }}>
-                      <span style={{ fontSize: 64 }}>👔</span>
-                      <div style={{ fontSize: 12, fontWeight: 800, color: '#f87171', marginTop: 4 }}>
+                      <span style={{ fontSize: 60 }}>👔</span>
+                      <div style={{ fontSize: 11, fontWeight: 800, color: '#f87171', marginTop: 4 }}>
                         Kerah Kanan Sobek 3 cm
                       </div>
                     </div>
@@ -956,8 +1157,8 @@ export const HeroBackground: React.FC = () => {
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div>
-                      <div style={{ fontSize: 11, fontWeight: 900, color: '#64748b', marginBottom: 6 }}>JENIS CACAT:</div>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
+                      <div style={{ fontSize: 11, fontWeight: 900, color: '#64748b', marginBottom: 4 }}>JENIS CACAT:</div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
                         <span style={{ background: '#f43f5e', color: '#ffffff', padding: '4px 10px', borderRadius: 14, fontSize: 11, fontWeight: 800 }}>
                           ✓ Robek (Torn)
                         </span>
@@ -965,11 +1166,11 @@ export const HeroBackground: React.FC = () => {
                           Noda
                         </span>
                       </div>
-                      <div style={{ background: '#f8fafc', padding: 10, borderRadius: 10, border: '1px solid #e2e8f0', fontSize: 12 }}>
+                      <div style={{ background: '#f8fafc', padding: 10, borderRadius: 10, border: '1px solid #e2e8f0', fontSize: 11 }}>
                         Catatan: Kerah kanan sobek 3 cm sebelum cuci.
                       </div>
                     </div>
-                    <div style={{ background: '#10b981', color: '#ffffff', textAlign: 'center', padding: 10, borderRadius: 10, fontWeight: 900, fontSize: 13 }}>
+                    <div style={{ background: '#10b981', color: '#ffffff', textAlign: 'center', padding: 10, borderRadius: 10, fontWeight: 900, fontSize: 12 }}>
                       Simpan Bukti &amp; Bayar QRIS ➔
                     </div>
                   </div>
@@ -985,18 +1186,18 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [510, 525, 615, 630], [0, 1, 1, 0]),
               }}
             >
-              <PhoneFrame width={360} height={580}>
-                <div style={{ padding: 24, textAlign: 'center', marginTop: 40 }}>
-                  <div style={{ fontSize: 14, fontWeight: 800, color: '#16a34a' }}>
+              <PhoneFrame width={360} height={560}>
+                <div style={{ padding: 22, textAlign: 'center', marginTop: 35 }}>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: '#16a34a' }}>
                     Pembayaran QRIS SiKucek
                   </div>
-                  <div style={{ fontSize: 30, fontWeight: 900, color: '#0f172a', margin: '14px 0' }}>
+                  <div style={{ fontSize: 28, fontWeight: 900, color: '#0f172a', margin: '12px 0' }}>
                     Bayar Rp32.400
                   </div>
-                  <div style={{ background: '#dcfce7', color: '#15803d', padding: '12px 18px', borderRadius: 14, fontSize: 13, fontWeight: 800 }}>
+                  <div style={{ background: '#dcfce7', color: '#15803d', padding: '10px 16px', borderRadius: 14, fontSize: 12, fontWeight: 800 }}>
                     ✓ Pembayaran Berhasil Diproses
                   </div>
-                  <p style={{ fontSize: 11, color: '#64748b', marginTop: 20 }}>
+                  <p style={{ fontSize: 11, color: '#64748b', marginTop: 16 }}>
                     Nomor Pesanan: <strong>SKC-261026-0042</strong>
                   </p>
                 </div>
@@ -1011,16 +1212,16 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [630, 645, 825, 840], [0, 1, 1, 0]),
               }}
             >
-              <PhoneFrame width={380} height={600}>
-                <div style={{ background: '#075e54', padding: '16px', color: '#ffffff', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <PhoneFrame width={380} height={570}>
+                <div style={{ background: '#075e54', padding: '14px', color: '#ffffff', display: 'flex', alignItems: 'center', gap: 10 }}>
                   <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#25d366' }} />
                   <div>
-                    <div style={{ fontSize: 14, fontWeight: 900 }}>SiKucek Official</div>
-                    <div style={{ fontSize: 11, opacity: 0.8 }}>Online • WhatsApp Gateway</div>
+                    <div style={{ fontSize: 13, fontWeight: 900 }}>SiKucek Official</div>
+                    <div style={{ fontSize: 10, opacity: 0.8 }}>Online • WhatsApp Gateway</div>
                   </div>
                 </div>
-                <div style={{ padding: 16 }}>
-                  <div style={{ background: '#ffffff', padding: 16, borderRadius: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.06)', fontSize: 12, lineHeight: 1.5 }}>
+                <div style={{ padding: 14 }}>
+                  <div style={{ background: '#ffffff', padding: 14, borderRadius: 14, boxShadow: '0 2px 8px rgba(0,0,0,0.06)', fontSize: 11, lineHeight: 1.5 }}>
                     Halo <strong>Kak Rani Kusuma</strong>! 🧺
                     <br /><br />
                     Terima kasih sudah mencuci di SiKucek.
@@ -1046,23 +1247,23 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [840, 855, 1035, 1050], [0, 1, 1, 0]),
               }}
             >
-              <PhoneFrame width={380} height={620}>
-                <div style={{ padding: '14px 18px', background: '#ffffff', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 14, fontWeight: 900, color: '#0ea5e9' }}>
-                    SiKucek. <span style={{ color: '#94a3b8', fontSize: 11 }}>PWA Track</span>
+              <PhoneFrame width={380} height={580}>
+                <div style={{ padding: '12px 16px', background: '#ffffff', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 13, fontWeight: 900, color: '#0ea5e9' }}>
+                    SiKucek. <span style={{ color: '#94a3b8', fontSize: 10 }}>PWA Track</span>
                   </span>
                   <span style={{ background: '#dcfce7', color: '#15803d', fontSize: 10, fontWeight: 900, padding: '2px 8px', borderRadius: 6 }}>
                     LUNAS
                   </span>
                 </div>
-                <div style={{ padding: 18 }}>
-                  <div style={{ fontSize: 11, fontWeight: 800, color: '#64748b' }}>KODE LACAK RESI:</div>
-                  <div style={{ fontSize: 18, fontWeight: 900, color: '#0f172a', fontFamily: 'monospace' }}>
+                <div style={{ padding: 16 }}>
+                  <div style={{ fontSize: 10, fontWeight: 800, color: '#64748b' }}>KODE LACAK RESI:</div>
+                  <div style={{ fontSize: 17, fontWeight: 900, color: '#0f172a', fontFamily: 'monospace' }}>
                     KCK-7F3A9Q
                   </div>
 
-                  <div style={{ margin: '14px 0', background: '#f0f9ff', padding: 12, borderRadius: 14 }}>
-                    <div style={{ fontSize: 11, fontWeight: 900, color: '#0284c7', marginBottom: 6 }}>
+                  <div style={{ margin: '12px 0', background: '#f0f9ff', padding: 10, borderRadius: 12 }}>
+                    <div style={{ fontSize: 10, fontWeight: 900, color: '#0284c7', marginBottom: 6 }}>
                       STATUS REAL-TIME:
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, fontWeight: 800 }}>
@@ -1079,8 +1280,8 @@ export const HeroBackground: React.FC = () => {
                     </div>
                   </div>
 
-                  <div style={{ background: '#ffffff', padding: 12, borderRadius: 14, border: '1px solid #e2e8f0' }}>
-                    <div style={{ fontSize: 11, fontWeight: 900, color: '#f43f5e', marginBottom: 4 }}>
+                  <div style={{ background: '#ffffff', padding: 10, borderRadius: 12, border: '1px solid #e2e8f0' }}>
+                    <div style={{ fontSize: 10, fontWeight: 900, color: '#f43f5e', marginBottom: 4 }}>
                       ⚠️ BUKTI FOTO CACAT AWAL:
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -1103,26 +1304,26 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [1050, 1065, 1185, 1200], [0, 1, 1, 0]),
               }}
             >
-              <PhoneFrame width={380} height={580}>
-                <div style={{ padding: 24, textAlign: 'center', marginTop: 30 }}>
-                  <div style={{ fontSize: 52 }}>🎉</div>
-                  <div style={{ fontSize: 18, fontWeight: 900, color: '#15803d', margin: '12px 0' }}>
+              <PhoneFrame width={380} height={560}>
+                <div style={{ padding: 22, textAlign: 'center', marginTop: 25 }}>
+                  <div style={{ fontSize: 48 }}>🎉</div>
+                  <div style={{ fontSize: 16, fontWeight: 900, color: '#15803d', margin: '10px 0' }}>
                     Cucian Kakak Siap Diambil!
                   </div>
                   <div
                     style={{
                       background: '#dcfce7',
                       border: '2px solid #86efac',
-                      padding: 18,
-                      borderRadius: 18,
+                      padding: 16,
+                      borderRadius: 16,
                       color: '#166534',
                       fontWeight: 900,
-                      fontSize: 24,
+                      fontSize: 22,
                     }}
                   >
                     📍 RAK B-02
                   </div>
-                  <p style={{ fontSize: 12, color: '#64748b', marginTop: 14, lineHeight: 1.5 }}>
+                  <p style={{ fontSize: 11, color: '#64748b', marginTop: 12, lineHeight: 1.5 }}>
                     Sudah rapi terlipat, wangi lavender &amp; siap diambil di outlet Sukolilo.
                   </p>
                 </div>
@@ -1137,39 +1338,39 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [1200, 1215, 1365, 1380], [0, 1, 1, 0]),
               }}
             >
-              <PhoneFrame width={390} height={640}>
-                <div style={{ padding: 20 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                    <span style={{ fontSize: 15, fontWeight: 900, color: '#0f172a' }}>
+              <PhoneFrame width={390} height={590}>
+                <div style={{ padding: 18 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                    <span style={{ fontSize: 14, fontWeight: 900, color: '#0f172a' }}>
                       SiKucek Member Club
                     </span>
-                    <span style={{ background: '#fef3c7', color: '#b45309', fontSize: 11, fontWeight: 900, padding: '3px 10px', borderRadius: 8 }}>
+                    <span style={{ background: '#fef3c7', color: '#b45309', fontSize: 10, fontWeight: 900, padding: '3px 8px', borderRadius: 8 }}>
                       {frame > 1300 ? '140 Poin' : '120 Poin'}
                     </span>
                   </div>
 
-                  <div style={{ background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', borderRadius: 20, padding: 20, color: '#ffffff' }}>
-                    <div style={{ fontSize: 11, fontWeight: 800, opacity: 0.85 }}>KARTU STEMPEL LOYALTI</div>
-                    <div style={{ fontSize: 15, fontWeight: 900, margin: '4px 0 12px 0' }}>
+                  <div style={{ background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', borderRadius: 18, padding: 18, color: '#ffffff' }}>
+                    <div style={{ fontSize: 10, fontWeight: 800, opacity: 0.85 }}>KARTU STEMPEL LOYALTI</div>
+                    <div style={{ fontSize: 14, fontWeight: 900, margin: '4px 0 10px 0' }}>
                       {frame > 1250 ? '🎉 5/5 Stempel Terkumpul Penuh!' : '4/5 Stempel Terkumpul'}
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🪙</div>
-                      <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🪙</div>
-                      <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🪙</div>
-                      <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🪙</div>
+                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🪙</div>
+                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🪙</div>
+                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🪙</div>
+                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🪙</div>
                       <div
                         style={{
-                          width: 44,
-                          height: 44,
+                          width: 40,
+                          height: 40,
                           borderRadius: '50%',
                           background: frame > 1250 ? '#fbbf24' : 'rgba(255,255,255,0.2)',
                           border: '2px dashed #ffffff',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: 20,
+                          fontSize: 18,
                         }}
                       >
                         {frame > 1250 ? '🪙' : '5'}
@@ -1178,20 +1379,20 @@ export const HeroBackground: React.FC = () => {
                   </div>
 
                   {frame > 1260 && (
-                    <div style={{ marginTop: 14, background: '#ecfdf5', border: '2px solid #a7f3d0', borderRadius: 16, padding: 14, textAlign: 'center' }}>
-                      <div style={{ fontSize: 11, fontWeight: 900, color: '#047857' }}>🎁 KUPON REWARD:</div>
-                      <div style={{ fontSize: 14, fontWeight: 900, color: '#065f46', marginTop: 2 }}>
+                    <div style={{ marginTop: 12, background: '#ecfdf5', border: '2px solid #a7f3d0', borderRadius: 14, padding: 12, textAlign: 'center' }}>
+                      <div style={{ fontSize: 10, fontWeight: 900, color: '#047857' }}>🎁 KUPON REWARD:</div>
+                      <div style={{ fontSize: 13, fontWeight: 900, color: '#065f46', marginTop: 2 }}>
                         Gratis Cuci Kiloan Maksimal 5 Kg
                       </div>
                     </div>
                   )}
 
-                  <div style={{ marginTop: 14, background: '#f8fafc', padding: 12, borderRadius: 14, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ marginTop: 12, background: '#f8fafc', padding: 10, borderRadius: 12, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <div style={{ fontSize: 12, fontWeight: 800 }}>Daily Check-in Hari ke-3</div>
+                      <div style={{ fontSize: 11, fontWeight: 800 }}>Daily Check-in Hari ke-3</div>
                       <div style={{ fontSize: 10, color: '#b45309' }}>+20 Poin Si Kucek</div>
                     </div>
-                    <span style={{ background: '#0ea5e9', color: '#ffffff', fontSize: 11, fontWeight: 900, padding: '5px 12px', borderRadius: 8 }}>
+                    <span style={{ background: '#0ea5e9', color: '#ffffff', fontSize: 10, fontWeight: 900, padding: '4px 10px', borderRadius: 8 }}>
                       {frame > 1300 ? '✓ Diklaim' : 'Klaim'}
                     </span>
                   </div>
@@ -1208,13 +1409,13 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [1380, 1400, 1485, 1500], [0, 1, 1, 0]),
               }}
             >
-              <h2 style={{ fontSize: 44, fontWeight: 900, color: '#0f172a', letterSpacing: -1 }}>
+              <h2 style={{ fontSize: 44, fontWeight: 900, color: '#0f172a', letterSpacing: -1, margin: 0 }}>
                 SiKucek.
               </h2>
               <div style={{ background: '#e0f2fe', color: '#0284c7', padding: '6px 20px', borderRadius: 20, fontSize: 14, fontWeight: 800, margin: '10px 0' }}>
                 Solusi Laundry Pintar, Cepat, Higienis, dan Transparan
               </div>
-              <p style={{ fontSize: 13, color: '#64748b', maxWidth: 440 }}>
+              <p style={{ fontSize: 12, color: '#64748b', maxWidth: 440, margin: 0 }}>
                 Antar cucian Anda sekarang atau lacak progres secara publik tanpa login!
               </p>
             </div>
@@ -1223,29 +1424,29 @@ export const HeroBackground: React.FC = () => {
       </div>
 
       {/* ======================================================================= */}
-      {/* 4. PITA TAKARIR SINEMATIK (SUBTITLE RIBBON 50 DETIK)                    */}
+      {/* C. PITA TAKARIR SINEMATIK (SUBTITLE RIBBON 50 DETIK)                    */}
       {/* ======================================================================= */}
       <div
         style={{
           position: 'absolute',
-          bottom: 24,
+          bottom: 16,
           left: '50%',
           transform: 'translateX(-50%)',
-          background: 'rgba(15, 23, 42, 0.9)',
+          background: 'rgba(15, 23, 42, 0.92)',
           color: '#ffffff',
-          padding: '10px 28px',
-          borderRadius: 30,
+          padding: '8px 24px',
+          borderRadius: 24,
           border: '1.5px solid rgba(56, 189, 248, 0.45)',
-          boxShadow: '0 15px 35px rgba(15, 23, 42, 0.35)',
+          boxShadow: '0 12px 30px rgba(15, 23, 42, 0.35)',
           backdropFilter: 'blur(16px)',
           display: 'flex',
           alignItems: 'center',
-          gap: 14,
-          zIndex: 30,
+          gap: 12,
+          zIndex: 35,
         }}
       >
-        <span style={{ fontSize: 18 }}>🎬</span>
-        <span style={{ fontSize: 13, fontWeight: 800, letterSpacing: 0.3 }}>
+        <span style={{ fontSize: 16 }}>🎬</span>
+        <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: 0.3 }}>
           {currentScene === 1 && 'S1: Suasana Meja Kasir & Kedatangan Pelanggan Rani Kusuma'}
           {currentScene === 2 && 'S2: Intake Kasir Hybrid - Timbang 3.20 Kg + 2 Kemeja (Rp32.400)'}
           {currentScene === 3 && 'S3: Bukti Foto WebRTC Kerah Sobek 3cm (Anti-Sengketa WebP 412KB)'}
