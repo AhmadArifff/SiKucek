@@ -6,8 +6,8 @@
   "active_branch": "dev",
   "version": "1.0.0",
   "status": "COMPLETED",
-  "active_goal": "Integrasi Layar Device HP Otentik Real-System & Transisi Sinematik Zero-Scroll pada Hero Section",
-  "last_updated": "2026-10-26T11:45:00+07:00",
+  "active_goal": "Penyelesaian Bug Hydration Mismatch Atribut Ekstensi Browser pada RootLayout",
+  "last_updated": "2026-10-26T12:00:00+07:00",
   "current_sprint": "Sprint 5: Polishing, Mobile Responsiveness, & Production Deployment Parity",
   "completed_milestones": [
     {
@@ -281,6 +281,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-26",
       "details": "1) Menjawab detail UI Device HP pada video Remotion: Mengupgrade PhoneFrame dengan Status Bar iOS/Android realistis (jam 09:41, sinyal 5G, Wi-Fi, baterai 98%, Dynamic Island, dan home indicator bar). Tampilan smartphone di setiap scene kini 100% otentik mencerminkan sistem asli SiKucek: Scene 4 (Checkout QRIS Dinamis Midtrans resmi NMID ID1020261026042 & countdown 04:58), Scene 5 (Chat WhatsApp resmi Baileys ber-centang hijau bisnis, nota masuk SKC-261026-0042, link tracking, dan centang ganda biru), Scene 6 (Public Tracking PWA /track/KCK-7F3A9Q dengan linimasa vertikal 7 tahap real dan foto bukti QC WebRTC kerah sobek 3cm), Scene 7 (Status Ready dengan banner fisik RAK B-02), Scene 8 (PWA Member Club /app dengan profil Rani Kusuma, tier Wangi Segar, kartu stempel 5/5 koin emas, voucher gratis 5 kg, daily check-in +25 poin, dan bottom navigation bar). 2) Menjawab tinggi hero section dan scroll view: Mengubah Navbar menjadi fixed positioning dengan animasi menghilang halus (-translate-y-24 opacity-0 transition 700ms) saat video latar belakang ke-play (mode sinematik), dan hero section diset pas 100dvh (zero scroll) sehingga pengguna dapat menikmati film animasi utuh di layar penuh tanpa perlu scroll sedikitpun. 3) Sukses dirender 100% ke apps/web/public/videos/hero-loop.mp4 (7.43 MB) dan hero-poster.jpg (62.5 KB). 4) Lulus turbo type-check 5/5 packages dengan 0 error."
+    },
+    {
+      "id": "M35_RESOLVE_HYDRATION_MISMATCH_SUPPRESSION",
+      "title": "Penyelesaian Bug Hydration Mismatch Atribut Ekstensi Browser pada RootLayout",
+      "prd_sections": ["Bab 3", "Bab 6", "Bab 9", "Rules 00-core"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-26",
+      "details": "1) Mengeliminasi peringatan console hydration mismatch (data-scribe-recorder-ready, dark reader, grammarly, dll.) dengan menyematkan suppressHydrationWarning pada tag <html> dan <body> di apps/web/src/app/layout.tsx dan apps/pos/src/app/layout.tsx. 2) Lulus turbo type-check 5/5 packages tanpa error."
     }
   ],
   "in_progress_milestones": [],

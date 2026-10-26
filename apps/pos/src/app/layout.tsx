@@ -36,8 +36,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={`${plusJakarta.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="antialiased min-h-screen bg-slate-900/5 text-slate-900 font-sans selection:bg-sky-500 selection:text-white">
+    <html
+      lang="id"
+      className={`${plusJakarta.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body
+        className="antialiased min-h-screen bg-slate-900/5 text-slate-900 font-sans selection:bg-sky-500 selection:text-white"
+        suppressHydrationWarning
+      >
         <AuthGuard>
           <AdminSidebarLayout>{children}</AdminSidebarLayout>
         </AuthGuard>
