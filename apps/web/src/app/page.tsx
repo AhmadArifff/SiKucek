@@ -108,7 +108,7 @@ export default function HomePage() {
         <section
           onMouseMove={handleHeroMouseMove}
           onMouseLeave={handleHeroMouseLeave}
-          className="relative pt-6 sm:pt-12 pb-16 sm:pb-24 overflow-hidden bg-slate-50 transition-colors duration-500"
+          className="relative pt-8 sm:pt-14 pb-20 sm:pb-28 min-h-[680px] sm:min-h-[760px] flex flex-col justify-center overflow-hidden bg-slate-50 transition-colors duration-500"
         >
           {/* Background Video Layer (Rendered with Remotion) */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
