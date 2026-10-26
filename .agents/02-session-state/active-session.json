@@ -6,8 +6,8 @@
   "active_branch": "dev",
   "version": "1.0.0",
   "status": "COMPLETED",
-  "active_goal": "Produksi Video Hero Remotion 50 Detik 9 Scene Penuh (Satu Cucian, Satu Perjalanan Transparan) & Mode Kursor Sinematik Alami",
-  "last_updated": "2026-10-26T10:14:00+07:00",
+  "active_goal": "Perombakan Komposisi Seimbang Panoramik Video Hero Remotion 50 Detik (Fisik di Kiri, Digital di Kanan)",
+  "last_updated": "2026-10-26T10:25:00+07:00",
   "current_sprint": "Sprint 5: Polishing, Mobile Responsiveness, & Production Deployment Parity",
   "completed_milestones": [
     {
@@ -249,6 +249,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-26",
       "details": "1) Implementasi penuh Naskah Video Hero SiKucek (Remotion).md berdurasi 50 detik (1500 frame @ 30fps) dengan 9 scene utuh (S1 Hook, S2 Intake Kasir Hybrid, S3 Foto QC WebRTC Kerah Sobek 3cm, S4 Bayar QRIS Lunas, S5 Peta Sistem & Antrean WA 6 Detik, S6 Pelacakan Publik 7 Tahap, S7 Validasi Rak B-02, S8 Loyalti 5/5 Stempel & Kupon 5kg, S9 Outro & Loop Mulus). 2) Safe Zone Desktop: Sisi kiri (0-42%) tenang dengan BubbleField loop-safe, aksi utama di sisi kanan (45-95%) harmonis dengan teks hero. 3) Berhasil dirender 100% ke apps/web/public/videos/hero-loop.mp4 (10.77 MB) dan hero-poster.jpg (31.6 KB). 4) Lulus turbo type-check 5/5 packages dengan 0 error."
+    },
+    {
+      "id": "M31_PANORAMIC_BALANCED_COMPOSITION_HERO_VIDEO_50S",
+      "title": "Perombakan Komposisi Seimbang Panoramik Video Hero Remotion 50 Detik (Fisik di Kiri, Digital di Kanan)",
+      "prd_sections": ["Bab 2", "Bab 4", "Bab 5", "Bab 6", "Bab 7", "Bab 10.1", "Bab 10.2", "Bab 10.3", "Bab 10.4", "Bab 10.5", "Bab 10.6"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-26",
+      "details": "1) Mengeliminasi ketimpangan visual 'hanya fokus di kanan' dengan membagi kanvas 1920x1080 menjadi dua zona panoramik yang saling berinteraksi: Zona Kiri (Dunia Fisik & Outlet: Timbangan Digital interaktif 3.20 KG, Kemeja dengan inspeksi laser WebRTC sobek 3cm, Peta arsitektur otomasi, Drum mesin cuci 1200 RPM, Rak Fisik B-02 bercahaya LED, dan Maskot Si Kucek), Zona Kanan (Dunia Digital & Aplikasi: Tablet POS Kasir Budi, Smartphone Retina Rani Kusuma QRIS, WhatsApp resmi, pelacakan PWA 7 tahap, dan kartu stempel loyalti 5/5). 2) Dirender headless sukses 100% ke apps/web/public/videos/hero-loop.mp4 (7.36 MB, sangat ringan di bawah batas 8MB) dan hero-poster.jpg (29.7 KB). 3) Lulus turbo type-check 5/5 packages dengan 0 error."
     }
   ],
   "in_progress_milestones": [],
