@@ -215,37 +215,44 @@ const TabletFrame: React.FC<{ children: React.ReactNode; width?: number; height?
 // =============================================================================
 // 4. SMARTPHONE RETINA FRAME (PONSEL RANI KUSUMA)
 // =============================================================================
-const PhoneFrame: React.FC<{ children: React.ReactNode; width?: number; height?: number }> = ({
+const PhoneFrame: React.FC<{
+  children: React.ReactNode;
+  width?: number;
+  height?: number;
+  theme?: 'light' | 'whatsapp';
+}> = ({
   children,
-  width = 340,
-  height = 510,
+  width = 350,
+  height = 525,
+  theme = 'light',
 }) => {
   return (
     <div
       style={{
         width,
         height,
-        background: '#0f172a',
-        borderRadius: 40,
-        padding: '10px 10px',
+        background: '#090d16',
+        borderRadius: 44,
+        padding: '10px 10px 8px 10px',
         boxShadow:
-          '0 20px 55px rgba(14, 165, 233, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.25), inset 0 2px 5px rgba(255, 255, 255, 0.2)',
+          '0 25px 65px rgba(14, 165, 233, 0.28), 0 0 0 2.5px rgba(255, 255, 255, 0.25), inset 0 2px 6px rgba(255, 255, 255, 0.2)',
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
+      {/* Dynamic Island & Punch-hole Camera */}
       <div
         style={{
           position: 'absolute',
           top: 14,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: 80,
-          height: 18,
+          width: 86,
+          height: 19,
           background: '#000000',
-          borderRadius: 10,
-          zIndex: 40,
+          borderRadius: 11,
+          zIndex: 50,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -259,15 +266,63 @@ const PhoneFrame: React.FC<{ children: React.ReactNode; width?: number; height?:
       <div
         style={{
           flex: 1,
-          background: '#f8fafc',
-          borderRadius: 30,
+          background: theme === 'whatsapp' ? '#efeae2' : '#f8fafc',
+          borderRadius: 34,
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
           position: 'relative',
         }}
       >
-        {children}
+        {/* Real Status Bar iOS/Android */}
+        <div
+          style={{
+            height: 30,
+            padding: '0 16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            fontSize: 10,
+            fontWeight: 800,
+            color: theme === 'whatsapp' ? '#ffffff' : '#0f172a',
+            zIndex: 45,
+            background: theme === 'whatsapp' ? '#075e54' : 'rgba(255, 255, 255, 0.95)',
+            borderBottom: theme === 'whatsapp' ? 'none' : '1px solid #f1f5f9',
+          }}
+        >
+          <span>09:41</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9 }}>
+            <span>5G</span>
+            <span>📶</span>
+            <span>🔋 98%</span>
+          </div>
+        </div>
+
+        {/* Content Body */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          {children}
+        </div>
+
+        {/* Home Indicator Bar */}
+        <div
+          style={{
+            height: 12,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: theme === 'whatsapp' ? '#efeae2' : '#ffffff',
+            borderTop: theme === 'whatsapp' ? 'none' : '1px solid #f8fafc',
+          }}
+        >
+          <div
+            style={{
+              width: 90,
+              height: 3,
+              borderRadius: 2,
+              background: '#94a3b8',
+            }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -1221,27 +1276,116 @@ export const HeroBackground: React.FC = () => {
             </div>
           )}
 
-          {/* SCENE 4: Ponsel Rani Memindai Bayar QRIS */}
+          {/* SCENE 4: Ponsel Rani Memindai Bayar QRIS Dinamis Midtrans */}
           {frame >= 510 && frame < 630 && (
             <div
               style={{
                 opacity: interpolate(frame, [510, 525, 615, 630], [0, 1, 1, 0]),
               }}
             >
-              <PhoneFrame width={340} height={510}>
-                <div style={{ padding: 20, textAlign: 'center', marginTop: 30 }}>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: '#16a34a' }}>
-                    Pembayaran QRIS SiKucek
+              <PhoneFrame width={350} height={525}>
+                {/* Header Mini App */}
+                <div style={{ padding: '8px 14px', background: '#ffffff', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#0ea5e9' }} />
+                    <span style={{ fontSize: 11, fontWeight: 900, color: '#0f172a' }}>SiKucek Pay</span>
                   </div>
-                  <div style={{ fontSize: 26, fontWeight: 900, color: '#0f172a', margin: '10px 0' }}>
-                    Bayar Rp32.400
+                  <span style={{ fontSize: 10, fontWeight: 800, color: '#64748b' }}>QRIS Dinamis</span>
+                </div>
+
+                <div style={{ padding: 14, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', flex: 1, justifyContent: 'space-between' }}>
+                  <div>
+                    {/* Badge Merchant */}
+                    <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '6px 12px', borderRadius: 10, marginBottom: 8 }}>
+                      <div style={{ fontSize: 9, fontWeight: 800, color: '#64748b' }}>MERCHANT RESMI</div>
+                      <div style={{ fontSize: 11, fontWeight: 900, color: '#0f172a' }}>SiKucek Laundry Sukolilo</div>
+                      <div style={{ fontSize: 8, color: '#94a3b8', fontFamily: 'monospace' }}>NMID: ID1020261026042</div>
+                    </div>
+
+                    <div style={{ fontSize: 10, color: '#64748b', fontWeight: 700 }}>Total Pembayaran Tagihan:</div>
+                    <div style={{ fontSize: 24, fontWeight: 900, color: '#0284c7', fontFamily: 'monospace', margin: '2px 0 6px 0' }}>
+                      Rp32.400
+                    </div>
+
+                    {/* QRIS Graphic Frame */}
+                    <div
+                      style={{
+                        width: 155,
+                        height: 155,
+                        background: '#ffffff',
+                        border: '2px solid #0284c7',
+                        borderRadius: 16,
+                        margin: '0 auto',
+                        padding: 8,
+                        boxShadow: '0 8px 24px rgba(2, 132, 199, 0.15)',
+                        position: 'relative',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {/* Logo QRIS Header */}
+                      <div style={{ background: '#dc2626', color: '#ffffff', fontSize: 8, fontWeight: 900, padding: '2px 8px', borderRadius: 4, letterSpacing: 1, marginBottom: 4 }}>
+                        QRIS ASPI
+                      </div>
+
+                      {/* Mock QR Matrix */}
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 3, width: 95, height: 95 }}>
+                        {Array.from({ length: 25 }).map((_, i) => (
+                          <div
+                            key={i}
+                            style={{
+                              background: i === 0 || i === 4 || i === 20 || i === 12 || i === 6 || i === 8 || i === 16 || i === 18 ? '#0f172a' : (i % 2 === 0 ? '#334155' : '#e2e8f0'),
+                              borderRadius: 2,
+                            }}
+                          />
+                        ))}
+                      </div>
+
+                      {/* Laser Scanning Beam */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          left: 10,
+                          right: 10,
+                          height: 2,
+                          background: '#10b981',
+                          boxShadow: '0 0 8px #10b981',
+                          top: 40 + Math.sin(frame * 0.2) * 45,
+                        }}
+                      />
+                    </div>
+
+                    <div style={{ fontSize: 9, color: '#64748b', marginTop: 8 }}>
+                      ⏳ Berlaku hingga: <strong>04:58 WIB</strong>
+                    </div>
                   </div>
-                  <div style={{ background: '#dcfce7', color: '#15803d', padding: '9px 14px', borderRadius: 12, fontSize: 12, fontWeight: 800 }}>
-                    ✓ Pembayaran Berhasil Diproses
-                  </div>
-                  <p style={{ fontSize: 11, color: '#64748b', marginTop: 14 }}>
-                    Nomor Pesanan: <strong>SKC-261026-0042</strong>
-                  </p>
+
+                  {/* Payment Verification Toast */}
+                  {frame > 560 ? (
+                    <div
+                      style={{
+                        width: '100%',
+                        background: '#ecfdf5',
+                        border: '1.5px solid #10b981',
+                        borderRadius: 12,
+                        padding: '8px 12px',
+                        boxShadow: '0 4px 15px rgba(16, 185, 129, 0.2)',
+                      }}
+                    >
+                      <div style={{ fontSize: 11, fontWeight: 900, color: '#047857' }}>
+                        ✓ PEMBAYARAN LUNAS TERVERIFIKASI
+                      </div>
+                      <div style={{ fontSize: 9, color: '#059669', marginTop: 2 }}>
+                        Midtrans Webhook: ID Transaksi #SKC-261026-0042
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: 9, color: '#94a3b8' }}>
+                      Buka aplikasi BCA, GoPay, OVO, atau ShopeePay untuk scan
+                    </div>
+                  )}
                 </div>
               </PhoneFrame>
             </div>
@@ -1254,28 +1398,76 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [630, 645, 825, 840], [0, 1, 1, 0]),
               }}
             >
-              <PhoneFrame width={350} height={520}>
-                <div style={{ background: '#075e54', padding: '12px 14px', color: '#ffffff', display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#25d366' }} />
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 900 }}>SiKucek Official</div>
-                    <div style={{ fontSize: 10, opacity: 0.8 }}>Online • WhatsApp Gateway</div>
+              <PhoneFrame width={350} height={525} theme="whatsapp">
+                {/* Header Chat WhatsApp */}
+                <div style={{ background: '#075e54', padding: '8px 12px', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ fontSize: 13, opacity: 0.8 }}>←</span>
+                    <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#0284c7', border: '1.5px solid #ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
+                      🧺
+                    </div>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <span style={{ fontSize: 11, fontWeight: 900 }}>SiKucek Official</span>
+                        <span style={{ background: '#25d366', color: '#ffffff', fontSize: 8, fontWeight: 900, padding: '1px 4px', borderRadius: 4 }}>
+                          ✓ Bisnis
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 8, opacity: 0.85 }}>Online • WhatsApp Baileys Worker</div>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 10, fontSize: 12, opacity: 0.85 }}>
+                    <span>📞</span>
+                    <span>⋮</span>
                   </div>
                 </div>
-                <div style={{ padding: 12 }}>
-                  <div style={{ background: '#ffffff', padding: 12, borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.06)', fontSize: 11, lineHeight: 1.5 }}>
-                    Halo <strong>Kak Rani Kusuma</strong>! 🧺
-                    <br /><br />
-                    Terima kasih sudah mencuci di SiKucek.
-                    <br />
-                    No. Pesanan: <strong style={{ color: '#0284c7' }}>SKC-261026-0042</strong>
-                    <br />
-                    Total: <strong>Rp32.400 (LUNAS)</strong>
-                    <br /><br />
-                    Pantau proses cucian Kakak secara transparan di:
-                    <div style={{ color: '#0284c7', fontWeight: 900, marginTop: 4 }}>
-                      👉 sikucek.app/track/KCK-7F3A9Q
+
+                {/* Chat Canvas */}
+                <div style={{ padding: 10, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {/* Date Pill */}
+                    <div style={{ alignSelf: 'center', background: 'rgba(255, 255, 255, 0.85)', padding: '3px 10px', borderRadius: 8, fontSize: 8, fontWeight: 800, color: '#64748b', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                      HARI INI
                     </div>
+
+                    {/* Chat Bubble Nota Masuk */}
+                    <div
+                      style={{
+                        background: '#ffffff',
+                        padding: 10,
+                        borderRadius: '12px 12px 12px 2px',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                        fontSize: 10,
+                        lineHeight: 1.45,
+                        maxWidth: '92%',
+                        border: '1px solid rgba(0,0,0,0.04)',
+                      }}
+                    >
+                      <div style={{ fontWeight: 900, color: '#0369a1', borderBottom: '1px solid #f1f5f9', paddingBottom: 4, marginBottom: 4 }}>
+                        🧺 NOTA PENERIMAAN SIKUCEK
+                      </div>
+                      Halo Kak <strong>Rani Kusuma</strong>! Cucian Anda telah kami terima dengan detail:
+                      <div style={{ background: '#f8fafc', padding: 6, borderRadius: 6, margin: '5px 0', fontSize: 9 }}>
+                        <div>📋 No. Resi: <strong style={{ color: '#0284c7' }}>SKC-261026-0042</strong></div>
+                        <div>⚖️ Kiloan: <strong>3.20 Kg</strong> (Rp22.400)</div>
+                        <div>👔 Satuan: <strong>2 Pcs Kemeja</strong> (Rp10.000)</div>
+                        <div>💰 Total: <strong style={{ color: '#16a34a' }}>Rp32.400 (LUNAS QRIS)</strong></div>
+                        <div style={{ color: '#dc2626', marginTop: 2 }}>⚠️ QC: Kerah sobek 3 cm (foto tersimpan)</div>
+                      </div>
+                      Pantau proses cucian Kakak secara transparan tanpa login:
+                      <div style={{ color: '#0284c7', fontWeight: 900, marginTop: 3 }}>
+                        👉 sikucek.app/track/KCK-7F3A9Q
+                      </div>
+                      <div style={{ textAlign: 'right', fontSize: 8, color: '#94a3b8', marginTop: 4 }}>
+                        09:42 <span style={{ color: '#38bdf8' }}>✓✓</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* WhatsApp Input Bar */}
+                  <div style={{ background: '#ffffff', borderRadius: 20, padding: '6px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 9, color: '#94a3b8' }}>
+                    <span>Ketik pesan balasan...</span>
+                    <span>🎤</span>
                   </div>
                 </div>
               </PhoneFrame>
@@ -1289,48 +1481,85 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [840, 855, 1035, 1050], [0, 1, 1, 0]),
               }}
             >
-              <PhoneFrame width={350} height={520}>
-                <div style={{ padding: '10px 14px', background: '#ffffff', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 12, fontWeight: 900, color: '#0ea5e9' }}>
-                    SiKucek. <span style={{ color: '#94a3b8', fontSize: 10 }}>PWA Track</span>
-                  </span>
-                  <span style={{ background: '#dcfce7', color: '#15803d', fontSize: 10, fontWeight: 900, padding: '2px 6px', borderRadius: 6 }}>
-                    LUNAS
+              <PhoneFrame width={350} height={525}>
+                {/* Header PWA Track */}
+                <div style={{ padding: '8px 12px', background: '#ffffff', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#0ea5e9' }} />
+                    <span style={{ fontSize: 11, fontWeight: 900, color: '#0f172a' }}>
+                      SiKucek<span style={{ color: '#0ea5e9' }}>.</span> Track
+                    </span>
+                  </div>
+                  <span style={{ background: '#dcfce7', color: '#15803d', fontSize: 9, fontWeight: 900, padding: '2px 8px', borderRadius: 6 }}>
+                    ✓ LUNAS
                   </span>
                 </div>
-                <div style={{ padding: 14 }}>
-                  <div style={{ fontSize: 10, fontWeight: 800, color: '#64748b' }}>KODE LACAK RESI:</div>
-                  <div style={{ fontSize: 16, fontWeight: 900, color: '#0f172a', fontFamily: 'monospace' }}>
-                    KCK-7F3A9Q
-                  </div>
 
-                  <div style={{ margin: '10px 0', background: '#f0f9ff', padding: 8, borderRadius: 10 }}>
-                    <div style={{ fontSize: 10, fontWeight: 900, color: '#0284c7', marginBottom: 4 }}>
-                      STATUS REAL-TIME:
+                <div style={{ padding: 12, flex: 1, display: 'flex', flexDirection: 'column', gap: 8, overflow: 'hidden' }}>
+                  {/* Resi Info Card */}
+                  <div style={{ background: '#f0f9ff', border: '1px solid #bae6fd', padding: '8px 10px', borderRadius: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontSize: 8, fontWeight: 800, color: '#0369a1' }}>KODE LACAK RESI</div>
+                      <div style={{ fontSize: 13, fontWeight: 900, color: '#0f172a', fontFamily: 'monospace' }}>
+                        KCK-7F3A9Q
+                      </div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9, fontWeight: 800 }}>
-                      <span style={{ color: '#10b981' }}>✓ Diterima</span>
-                      <span style={{ color: frame > 900 ? '#10b981' : '#0ea5e9' }}>
-                        {frame > 900 ? '✓ Cuci' : '● Cuci'}
-                      </span>
-                      <span style={{ color: frame > 960 ? '#10b981' : '#0ea5e9' }}>
-                        {frame > 960 ? '✓ Kering' : '● Kering'}
-                      </span>
-                      <span style={{ color: frame > 1010 ? '#10b981' : '#94a3b8' }}>
-                        {frame > 1010 ? '✓ Setrika' : '○ Setrika'}
-                      </span>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: 8, color: '#64748b' }}>Pelanggan:</div>
+                      <div style={{ fontSize: 10, fontWeight: 800 }}>Rani Kusuma</div>
                     </div>
                   </div>
 
-                  <div style={{ background: '#ffffff', padding: 8, borderRadius: 10, border: '1px solid #e2e8f0' }}>
-                    <div style={{ fontSize: 10, fontWeight: 900, color: '#f43f5e', marginBottom: 2 }}>
-                      ⚠️ BUKTI FOTO CACAT AWAL:
+                  {/* Vertical Stepper List (Real PWA) */}
+                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 10, padding: 8, display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    <div style={{ fontSize: 9, fontWeight: 900, color: '#0f172a', marginBottom: 2 }}>
+                      LINIMASA PENGERJAAN (7 TAHAP):
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 9 }}>
+                      <span style={{ background: '#10b981', color: '#ffffff', width: 16, height: 16, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8 }}>✓</span>
+                      <span style={{ fontWeight: 800, color: '#0f172a' }}>1. Diterima di Outlet</span>
+                      <span style={{ fontSize: 8, color: '#64748b', marginLeft: 'auto' }}>08:30</span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 9 }}>
+                      <span style={{ background: '#10b981', color: '#ffffff', width: 16, height: 16, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8 }}>✓</span>
+                      <span style={{ fontWeight: 800, color: '#0f172a' }}>2. Pencucian Higienis Ozon</span>
+                      <span style={{ fontSize: 8, color: '#64748b', marginLeft: 'auto' }}>08:45</span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 9 }}>
+                      <span style={{ background: '#10b981', color: '#ffffff', width: 16, height: 16, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8 }}>✓</span>
+                      <span style={{ fontWeight: 800, color: '#0f172a' }}>3. Pengeringan Drum 1200 RPM</span>
+                      <span style={{ fontSize: 8, color: '#64748b', marginLeft: 'auto' }}>09:15</span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 9, background: '#f0f9ff', padding: '3px 6px', borderRadius: 6, border: '1px solid #bae6fd' }}>
+                      <span style={{ background: '#0284c7', color: '#ffffff', width: 16, height: 16, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, animation: 'pulse 1.5s infinite' }}>●</span>
+                      <span style={{ fontWeight: 900, color: '#0284c7' }}>4. Penyetrikaan Uap Lavender</span>
+                      <span style={{ background: '#0284c7', color: '#ffffff', fontSize: 7, fontWeight: 900, padding: '1px 5px', borderRadius: 4, marginLeft: 'auto' }}>AKTIF</span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 9, opacity: 0.6 }}>
+                      <span style={{ background: '#f1f5f9', color: '#94a3b8', width: 16, height: 16, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8 }}>○</span>
+                      <span>5. Quality Control &amp; Packing</span>
+                      <span style={{ fontSize: 8, color: '#94a3b8', marginLeft: 'auto' }}>Antre</span>
+                    </div>
+                  </div>
+
+                  {/* Foto Bukti QC WebRTC Card */}
+                  <div style={{ background: '#ffffff', border: '1px solid #fecdd3', borderRadius: 10, padding: 8 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                      <span style={{ fontSize: 9, fontWeight: 900, color: '#e11d48' }}>
+                        ⚠️ BUKTI FOTO CACAT AWAL (QC)
+                      </span>
+                      <span style={{ fontSize: 8, color: '#10b981', fontWeight: 800 }}>WebP 412 KB</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff1f2', padding: 6, borderRadius: 6 }}>
                       <span style={{ fontSize: 20 }}>👔</span>
                       <div>
-                        <div style={{ fontSize: 10, fontWeight: 800 }}>Kerah Kanan Sobek 3 cm</div>
-                        <div style={{ fontSize: 9, color: '#64748b' }}>Kondisi awal sebelum dicuci</div>
+                        <div style={{ fontSize: 9, fontWeight: 800, color: '#9f1239' }}>Kemeja: Kerah Kanan Sobek 3 cm</div>
+                        <div style={{ fontSize: 8, color: '#64748b' }}>Kondisi awal sebelum dicuci • Anti-Sengketa</div>
                       </div>
                     </div>
                   </div>
@@ -1346,28 +1575,57 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [1050, 1065, 1185, 1200], [0, 1, 1, 0]),
               }}
             >
-              <PhoneFrame width={340} height={510}>
-                <div style={{ padding: 20, textAlign: 'center', marginTop: 20 }}>
-                  <div style={{ fontSize: 44 }}>🎉</div>
-                  <div style={{ fontSize: 15, fontWeight: 900, color: '#15803d', margin: '8px 0' }}>
-                    Cucian Kakak Siap Diambil!
+              <PhoneFrame width={350} height={525}>
+                {/* Header PWA Ready */}
+                <div style={{ padding: '8px 12px', background: '#ffffff', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 11, fontWeight: 900, color: '#0f172a' }}>
+                    SiKucek<span style={{ color: '#0ea5e9' }}>.</span> Track
+                  </span>
+                  <span style={{ background: '#dcfce7', color: '#15803d', fontSize: 9, fontWeight: 900, padding: '2px 8px', borderRadius: 6 }}>
+                    STATUS: READY
+                  </span>
+                </div>
+
+                <div style={{ padding: 16, textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
+                    <div style={{ fontSize: 40, margin: '6px 0' }}>🎉</div>
+                    <div style={{ fontSize: 15, fontWeight: 900, color: '#15803d' }}>
+                      Cucian Kakak Siap Diambil!
+                    </div>
+                    <div style={{ fontSize: 10, color: '#64748b', marginTop: 2 }}>
+                      No. Resi: <strong style={{ color: '#0f172a' }}>KCK-7F3A9Q</strong>
+                    </div>
+
+                    {/* Banner Alokasi Rak Fisik Resmi (PRD Bab 10.5) */}
+                    <div
+                      style={{
+                        background: '#ecfdf5',
+                        border: '2px solid #10b981',
+                        padding: 14,
+                        borderRadius: 14,
+                        margin: '12px 0',
+                        boxShadow: '0 8px 20px rgba(16, 185, 129, 0.2)',
+                      }}
+                    >
+                      <div style={{ fontSize: 9, fontWeight: 900, color: '#047857', letterSpacing: 0.5, textTransform: 'uppercase' }}>
+                        📍 LOKASI PENYIMPANAN FISIK OUTLET
+                      </div>
+                      <div style={{ fontSize: 24, fontWeight: 900, color: '#047857', margin: '4px 0' }}>
+                        RAK B-02
+                      </div>
+                      <div style={{ fontSize: 10, color: '#059669', fontWeight: 700 }}>
+                        Slot Tengah • SiKucek Sukolilo
+                      </div>
+                    </div>
+
+                    <div style={{ background: '#f8fafc', padding: 8, borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 9, color: '#475569', lineHeight: 1.4 }}>
+                      Kasir Budi telah memverifikasi posisi rak fisik sebelum mengubah status cucian menjadi Ready. Pakaian bersih wangi siap diambil!
+                    </div>
                   </div>
-                  <div
-                    style={{
-                      background: '#dcfce7',
-                      border: '2px solid #86efac',
-                      padding: 14,
-                      borderRadius: 14,
-                      color: '#166534',
-                      fontWeight: 900,
-                      fontSize: 20,
-                    }}
-                  >
-                    📍 RAK B-02
+
+                  <div style={{ background: '#0284c7', color: '#ffffff', padding: 10, borderRadius: 10, fontWeight: 900, fontSize: 11 }}>
+                    Buka Petunjuk Arah Outlet ➔
                   </div>
-                  <p style={{ fontSize: 11, color: '#64748b', marginTop: 10, lineHeight: 1.4 }}>
-                    Sudah rapi terlipat, wangi lavender &amp; siap diambil di outlet Sukolilo.
-                  </p>
                 </div>
               </PhoneFrame>
             </div>
@@ -1380,63 +1638,94 @@ export const HeroBackground: React.FC = () => {
                 opacity: interpolate(frame, [1200, 1215, 1365, 1380], [0, 1, 1, 0]),
               }}
             >
-              <PhoneFrame width={350} height={520}>
-                <div style={{ padding: 16 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                    <span style={{ fontSize: 13, fontWeight: 900, color: '#0f172a' }}>
-                      SiKucek Member Club
-                    </span>
-                    <span style={{ background: '#fef3c7', color: '#b45309', fontSize: 10, fontWeight: 900, padding: '2px 6px', borderRadius: 6 }}>
-                      {frame > 1300 ? '140 Poin' : '120 Poin'}
-                    </span>
-                  </div>
-
-                  <div style={{ background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', borderRadius: 16, padding: 14, color: '#ffffff' }}>
-                    <div style={{ fontSize: 9, fontWeight: 800, opacity: 0.85 }}>KARTU STEMPEL LOYALTI</div>
-                    <div style={{ fontSize: 13, fontWeight: 900, margin: '2px 0 8px 0' }}>
-                      {frame > 1250 ? '🎉 5/5 Stempel Terkumpul Penuh!' : '4/5 Stempel Terkumpul'}
-                    </div>
-
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🪙</div>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🪙</div>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🪙</div>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🪙</div>
-                      <div
-                        style={{
-                          width: 34,
-                          height: 34,
-                          borderRadius: '50%',
-                          background: frame > 1250 ? '#fbbf24' : 'rgba(255,255,255,0.2)',
-                          border: '1.5px dashed #ffffff',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: 16,
-                        }}
-                      >
-                        {frame > 1250 ? '🪙' : '5'}
+              <PhoneFrame width={350} height={525}>
+                {/* Header Profil Member Club Real */}
+                <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #0369a1 100%)', padding: '12px 14px', color: '#ffffff' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#38bdf8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
+                        👤
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 11, fontWeight: 900 }}>Halo, Rani Kusuma!</div>
+                        <div style={{ fontSize: 8, color: '#bae6fd' }}>Tier: Wangi Segar</div>
                       </div>
                     </div>
+                    <div style={{ background: 'rgba(255, 255, 255, 0.15)', padding: '3px 8px', borderRadius: 8, fontSize: 10, fontWeight: 900, color: '#fde047' }}>
+                      🪙 {frame > 1300 ? '145 Poin' : '120 Poin'}
+                    </div>
                   </div>
+                </div>
 
-                  {frame > 1260 && (
-                    <div style={{ marginTop: 10, background: '#ecfdf5', border: '1.5px solid #a7f3d0', borderRadius: 12, padding: 10, textAlign: 'center' }}>
-                      <div style={{ fontSize: 10, fontWeight: 900, color: '#047857' }}>🎁 KUPON REWARD:</div>
-                      <div style={{ fontSize: 12, fontWeight: 900, color: '#065f46', marginTop: 1 }}>
+                <div style={{ padding: 12, flex: 1, display: 'flex', flexDirection: 'column', gap: 8, justifyContent: 'space-between' }}>
+                  <div>
+                    {/* Kartu Stempel Loyalti Real (PRD Bab 10.4) */}
+                    <div style={{ background: 'linear-gradient(135deg, #0284c7 0%, #075985 100%)', borderRadius: 14, padding: 12, color: '#ffffff', boxShadow: '0 8px 20px rgba(2, 132, 199, 0.25)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                        <span style={{ fontSize: 8, fontWeight: 900, letterSpacing: 0.5, opacity: 0.85 }}>KARTU STEMPEL LOYALTI</span>
+                        <span style={{ background: 'rgba(255, 255, 255, 0.2)', fontSize: 8, fontWeight: 900, padding: '2px 6px', borderRadius: 4 }}>
+                          {frame > 1250 ? '5/5 Penuh' : '4/5 Stempel'}
+                        </span>
+                      </div>
+
+                      <div style={{ fontSize: 12, fontWeight: 900, marginBottom: 8 }}>
+                        {frame > 1250 ? '🎉 5 Stempel Lengkap Tercapai!' : 'Kumpul 5 Stempel Jadi Kupon 5 Kg'}
+                      </div>
+
+                      {/* 5 Slot Stempel Emas */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, boxShadow: '0 2px 8px rgba(251, 191, 36, 0.4)' }}>🪙</div>
+                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, boxShadow: '0 2px 8px rgba(251, 191, 36, 0.4)' }}>🪙</div>
+                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, boxShadow: '0 2px 8px rgba(251, 191, 36, 0.4)' }}>🪙</div>
+                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, boxShadow: '0 2px 8px rgba(251, 191, 36, 0.4)' }}>🪙</div>
+                        <div
+                          style={{
+                            width: 32,
+                            height: 32,
+                            borderRadius: '50%',
+                            background: frame > 1250 ? '#fbbf24' : 'rgba(255,255,255,0.15)',
+                            border: frame > 1250 ? 'none' : '1.5px dashed #ffffff',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: 14,
+                            boxShadow: frame > 1250 ? '0 0 14px #fbbf24' : 'none',
+                          }}
+                        >
+                          {frame > 1250 ? '🪙' : '5'}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Kupon Reward Emas Otomatis */}
+                    <div style={{ marginTop: 8, background: '#fffbeb', border: '1.5px solid #fde68a', borderRadius: 10, padding: 8 }}>
+                      <div style={{ fontSize: 8, fontWeight: 900, color: '#b45309' }}>🎁 VOUCHER HADIAH AKTIF:</div>
+                      <div style={{ fontSize: 11, fontWeight: 900, color: '#92400e', marginTop: 1 }}>
                         Gratis Cuci Kiloan Maksimal 5 Kg
                       </div>
+                      <div style={{ fontSize: 8, color: '#78350f', marginTop: 1 }}>
+                        Otomatis memotong porsi kiloan pesanan berikutnya.
+                      </div>
                     </div>
-                  )}
 
-                  <div style={{ marginTop: 10, background: '#f8fafc', padding: 8, borderRadius: 10, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <div style={{ fontSize: 10, fontWeight: 800 }}>Daily Check-in Hari ke-3</div>
-                      <div style={{ fontSize: 9, color: '#b45309' }}>+20 Poin Si Kucek</div>
+                    {/* Daily Check-in Streak Real */}
+                    <div style={{ marginTop: 8, background: '#ffffff', padding: 8, borderRadius: 10, border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div>
+                        <div style={{ fontSize: 9, fontWeight: 800 }}>Daily Check-in Hari ke-4</div>
+                        <div style={{ fontSize: 8, color: '#b45309', fontWeight: 700 }}>+25 Poin Koin SiKucek</div>
+                      </div>
+                      <span style={{ background: frame > 1300 ? '#10b981' : '#0ea5e9', color: '#ffffff', fontSize: 8, fontWeight: 900, padding: '3px 8px', borderRadius: 6 }}>
+                        {frame > 1300 ? '✓ Terklaim' : 'Klaim (+25)'}
+                      </span>
                     </div>
-                    <span style={{ background: '#0ea5e9', color: '#ffffff', fontSize: 9, fontWeight: 900, padding: '3px 8px', borderRadius: 6 }}>
-                      {frame > 1300 ? '✓ Diklaim' : 'Klaim'}
-                    </span>
+                  </div>
+
+                  {/* Bottom Navigation Bar PWA Asli */}
+                  <div style={{ background: '#ffffff', borderTop: '1px solid #f1f5f9', padding: '6px 12px 2px 12px', display: 'flex', justifyContent: 'space-between', fontSize: 8, color: '#64748b', fontWeight: 800 }}>
+                    <div style={{ textAlign: 'center' }}><div>🏠</div>Beranda</div>
+                    <div style={{ textAlign: 'center' }}><div>🔍</div>Lacak</div>
+                    <div style={{ textAlign: 'center', color: '#0284c7' }}><div>🎁</div>Loyalti</div>
+                    <div style={{ textAlign: 'center' }}><div>👤</div>Profil</div>
                   </div>
                 </div>
               </PhoneFrame>

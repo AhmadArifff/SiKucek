@@ -93,7 +93,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50/70 text-slate-900 overflow-x-hidden">
-      <Navbar />
+      <Navbar isHidden={!isUserActive} />
 
       <main className="flex-1">
         {/* ========================================================================= */}
@@ -102,7 +102,7 @@ export default function HomePage() {
         <section
           onMouseMove={handleHeroMouseMove}
           onMouseLeave={handleHeroMouseLeave}
-          className="relative pt-8 sm:pt-14 pb-20 sm:pb-28 min-h-[660px] sm:min-h-[720px] flex flex-col justify-center overflow-hidden bg-slate-950 transition-colors duration-700"
+          className="relative min-h-screen h-[100dvh] flex flex-col justify-center items-center overflow-hidden bg-slate-950 transition-all duration-700 pt-16 sm:pt-20 pb-6"
         >
           {/* Background Video Layer (Rendered with Remotion) */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">

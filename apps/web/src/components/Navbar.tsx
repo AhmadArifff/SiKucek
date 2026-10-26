@@ -5,9 +5,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Search, Calculator, Receipt, ShieldCheck, Gift, User, Sparkles } from 'lucide-react';
 
-export default function Navbar() {
+interface NavbarProps {
+  isHidden?: boolean;
+}
+
+export default function Navbar({ isHidden = false }: NavbarProps) {
   return (
-    <header className="sticky top-2 sm:top-4 z-50 px-3 sm:px-6">
+    <header
+      className={`fixed top-2 sm:top-4 left-0 right-0 z-50 px-3 sm:px-6 transition-all duration-700 ease-in-out ${
+        isHidden
+          ? '-translate-y-24 opacity-0 pointer-events-none'
+          : 'translate-y-0 opacity-100 pointer-events-auto'
+      }`}
+    >
       <div className="max-w-6xl mx-auto glass-panel rounded-full px-4 sm:px-6 h-16 flex items-center justify-between border border-white/80 shadow-lg shadow-sky-500/5 transition-all">
         {/* Brand Identity with Mascot */}
         <Link href="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
