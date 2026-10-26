@@ -6,15 +6,16 @@ export const Root: React.FC = () => {
   return (
     <>
       {/* 
-        Komposisi Film Animasi Sinematik SiKucek (4 Babak):
+        Komposisi Film Animasi Sinematik SiKucek (Satu Cucian, Satu Perjalanan Transparan):
         - 1920x1080 Full HD
         - 30 fps
-        - 360 frame = 12 detik durasi film animasi utuh
+        - 1500 frame = 50 detik durasi film sinematik utuh (S1 s.d S9)
+        - Safe Zone: Sisi Kiri (0-42%) tenang, Aksi Utama di Sisi Kanan (45-95%)
       */}
       <Composition
         id="HeroBackground"
         component={HeroBackground}
-        durationInFrames={360}
+        durationInFrames={1500}
         fps={30}
         width={1920}
         height={1080}
