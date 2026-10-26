@@ -6,8 +6,8 @@
   "active_branch": "dev",
   "version": "1.0.0",
   "status": "COMPLETED",
-  "active_goal": "Perombakan Total Visual UI/UX Menggunakan Konsep Modern Playful Clean: Google Fonts, Frosted Glassmorphism, Floating Bubbles, & 3D Tactile Interactions",
-  "last_updated": "2026-10-26T07:43:00+07:00",
+  "active_goal": "Film Animasi Sinematik 4 Babak SiKucek (Remotion 360 Frame / 12 Detik) & Pembersihan Total Kursor Diam",
+  "last_updated": "2026-10-26T08:19:00+07:00",
   "current_sprint": "Sprint 5: Polishing, Mobile Responsiveness, & Production Deployment Parity",
   "completed_milestones": [
     {
@@ -233,6 +233,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-26",
       "details": "Mengeliminasi kekosongan space layar dengan menghadirkan simulasi panoramik fasilitas cerdas di seluruh kanvas 1920x1080: 1) Zona Kiri: Timbangan digital presisi (display LCD 4.85 KG, kupon 5kg aktif) dan kamera WebRTC QC scan pakaian laser cyan zero-defect, 2) Zona Tengah: The Washing Core berupa mesin cuci glassmorphic canggih (drum berputar 1200 RPM, pusaran air vortex 40°C ozon higienis, baju melayang dinamis, dan busa sabun mikro), 3) Zona Kanan: Rak fisik modular bercahaya LED (Rak A-02 & A-03) dan simulasi live dispatch notifikasi WhatsApp resmi terkirim otomatis, 4) Process Connector Ribbon di bagian atas yang menghubungkan ketiga zona secara dinamis dengan lampu pulse mengalir, 5) Safe Vertical Zone tuning agar seluruh elemen tampil utuh tanpa terpotong di berbagai resolusi layar. Lulus turbo type-check 5/5 packages."
+    },
+    {
+      "id": "M29_CINEMATIC_ANIMATED_SHORT_FILM_REMOTION",
+      "title": "Film Animasi Sinematik 4 Babak SiKucek (Remotion) & Penghapusan Total Kursor Diam",
+      "prd_sections": ["Bab 2", "Bab 6", "Bab 10.1", "Bab 10.2", "Bab 10.3", "Bab 10.4", "Bab 10.5", "Bab 10.6"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-26",
+      "details": "1) Penghapusan total logika kursor diam, idle timer, dan pill controller dari apps/web/src/app/page.tsx sehingga teks headline, subtitle, form lacak, dan chip demo selalu tampil stabil, tajam, dan kontras (WCAG AA). 2) Transformasi video latar belakang Remotion dari presentasi teknis statis menjadi film animasi sinematik berbasis karakter hidup berdurasi 12 detik (360 frames @ 30fps) dengan 4 babak naratif: Babak 1 (Kedatangan Kiko si Kaos & Scan WebRTC QC Cam), Babak 2 (Pusaran Air Sabun 1200 RPM, Si Kucek berselancar & noda rontok), Babak 3 (Spa Setrika Uap Lavender hangat & licin berkilau), Babak 4 (Alokasi Rak A-02, stempel 5/5 selesai, & notifikasi WhatsApp otomatis meluncur). 3) Subtitle ribbon sinematik penjelas cerita di bagian bawah kanvas. 4) Dirender sukses 100% ke apps/web/public/videos/hero-loop.mp4 (3.97 MB) dan hero-poster.jpg (70.8 KB). 5) Lulus turbo type-check 5/5 packages dengan 0 error."
     }
   ],
   "in_progress_milestones": [],

@@ -28,61 +28,6 @@ import {
 export default function HomePage() {
   const router = useRouter();
   const [trackingCode, setTrackingCode] = useState<string>('');
-  
-  // Perilaku Kursor Responsif:
-  // Kalo GERAK -> isUserActive = true (Teks MUNCUL dengan animasi bertingkat / staggered)
-  // Kalo DIEM  -> isUserActive = false (Teks MEMUDAR transparan, VIDEO TER-HIGHLIGHT 100%)
-  const [isUserActive, setIsUserActive] = useState<boolean>(true);
-  const [isLocked, setIsLocked] = useState<'none' | 'video' | 'text'>('none');
-  const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
-  const idleTimerRef = React.useRef<NodeJS.Timeout | null>(null);
-
-  // Inisialisasi timer idle awal saat pertama kali mount
-  React.useEffect(() => {
-    // Beri waktu 3.5 detik di awal agar user melihat teks awal, lalu jika diam, video otomatis memukau tersorot
-    idleTimerRef.current = setTimeout(() => {
-      if (isLocked === 'none' && !isInputFocused) {
-        setIsUserActive(false);
-      }
-    }, 3500);
-
-    return () => {
-      if (idleTimerRef.current) {
-        clearTimeout(idleTimerRef.current);
-      }
-    };
-  }, [isLocked, isInputFocused]);
-
-  const handleHeroMouseMove = () => {
-    if (isLocked !== 'none') return;
-    
-    // Saat kursor GERAK: Teks LANGSUNG MUNCUL dengan animasi profesional!
-    setIsUserActive(true);
-
-    // Reset idle timer: saat kursor DIEM selama 2 detik, teks memudar transparan & video ter-highlight penuh
-    if (idleTimerRef.current) {
-      clearTimeout(idleTimerRef.current);
-    }
-
-    if (!isInputFocused) {
-      idleTimerRef.current = setTimeout(() => {
-        setIsUserActive(false);
-      }, 2000);
-    }
-  };
-
-  const handleHeroMouseLeave = () => {
-    if (isLocked !== 'none') return;
-    // Saat kursor meninggalkan section hero (misalnya kursor keluar window),
-    // teks kembali ditampilkan agar user tetap bisa menavigasi dengan mudah
-    if (idleTimerRef.current) {
-      clearTimeout(idleTimerRef.current);
-    }
-    setIsUserActive(true);
-  };
-
-  const showText = isLocked === 'text' || (isLocked === 'none' && isUserActive);
-  const highlightVideo = isLocked === 'video' || (isLocked === 'none' && !isUserActive);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,13 +48,9 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* ========================================================================= */}
-        {/* 1. HERO SECTION DENGAN LATAR VIDEO REMOTION & KURSOR DINAMIS PROFESIONAL  */}
+        {/* 1. HERO SECTION DENGAN LATAR VIDEO REMOTION FILM ANIMASI SINEMATIK        */}
         {/* ========================================================================= */}
-        <section
-          onMouseMove={handleHeroMouseMove}
-          onMouseLeave={handleHeroMouseLeave}
-          className="relative pt-8 sm:pt-14 pb-20 sm:pb-28 min-h-[680px] sm:min-h-[760px] flex flex-col justify-center overflow-hidden bg-slate-50 transition-colors duration-500"
-        >
+        <section className="relative pt-8 sm:pt-14 pb-20 sm:pb-28 min-h-[660px] sm:min-h-[720px] flex flex-col justify-center overflow-hidden bg-slate-50 transition-colors duration-500">
           {/* Background Video Layer (Rendered with Remotion) */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
             <video
@@ -118,20 +59,12 @@ export default function HomePage() {
               muted
               playsInline
               poster="/videos/hero-poster.jpg"
-              className={`w-full h-full object-cover transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                highlightVideo
-                  ? 'opacity-100 scale-[1.02] filter brightness-105 saturate-110'
-                  : 'opacity-65 scale-100 filter brightness-100'
-              }`}
+              className="w-full h-full object-cover opacity-80 filter brightness-105 saturate-110"
             >
               <source src="/videos/hero-loop.mp4" type="video/mp4" />
             </video>
-            {/* Latar Overlay Halus: memudar saat kursor diam sehingga video ter-highlight penuh */}
-            <div
-              className={`absolute inset-0 bg-gradient-to-r from-white/95 via-sky-50/85 to-white/90 backdrop-blur-[0.5px] transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                highlightVideo ? 'opacity-0' : 'opacity-100'
-              }`}
-            />
+            {/* Latar Overlay Halus Menjamin Kontras Teks Bersih WCAG AA */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/94 via-sky-50/82 to-white/90 backdrop-blur-[0.5px]" />
           </div>
 
           {/* Animated Ambient Floating Accents */}
@@ -139,100 +72,13 @@ export default function HomePage() {
           <div className="absolute top-1/2 right-10 w-80 h-80 bg-purple-300/15 rounded-full blur-3xl pointer-events-none z-0" />
           <div className="absolute bottom-6 left-1/3 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl pointer-events-none z-0" />
 
-          {/* Floating Interactive State Pill Controller */}
-          <div className="absolute top-4 right-4 sm:right-8 z-30">
-            <div
-              className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-heading font-black transition-all shadow-md flex items-center gap-2 backdrop-blur-md border ${
-                highlightVideo
-                  ? 'bg-sky-500/90 text-white border-sky-300 shadow-sky-500/30'
-                  : 'bg-white/90 text-slate-700 border-slate-200/90 shadow-xs'
-              }`}
-            >
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  highlightVideo ? 'bg-amber-300 animate-ping' : 'bg-emerald-500 animate-pulse'
-                }`}
-              />
-              <span>
-                {highlightVideo
-                  ? '✨ Kursor Diam: Video Sedang Disorot'
-                  : '🟢 Kursor Aktif: Teks Ditampilkan'}
-              </span>
-
-              {isLocked !== 'none' ? (
-                <button
-                  type="button"
-                  onClick={() => setIsLocked('none')}
-                  className="ml-1 px-2 py-0.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider bg-amber-400 text-slate-950 shadow-xs hover:bg-amber-300 cursor-pointer"
-                >
-                  Buka Kunci
-                </button>
-              ) : (
-                <div className="flex items-center gap-1 ml-1">
-                  <button
-                    type="button"
-                    onClick={() => setIsLocked('video')}
-                    className="px-2 py-0.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider bg-slate-100 hover:bg-sky-100 text-slate-700 hover:text-sky-800 cursor-pointer"
-                  >
-                    Sorot Video
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsLocked('text')}
-                    className="px-2 py-0.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer"
-                  >
-                    Kunci Teks
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Floating Cinematic Hint Pill: Muncul anggun saat kursor diam & video disorot */}
-          <div
-            className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-30 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              highlightVideo
-                ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
-                : 'opacity-0 translate-y-4 scale-95 pointer-events-none'
-            }`}
-          >
-            <div
-              onClick={() => {
-                setIsLocked('none');
-                setIsUserActive(true);
-              }}
-              className="group cursor-pointer px-4 py-2 rounded-full bg-slate-900/85 hover:bg-slate-900 text-white shadow-xl shadow-sky-500/20 border border-sky-400/40 backdrop-blur-md flex items-center gap-2.5 text-xs font-heading font-bold transition hover:scale-105 active:scale-95"
-            >
-              <span className="flex h-2.5 w-2.5 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sky-400" />
-              </span>
-              <span>🎬 Mode Sorot Video: Gerakkan kursor untuk memunculkan teks</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/20 text-white font-mono group-hover:bg-sky-400 group-hover:text-slate-950 transition">
-                Buka Menu
-              </span>
-            </div>
-          </div>
-
-          {/* Content Hero Section: MUNCUL saat kursor gerak, MEMUDAR transparan saat kursor diam */}
-          <div
-            className={`max-w-6xl mx-auto px-4 sm:px-6 relative z-10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              showText
-                ? 'opacity-100 pointer-events-auto'
-                : 'opacity-0 pointer-events-none'
-            }`}
-          >
+          {/* Content Hero Section: Selalu Tampil Prima & Interaktif */}
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Headline, Description, Quick Tracker */}
               <div className="lg:col-span-7 space-y-5 text-center lg:text-left">
                 {/* Micro Badge */}
-                <div
-                  className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/95 border border-sky-200/90 shadow-xs shadow-sky-100 backdrop-blur-md transform transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    showText
-                      ? 'opacity-100 translate-y-0 scale-100 delay-0'
-                      : 'opacity-0 -translate-y-3 scale-95 delay-0'
-                  }`}
-                >
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/95 border border-sky-200/90 shadow-xs shadow-sky-100 backdrop-blur-md">
                   <span className="flex h-2 w-2 rounded-full bg-sky-500 animate-ping" />
                   <span className="text-xs font-bold font-heading text-sky-800">
                     Sistem Operasi Laundry Generasi Baru
@@ -243,36 +89,17 @@ export default function HomePage() {
                 </div>
 
                 {/* Main Hero Headline */}
-                <h1
-                  className={`text-3xl sm:text-4xl lg:text-5xl font-heading font-black text-slate-950 tracking-tight leading-[1.16] transform transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    showText
-                      ? 'opacity-100 translate-y-0 filter-none delay-[60ms]'
-                      : 'opacity-0 translate-y-4 blur-[2px] delay-0'
-                  }`}
-                >
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-black text-slate-950 tracking-tight leading-[1.16]">
                   Laundry Bersih, Higienis, &amp; <span className="text-shimmer">Transparan</span> Tanpa Drama
                 </h1>
 
                 {/* Subtitle */}
-                <p
-                  className={`text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal transform transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    showText
-                      ? 'opacity-100 translate-y-0 delay-[120ms]'
-                      : 'opacity-0 translate-y-4 blur-[1px] delay-0'
-                  }`}
-                >
+                <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal">
                   Pantau proses cucian secara real-time dari timbangan hingga nomor rak fisik. Dilengkapi bukti foto Quality Control (QC) anti-sengketa &amp; diskon loyalti stempel otomatis!
                 </p>
 
                 {/* Quick Tracking Search Bar */}
-                <div
-                  id="tracking-bar"
-                  className={`pt-1 transform transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    showText
-                      ? 'opacity-100 translate-y-0 scale-100 delay-[180ms]'
-                      : 'opacity-0 translate-y-5 scale-[0.98] delay-0'
-                  }`}
-                >
+                <div id="tracking-bar" className="pt-1">
                   <div className="bg-white/95 backdrop-blur-md p-1.5 sm:p-2 rounded-2xl sm:rounded-full border border-sky-200/90 shadow-lg shadow-sky-500/10 max-w-2xl mx-auto lg:mx-0 transition-all focus-within:border-sky-400 focus-within:ring-4 focus-within:ring-sky-100">
                     <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-center gap-1.5">
                       <div className="relative flex-1 w-full flex items-center">
@@ -280,8 +107,6 @@ export default function HomePage() {
                         <input
                           type="text"
                           value={trackingCode}
-                          onFocus={() => setIsInputFocused(true)}
-                          onBlur={() => setIsInputFocused(false)}
                           onChange={(e) => setTrackingCode(e.target.value)}
                           placeholder="Ketik no. resi (contoh: SKC-B8D02)"
                           className="w-full pl-10 pr-3 py-2.5 text-sm sm:text-base font-bold text-slate-900 placeholder:text-slate-400 placeholder:font-sans placeholder:font-normal placeholder:tracking-normal placeholder:normal-case placeholder:text-xs sm:placeholder:text-sm bg-transparent border-none focus:outline-none uppercase font-mono tracking-wider"
@@ -298,13 +123,7 @@ export default function HomePage() {
                   </div>
 
                   {/* Preset Demo Code Chips */}
-                  <div
-                    className={`flex flex-wrap items-center justify-center lg:justify-start gap-1.5 sm:gap-2 mt-2.5 text-xs text-slate-600 transform transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                      showText
-                        ? 'opacity-100 translate-y-0 delay-[220ms]'
-                        : 'opacity-0 translate-y-3 delay-0'
-                    }`}
-                  >
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 sm:gap-2 mt-2.5 text-xs text-slate-600">
                     <span className="font-bold text-slate-400 text-[11px] uppercase tracking-wider shrink-0">Demo:</span>
                     <button
                       type="button"
@@ -334,13 +153,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Key Metrics Stats */}
-                <div
-                  className={`pt-3 grid grid-cols-3 gap-2.5 sm:gap-4 border-t border-sky-100/90 max-w-lg mx-auto lg:mx-0 transform transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    showText
-                      ? 'opacity-100 translate-y-0 scale-100 delay-[260ms]'
-                      : 'opacity-0 translate-y-4 scale-95 delay-0'
-                  }`}
-                >
+                <div className="pt-3 grid grid-cols-3 gap-2.5 sm:gap-4 border-t border-sky-100/90 max-w-lg mx-auto lg:mx-0">
                   <div className="glass-panel p-2.5 sm:p-3 rounded-2xl text-center border border-white">
                     <p className="text-lg sm:text-xl font-black font-heading text-sky-600">100%</p>
                     <p className="text-[10px] sm:text-[11px] font-bold text-slate-600 mt-0.5">Transparansi QC</p>
@@ -358,13 +171,7 @@ export default function HomePage() {
 
               {/* Right Column: 3D Mascot Showcase Card */}
               <div className="lg:col-span-5 flex justify-center">
-                <div
-                  className={`relative w-full max-w-xs sm:max-w-sm transform transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    showText
-                      ? 'opacity-100 translate-y-0 scale-100 rotate-0 delay-[140ms]'
-                      : 'opacity-0 translate-y-6 scale-95 rotate-1 blur-[1px] delay-0'
-                  }`}
-                >
+                <div className="relative w-full max-w-xs sm:max-w-sm">
                   {/* Floating Mascot Card */}
                   <div className="glass-panel rounded-3xl p-4 sm:p-5 shadow-xl shadow-sky-400/15 relative z-10 text-center border-2 border-white/90 hover:shadow-glow-cyan transition-shadow duration-300">
                     {/* Visual Mascot Container */}
